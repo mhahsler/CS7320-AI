@@ -17,10 +17,14 @@ def parse_maze(maze_str):
 
 # This is modified code I found on StackOverflow, at this link
 # https://stackoverflow.com/questions/43971138/python-plotting-colored-grid-based-on-values
-def show_maze(maze):
+def show_maze(maze):  
     """display a maze (numpy array)"""
+    
     cmap = colors.ListedColormap(['white', 'black', 'blue', 'green', 'red'])
     bounds = [0, 1, 2, 3, 4, 5]
+    
+    # make a deep copy first
+    maze = np.copy(maze)
     
     # Converts all tile types to integers
     maze[maze == ' '] = 0
