@@ -20,18 +20,19 @@ def parse_maze(maze_str):
 def show_maze(maze):  
     """display a maze (numpy array)"""
     
-    cmap = colors.ListedColormap(['white', 'black', 'blue', 'green', 'red'])
-    bounds = [0, 1, 2, 3, 4, 5]
+    cmap = colors.ListedColormap(['white', 'black', 'blue', 'green', 'red', 'gray'])
+    bounds = [0, 1, 2, 3, 4, 5, 6]
     
-    # make a deep copy first
+    # make a deep copy first so the original maze is not changed
     maze = np.copy(maze)
     
     # Converts all tile types to integers
     maze[maze == ' '] = 0
-    maze[maze == 'X'] = 1
-    maze[maze == 'S'] = 2
-    maze[maze == 'G'] = 3
-    maze[maze == 'P'] = 4
+    maze[maze == 'X'] = 1 # wall
+    maze[maze == 'S'] = 2 # start
+    maze[maze == 'G'] = 3 # goal
+    maze[maze == 'P'] = 4 # position/final path
+    maze[maze == '.'] = 5 # visited squares
     # Converts all string values to integers
     maze = maze.astype(np.int)
         
