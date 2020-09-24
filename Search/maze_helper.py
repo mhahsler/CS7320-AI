@@ -1,5 +1,5 @@
 # +
-# Code by Nicholas Crothers modified by M. Hahsler
+# Code by Nicholas Crothers modified and expanded by M. Hahsler
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -56,6 +56,29 @@ def run_example():
         print(maze)
     
         show_maze(maze)
-
-# +
+        
 #run_example()
+
+
+# -
+
+def find_pos(maze, what = "S"):
+    """
+    Find start/goal in a maze. Caution: there is no error checking
+    
+    Parameters:
+    maze: a array with characters
+    what: the letter to be found ('S' for start and 'G' for goal)
+    
+    Returns:
+    array: [x, y] for the found position.
+    """
+    
+    pos = np.where(maze == what)
+    return([pos[0][0], pos[1][0]])
+
+
+def look(maze, pos):
+    """look at the label of a square with the position as an array of the form [x, y]."""
+    
+    return(maze[pos[0], pos[1]])
