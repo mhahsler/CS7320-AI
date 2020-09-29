@@ -10,9 +10,9 @@ Other code accompanying the textbook can be found at the [GitHub repository aima
 ## Covered Chapters
 
 * Chapter 2: [Intelligent Agents](Agents)
-* Chapter 3: [Uninformed and Informed Search](tree/master/Search)
-* Chapter 4: [Local Search](tree/master/Local%20Search)
-* Chapter 6: [Constraint Satisfaction Problem](tree/master/CSP)
+* Chapter 3: [Uninformed and Informed Search](Search)
+* Chapter 4: [Local Search](Local%20Search)
+* Chapter 6: [Constraint Satisfaction Problem](CSP)
 
 more to come.
 
@@ -28,7 +28,7 @@ The easiest way is to use the Docker image which already contains almost everyth
 
 ## Learning Python
 
-If you are not familiar with Python then you should work through a tutorial like [this](https://www.w3schools.com/python/default.asp) that covers Python basics and the packages `numpy` and `pandas`. Code examples that help with the assignments are available [here](tree/master/Python%20Code%20Examples).
+If you are not familiar with Python then you should work through a tutorial like [this](https://www.w3schools.com/python/default.asp) that covers Python basics and the packages `numpy` and `pandas`. Code examples that help with the assignments are available [here](Python%20Code%20Examples).
 
 ## Working on Assignments
 
