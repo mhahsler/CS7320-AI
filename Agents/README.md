@@ -1,7 +1,9 @@
 <!-- #region -->
+# Intelligent Agents
+
 ## Contents
 
-* [Intelligent Agents: Vacuum-cleaner World](simple_randomized_agent.ipynb)
+* Assignment: [Vacuum-cleaner World](simple_randomized_agent.ipynb)
 
 
 ## License
