@@ -9,7 +9,7 @@ Other code accompanying the textbook can be found at the [GitHub repository aima
 
 ## Covered Chapters
 
-* Chapter 2: [Intelligent Agents](tree/master/Agents)
+* Chapter 2: [Intelligent Agents](Agents)
 * Chapter 3: [Uninformed and Informed Search](tree/master/Search)
 * Chapter 4: [Local Search](tree/master/Local%20Search)
 * Chapter 6: [Constraint Satisfaction Problem](tree/master/CSP)
