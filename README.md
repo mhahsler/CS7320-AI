@@ -9,10 +9,11 @@ Other code accompanying the textbook can be found at the [GitHub repository aima
 
 ## Covered Chapters
 
-* Chapter 2: [Intelligent Agents](Agents)
+* Chapter 2: [Intelligent Agents](Agents) 
 * Chapter 3: [Uninformed and Informed Search](Search)
 * Chapter 4: [Local Search](Local%20Search)
 * Chapter 6: [Constraint Satisfaction Problem](CSP)
+* Chapter 12: [Uncertainty and the Naive Bayes Classifier](Uncertainty)
 
 more to come.
 
