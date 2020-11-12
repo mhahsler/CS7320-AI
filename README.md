@@ -1,4 +1,3 @@
-<!-- #region -->
 # CS 5/7320 Artificial Intelligence
 
 Assignments and examples for the course in CS 5/7320 Artificial Intelligence taught at the 
@@ -13,10 +12,8 @@ Other code accompanying the textbook can be found at the [GitHub repository aima
 * Chapter 3: [Uninformed and Informed Search](Search)
 * Chapter 4: [Local Search](Local%20Search)
 * Chapter 6: [Constraint Satisfaction Problem](CSP)
-* Chapter 12: [Uncertainty and the Naive Bayes Classifier](Uncertainty)
-
-more to come.
-
+* Chapters 12-13: [Uncertainty and the Naive Bayes Classifier](Uncertainty)
+* Chapter 19: [Learning from Examples (Machine Learning)](ML)
 
 ## Installing Python
 
@@ -40,7 +37,6 @@ Submit a pdf of the compiled notebook (either export the notebook as pdf or prin
 All code and documents in this repository is provided under [Creatice Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0) License](https://creativecommons.org/licenses/by-sa/4.0/)
 
 ![CC BY-SA 4.0](https://licensebuttons.net/l/by-sa/3.0/88x31.png)
-<!-- #endregion -->
 
 ```python
 
