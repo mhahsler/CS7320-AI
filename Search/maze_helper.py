@@ -72,11 +72,11 @@ def find_pos(maze, what = "S"):
     what: the letter to be found ('S' for start and 'G' for goal)
     
     Returns:
-    array: [x, y] for the found position.
+    a tupple (x, y) for the found position.
     """
     
     pos = np.where(maze == what)
-    return([pos[0][0], pos[1][0]])
+    return(tuple([pos[0][0], pos[1][0]]))
 
 
 def look(maze, pos):
