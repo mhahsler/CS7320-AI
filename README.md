@@ -13,10 +13,10 @@ Other code accompanying the textbook can be found at the [GitHub repository aima
 ## Covered Chapters
 
 * Chapter 2: [Intelligent Agents](Agents) 
-* Chapter 3: [Uninformed and Informed Search](Search)
-* Chapter 4: [Local Search](Local%20Search)
+* Chapter 3: [Solving Problems by Search](Search)
+* Chapter 4: [Search in Complex Environments (Local Search)](Local%20Search)
 * Chapter 6: [Constraint Satisfaction Problem](CSP)
-* Chapters 12-13: [Uncertainty and the Naive Bayes Classifier](Uncertainty)
+* Chapters 12-13: [Uncertainty and Probabilistic Reasoning](Uncertainty)
 * Chapter 19: [Learning from Examples (Machine Learning)](ML)
 
 ## Installing Python and Jupyter Notebook
