@@ -7,8 +7,8 @@
 Assignments and examples for the course in CS 5/7320 Artificial Intelligence taught at the 
 [Computer Science Department at SMU](https://www.smu.edu/Lyle/Academics/Departments/CS) by [Michael Hahsler](https://michael.hahsler.net/). 
 
-The code follows the textbook [Artificial Intelligence: A Modern Approach](http://aima.cs.berkeley.edu/) by Russel and Norvig. The code in this repository is intended to be simpler to focus on the basic AI concepts and less on implementation details (e.g., object-oriented design).
-Other code accompanying the textbook can be found at the [GitHub repository aimacode](https://github.com/aimacode).  
+The code examples follow the textbook [Artificial Intelligence: A Modern Approach](http://aima.cs.berkeley.edu/) by Russel and Norvig. The code in this repository is intended to be simple to focus more on the basic AI concepts and less on the use of advanced implementation techniques (e.g., object-oriented design).
+More complex code examples accompanying the textbook can be found at the [GitHub repository aimacode](https://github.com/aimacode).  
 
 ## Covered Chapters
 
