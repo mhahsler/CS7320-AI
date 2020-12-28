@@ -5,7 +5,9 @@
 
 
 Assignments and examples for the course in CS 5/7320 Artificial Intelligence taught at the 
-[Computer Science Department at SMU](https://www.smu.edu/Lyle/Academics/Departments/CS) by [Michael Hahsler](https://michael.hahsler.net/). 
+[Computer Science Department at SMU](https://www.smu.edu/Lyle/Academics/Departments/CS) by [Michael Hahsler](https://michael.hahsler.net/). Slides and more for students taking the course can be found on 
+[Canvas]().
+
 
 The code examples follow the textbook [Artificial Intelligence: A Modern Approach](http://aima.cs.berkeley.edu/) by Russel and Norvig. The code in this repository is intended to be simple to focus more on the basic AI concepts and less on the use of advanced implementation techniques (e.g., object-oriented design).
 More complex code examples accompanying the textbook can be found at the [GitHub repository aimacode](https://github.com/aimacode).  
@@ -22,7 +24,7 @@ More complex code examples accompanying the textbook can be found at the [GitHub
 ## Installing Python and Jupyter Notebook
 
 To install Python and Jupyter Notebook on your system, you can 
-* install [Docker](https://docs.docker.com/get-docker/) and 
+* __(prefered solution)__ install [Docker](https://docs.docker.com/get-docker/) and 
 execute `docker run -p 8888:8888 jupyter/datascience-notebook` to download and create a running container of
 the [jupyter/datascience-notebook](https://hub.docker.com/r/jupyter/datascience-notebook) image. 
 From now on, use `docker ps -a` to list containers and their container id, `docker stop <container id>` and `docker start <container id>` to stop and start the container
@@ -30,11 +32,12 @@ From now on, use `docker ps -a` to list containers and their container id, `dock
 * install Python, Jupyter Notebook and the needed packages (e.g., via [Anaconda](https://www.anaconda.com/)), or
 * use a service like the [Google Colab](https://colab.research.google.com/github/mhahsler/CS7320-AI/blob/master/) environment (there are some limitations and you will have to copy some needed files to Google Drive). 
 
-The easiest and preferred way is to use the Docker image which already contains almost everything you will need.
-
 ## Learning Python and Jupyer Notebook
 
-If you are not familiar with Python then you should work through a tutorial like [this](https://www.w3schools.com/python/default.asp) to learn the basics about Python and the packages `numpy` and `pandas`. Code examples that help with the assignments are available [here](Python%20Code%20Examples).
+If you are not familiar with Python then you should work through a tutorial like [this](https://www.w3schools.com/python/default.asp) to learn the basics about Python and the packages `numpy` and `pandas`. Another good source to learn Python are 
+the notebooks [intro to Python](https://github.com/eclarson/MachineLearningNotebooks/blob/master/0.%20Python_Intro%20(optional).ipynb)
+and [intro to numpy and pandas](https://github.com/eclarson/MachineLearningNotebooks/blob/master/01_Numpy%20and%20Pandas%20Intro.ipynb)
+by Eric Larson. Some code examples that help with the assignments are available [here](Python%20Code%20Examples).
 
 How to use Jupyter Notebook is covered in many online tutorials like the [Jupyer Notebook tutorial](https://www.dataquest.io/blog/jupyter-notebook-tutorial/).
 
