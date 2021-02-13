@@ -3,7 +3,7 @@
 
 ## Contents
 
-* Assignment: [Vacuum-cleaner World](simple_randomized_agent.ipynb)
+* Assignment: [Reflex Agents for the Vacuum-cleaner World](simple_randomized_agent.ipynb)
 
 
 ## License

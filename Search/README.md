@@ -1,9 +1,9 @@
 <!-- #region -->
-# Search
+# Problem Solving by Search
 
 ## Contents
 
-* Assignment: [Solving a maze](Maze.ipynb)
+* Assignment: [Solving a maze using a goal-based Agent](Maze.ipynb)
 * Example: [Exploring heuristic values for an empty maze](Explore_heuristics.ipynb) (needs R)
 
 
