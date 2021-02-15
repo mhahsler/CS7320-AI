@@ -3,7 +3,7 @@
 
 ## Contents
 
-* Example: [Solving Tic-Tac-Toe with And-Or-Search](tictactoe_and_or_search.ipynb.ipynb)
+* Example: [Solving Tic-Tac-Toe with And-Or-Search](tictactoe_and_or_search.ipynb)
 
 
 
