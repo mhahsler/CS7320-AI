@@ -6,7 +6,7 @@
 
 Assignments and examples for the course in CS 5/7320 Artificial Intelligence taught at the 
 [Computer Science Department at SMU](https://www.smu.edu/Lyle/Academics/Departments/CS) by [Michael Hahsler](https://michael.hahsler.net/). Slides and more information for students taking the course can be found on 
-[Canvas](https://www.smu.edu/OIT/Services/Canvas).
+[SMU's Canvas](https://www.smu.edu/OIT/Services/Canvas).
 
 
 The code examples follow the textbook [Artificial Intelligence: A Modern Approach](http://aima.cs.berkeley.edu/) by Russell and Norvig. The code in this repository is intended to be simple to focus more on the basic AI concepts and less on the use of advanced implementation techniques (e.g., object-oriented design).
