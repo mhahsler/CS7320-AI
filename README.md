@@ -16,7 +16,8 @@ More complex code examples accompanying the textbook can be found at the [GitHub
 
 * Chapter 2: [Intelligent Agents](Agents) 
 * Chapter 3: [Solving Problems by Search](Search)
-* Chapter 4: [Search in Complex Environments (Local Search)](Local%20Search)
+* Chapter 4: [Search in Complex Environments: Local Search](Local_Search)
+* Chapter 4/5: [Search with Nondeterministic Actions and Adversarial Search: Games](Games)
 * Chapter 6: [Constraint Satisfaction Problem](CSP)
 * Chapters 12-13: [Uncertainty and Probabilistic Reasoning](Uncertainty)
 * Chapter 19: [Learning from Examples (Machine Learning)](ML)
@@ -37,7 +38,7 @@ From now on, use `docker ps -a` to list containers and their container id, `dock
 If you are not familiar with Python then you should work through a tutorial like [this](https://www.w3schools.com/python/default.asp) to learn the basics about Python and the packages `numpy` and `pandas`. Another good source to learn Python are 
 the notebooks [intro to Python](https://github.com/eclarson/MachineLearningNotebooks/blob/master/0.%20Python_Intro%20(optional).ipynb)
 and [intro to numpy and pandas](https://github.com/eclarson/MachineLearningNotebooks/blob/master/01_Numpy%20and%20Pandas%20Intro.ipynb)
-by Eric Larson. Some code examples that help with the assignments are available [here](Python%20Code%20Examples).
+by Eric Larson. Some code examples that help with the assignments are available [here](Python_Code_Examples).
 
 How to use Jupyter Notebook is covered in many online tutorials like the [Jupyer Notebook tutorial](https://www.dataquest.io/blog/jupyter-notebook-tutorial/).
 
