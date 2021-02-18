@@ -5,6 +5,8 @@
 
 * Example: [Nondeterministic Actions: Solving Tic-Tac-Toe with And-Or-Tree Search](tictactoe_and_or_tree_search.ipynb)
 * Example: [Adversarial Search: Solving Tic-Tac-Toe with Minimax Search and Alpha-Beta Pruning](tictactoe_alpha_beta_tree_search.ipynb)
+* Example: [Adversarial Search: Solving Tic-Tac-Toe with Heuristic Alpha-Beta Tree Search](tictactoe_heuristic_alpha_beta_tree_search.ipynb)
+
 
 
 ## License
