@@ -1,12 +1,15 @@
 <!-- #region -->
-# Search with Uncertainty / Adversarial Search and Games
+# Adversarial Search and Games
 
 ## Contents
 
-* Example: [Nondeterministic Actions: Solving Tic-Tac-Toe with And-Or-Tree Search](tictactoe_and_or_tree_search.ipynb)
-* Example: [Adversarial Search: Solving Tic-Tac-Toe with Minimax Search and Alpha-Beta Pruning](tictactoe_alpha_beta_tree_search.ipynb)
-* Example: [Adversarial Search: Solving Tic-Tac-Toe with Heuristic Alpha-Beta Tree Search](tictactoe_heuristic_alpha_beta_tree_search.ipynb)
-* Example: [Adversarial Search: Solving Tic-Tac-Toe with Pure Monte Carlo Search](tictactoe_pure_monte_carlo_search.ipynb)
+### Solving games using nondeterministic actions
+* Example: [Solving Tic-Tac-Toe with And-Or-Tree Search](tictactoe_and_or_tree_search.ipynb)
+
+### Solving games using adversarial search
+* Example: [Solving Tic-Tac-Toe with Minimax Search and Alpha-Beta Pruning](tictactoe_alpha_beta_tree_search.ipynb)
+* Example: [Solving Tic-Tac-Toe with Heuristic Alpha-Beta Tree Search](tictactoe_heuristic_alpha_beta_tree_search.ipynb)
+* Example: [Solving Tic-Tac-Toe with Pure Monte Carlo Search](tictactoe_pure_monte_carlo_search.ipynb)
 
 
 

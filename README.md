@@ -16,8 +16,8 @@ More complex code examples accompanying the textbook can be found at the [GitHub
 
 * Chapter 2: [Intelligent Agents](Agents) 
 * Chapter 3: [Solving Problems by Search](Search)
-* Chapter 4: [Search in Complex Environments: Local Search](Local_Search)
-* Chapters 4/5: [Search with Nondeterministic Actions and Adversarial Search: Games](Games)
+* Chapter 4: Search in Complex Environments: [Local Search,](Local_Search) [Nondeterministic Actions](Games)
+* Chapter 5: [Adversarial Search and Games](Games)
 * Chapter 6: [Constraint Satisfaction Problem](CSP)
 * Chapters 12-13: [Uncertainty and Probabilistic Reasoning](Uncertainty)
 * Chapter 19: [Learning from Examples (Machine Learning)](ML)
