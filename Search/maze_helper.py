@@ -34,7 +34,7 @@ def show_maze(maze, fontsize = 10):
     maze[maze == 'S'] = 2 # start
     maze[maze == 'G'] = 3 # goal
     maze[maze == 'P'] = 4 # position/final path
-    maze[maze == '.'] = 5 # visited squares
+    maze[maze == '.'] = 5 # explored squares
     maze[maze == 'F'] = 6 # frontier
     # Converts all string values to integers
     maze = maze.astype(np.int)
@@ -53,7 +53,7 @@ def show_maze(maze, fontsize = 10):
     plt.show()
 
 # +
-# Example: Display all mazes
+# Example: Display some mazes
 
 def run_example():
     for type in ['small', 'medium', 'large', 'open']:
