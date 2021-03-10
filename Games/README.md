@@ -10,7 +10,7 @@
 * Example: [Solving Tic-Tac-Toe with Minimax Search and Alpha-Beta Pruning](tictactoe_alpha_beta_tree_search.ipynb)
 * Example: [Solving Tic-Tac-Toe with Heuristic Alpha-Beta Tree Search](tictactoe_heuristic_alpha_beta_tree_search.ipynb)
 * Example: [Solving Tic-Tac-Toe with Pure Monte Carlo Search](tictactoe_pure_monte_carlo_search.ipynb)
-
+* Assignment: [Adversarial Search: Playing Connect 4](assignment_connect4.ipynb)
 
 
 ## License
