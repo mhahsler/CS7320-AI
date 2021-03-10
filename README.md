@@ -25,7 +25,7 @@ More complex code examples accompanying the textbook can be found at the [GitHub
 ## Installing Python and Jupyter Notebook
 
 You can experiment with the code online without installation using Binder. 
-![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/mhahsler/CS7320-AI/HEAD)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/mhahsler/CS7320-AI/HEAD)
 
 To work on assignments, you need to install Python and Jupyter Notebook on your system, you can 
 * __[prefered solution]__ install [Docker](https://docs.docker.com/get-docker/) and 
