@@ -1,0 +1,11 @@
+name: CS7320-AI
+channels:
+  - conda-forge
+dependencies:
+  - python
+  - numpy
+  - pip
+  - pip:
+    - nbgitpuller
+    - pandas
+    - matplotlib

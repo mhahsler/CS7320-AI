@@ -22,8 +22,6 @@ More complex code examples accompanying the textbook can be found at the [GitHub
 * Chapters 12-13: [Uncertainty and Probabilistic Reasoning](Uncertainty)
 * Chapter 19: [Learning from Examples (Machine Learning)](ML)
 
-__Note:__ Github is sometimes slow with rendering Jupyter Notebooks and you may have to click reload several times. A faster way to render the Notebooks is to [look at the project using jupyer nbviewer](https://nbviewer.jupyter.org/github/mhahsler/CS7320-AI/tree/master/).
-
 ## Installing Python and Jupyter Notebook
 
 To install Python and Jupyter Notebook on your system, you can 
@@ -33,7 +31,7 @@ the [jupyter/datascience-notebook](https://hub.docker.com/r/jupyter/datascience-
 From now on, use `docker ps -a` to list containers and their container id, `docker stop <container id>` and `docker start <container id>` to stop and start the container
 (do not use `run` again because it will create a new container), or 
 * install Python, Jupyter Notebook and the needed packages (e.g., via [Anaconda](https://www.anaconda.com/)), or
-* use a service like the [Google Colab](https://colab.research.google.com/github/mhahsler/CS7320-AI/blob/master/) environment (there are some limitations and you will have to copy some needed files to Google Drive). 
+* use a service like the [Google Colab](https://colab.research.google.com/github/mhahsler/CS7320-AI/blob/master/) environment (there are some limitations and you will have to copy some needed files to Google Drive) or [Binder](https://mybinder.org/v2/gh/mhahsler/CS7320-AI/HEAD).
 
 ## Learning Python and Jupyer Notebook
 
