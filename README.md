@@ -22,6 +22,8 @@ More complex code examples accompanying the textbook can be found at the [GitHub
 * Chapters 12-13: [Uncertainty and Probabilistic Reasoning](Uncertainty)
 * Chapter 19: [Learning from Examples (Machine Learning)](ML)
 
+__Note:__ Github is sometimes slow with rendering Jupyter Notebooks and you may have to click reload several times. A faster way to render the Notebooks is to [](https://nbviewer.jupyter.org/github/mhahsler/CS7320-AI/tree/master/)
+
 ## Installing Python and Jupyter Notebook
 
 To install Python and Jupyter Notebook on your system, you can 
