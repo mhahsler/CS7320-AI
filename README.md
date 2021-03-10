@@ -24,14 +24,17 @@ More complex code examples accompanying the textbook can be found at the [GitHub
 
 ## Installing Python and Jupyter Notebook
 
-To install Python and Jupyter Notebook on your system, you can 
+You can experiment with the code online without installation using Binder. 
+![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/mhahsler/CS7320-AI/HEAD)
+
+To work on assignments, you need to install Python and Jupyter Notebook on your system, you can 
 * __[prefered solution]__ install [Docker](https://docs.docker.com/get-docker/) and 
 execute `docker run -p 8888:8888 jupyter/datascience-notebook` to download and create a running container of
 the [jupyter/datascience-notebook](https://hub.docker.com/r/jupyter/datascience-notebook) image. 
 From now on, use `docker ps -a` to list containers and their container id, `docker stop <container id>` and `docker start <container id>` to stop and start the container
 (do not use `run` again because it will create a new container), or 
-* install Python, Jupyter Notebook and the needed packages (e.g., via [Anaconda](https://www.anaconda.com/)), or
-* use a service like the [Google Colab](https://colab.research.google.com/github/mhahsler/CS7320-AI/blob/master/) environment (there are some limitations and you will have to copy some needed files to Google Drive) or [Binder](https://mybinder.org/v2/gh/mhahsler/CS7320-AI/HEAD).
+* install Python, Jupyter Notebook and the needed packages (e.g., via [Anaconda](https://www.anaconda.com/)).
+
 
 ## Learning Python and Jupyer Notebook
 
