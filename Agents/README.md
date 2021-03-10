@@ -3,7 +3,7 @@
 
 ## Contents
 
-* Assignment: [Reflex Agents for the Vacuum-cleaner World](https://nbviewer.jupyter.org/github/mhahsler/CS7320-AI/blob/master/Games/simple_randomized_agent.ipynb)
+* Assignment: [Reflex Agents for the Vacuum-cleaner World](https://nbviewer.jupyter.org/github/mhahsler/CS7320-AI/blob/master/Agents/simple_randomized_agent.ipynb)
 
 
 ## License

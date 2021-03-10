@@ -3,8 +3,8 @@
 
 ## Contents
 
-* Assignment: [Solving a maze using a goal-based Agent](https://nbviewer.jupyter.org/github/mhahsler/CS7320-AI/blob/master/Games/Maze.ipynb)
-* Example: [Exploring heuristic values for an empty maze](https://nbviewer.jupyter.org/github/mhahsler/CS7320-AI/blob/master/Games/Explore_heuristics.ipynb) (needs R)
+* Assignment: [Solving a maze using a goal-based Agent](https://nbviewer.jupyter.org/github/mhahsler/CS7320-AI/blob/master/Search/Maze.ipynb)
+* Example: [Exploring heuristic values for an empty maze](https://nbviewer.jupyter.org/github/mhahsler/CS7320-AI/blob/master/Search/Explore_heuristics.ipynb) (needs R)
 
 
 
