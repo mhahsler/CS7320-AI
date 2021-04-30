@@ -6,6 +6,7 @@
 
 * Example: [Line Fitting: Gradient Descend and SGD](https://nbviewer.jupyter.org/github/mhahsler/CS7320-AI/blob/master/ML/line_fitting.ipynb) (in R)
 * Example: [Machine Learning with Python using scikit Learn](https://nbviewer.jupyter.org/github/mhahsler/CS7320-AI/blob/master/ML/ML_example.ipynb)
+* Example: [Learn to Score a Tic-Tac-Toe Board by Example](https://nbviewer.jupyter.org/github/mhahsler/CS7320-AI/blob/master/ML/ML_for_tictactoe.ipynb)
 
 
 ## License
