@@ -28,7 +28,7 @@ More complex code examples accompanying the textbook can be found at the [GitHub
 | 19. Learning from Examples | [Slides](https://mhahsler.github.io/CS7320-AI/slides/19_ML_intro.pdf)  | [Code](ML) | 
 
 
-Powerpoint files can be found in the repository directory [slides](tree/master/slides).
+Powerpoint files can be found in the repository directory [slides](slides).
 
 ## Installing Python and Jupyter Notebook
 
@@ -59,6 +59,9 @@ You can fork this repository to work on your solutions locally.
 Submit a pdf of the compiled notebook (either export the notebook as pdf or print to pdf). The notebook needs to be a complete project report with documentation (including your design choices), code and results (e.g., tables with simulation results) with a short discussion of what they mean. Use the provided notebook cells and insert additional code and markdown cells as needed.
 
 ## License
+All figures from the Book Artificial Intelligence: A Modern Approach are
+under copyright by Pearson Education Inc. and are used under fair use. 
+
 All code and documents in this repository are provided under [Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0) License](https://creativecommons.org/licenses/by-sa/4.0/)
 
 ![CC BY-SA 4.0](https://licensebuttons.net/l/by-sa/3.0/88x31.png)
