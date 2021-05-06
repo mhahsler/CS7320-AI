@@ -23,6 +23,7 @@ More complex code examples accompanying the textbook can be found at the [GitHub
 | 4b. Search in Complex Environments: Search with Uncertainty | [Slides](https://mhahsler.github.io/CS7320-AI/slides/04_search_with_uncertainty.pdf)  | [Code](Games) (nondeterministic actions) | 
 | 5.  Adversarial Search and Games | [Slides](https://mhahsler.github.io/CS7320-AI/slides/05_games.pdf)  | [Code](Games) | 
 | 6. Constraint Satisfaction Problems | [Slides](https://mhahsler.github.io/CS7320-AI/slides/06_CSP.pdf)  | [Code](CSP) | 
+| 7. Logical Agents | [Slides](https://mhahsler.github.io/CS7320-AI/slides/07_logic.pdf)  | No Code | 
 | 12. Quantifying Uncertainty | [Slides](https://mhahsler.github.io/CS7320-AI/slides/12_uncertainty.pdf)  | [Code](Uncertainty) | 
 | 13. Probabilistic Reasoning | [Slides](https://mhahsler.github.io/CS7320-AI/slides/13_bayes_nets.pdf)  | [Code](Uncertainty) | 
 | 19. Learning from Examples | [Slides](https://mhahsler.github.io/CS7320-AI/slides/19_ML_intro.pdf)  | [Code](ML) | 
