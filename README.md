@@ -15,7 +15,7 @@ More complex code examples accompanying the textbook can be found at the [GitHub
 ## Covered Chapters
 
 | Chapter | Slides | Code Examples and Assignments |
-| :--------| :---: | :----: | :--: |
+| :--------| :---: | :----: |
 | 1. Introduction | [Slides](https://mhahsler.github.io/CS7320-AI/slides/01_intro.pdf)  | No Code | 
 | 2. Intelligent Agents| [Slides](https://mhahsler.github.io/CS7320-AI/slides/02_agents.pdf)  | [Code](Agents) | 
 | 3. Solving Problems by Search | [Slides](https://mhahsler.github.io/CS7320-AI/slides/03_search.pdf)  | [Code](Search) | 
