@@ -4,8 +4,8 @@
 <img src="http://aima.cs.berkeley.edu/cover2.jpg" align="right" width="25%">
 
 
-Assignments and examples for the course in CS 5/7320 Artificial Intelligence taught at the 
-[Computer Science Department at SMU](https://www.smu.edu/Lyle/Academics/Departments/CS) by [Michael Hahsler](https://michael.hahsler.net/). Slides and more information for students taking the course can be found on 
+Slides, code examples and assignments for the course in CS 5/7320 Artificial Intelligence taught by [Michael Hahsler](https://michael.hahsler.net/) at the 
+[Computer Science Department at SMU](https://www.smu.edu/Lyle/Academics/Departments/CS). More information for students taking the course can be found on 
 [SMU's Canvas](https://www.smu.edu/OIT/Services/Canvas).
 
 
@@ -14,13 +14,21 @@ More complex code examples accompanying the textbook can be found at the [GitHub
 
 ## Covered Chapters
 
-* Chapter 2: [Intelligent Agents](Agents) 
-* Chapter 3: [Solving Problems by Search](Search)
-* Chapter 4: Search in Complex Environments: [Local Search,](Local_Search) [Nondeterministic Actions](Games)
-* Chapter 5: [Adversarial Search and Games](Games)
-* Chapter 6: [Constraint Satisfaction Problem](CSP)
-* Chapters 12-13: [Uncertainty and Probabilistic Reasoning](Uncertainty)
-* Chapter 19: [Learning from Examples (Machine Learning)](ML)
+| Chapter | Slides | Code Examples and Assignments |
+| :--------| :---: | :----: | :--: |
+| 1. Introduction | [Slides](https://mhahsler.github.io/CS7320-AI/slides/01_intro.pdf)  | No Code | 
+| 2. Intelligent Agents| [Slides](https://mhahsler.github.io/CS7320-AI/slides/02_agents.pdf)  | [Code](Agents) | 
+| 3. Solving Problems by Search | [Slides](https://mhahsler.github.io/CS7320-AI/slides/03_search.pdf)  | [Code](Search) | 
+| 4a. Search in Complex Environments: Local Search | [Slides](https://mhahsler.github.io/CS7320-AI/slides/04_local_search.pdf)  | [Code](Local_Search) | 
+| 4b. Search in Complex Environments: Search with Uncertainty | [Slides](https://mhahsler.github.io/CS7320-AI/slides/04_search_with_uncertainty.pdf)  | [Code](Games) (nondeterministic actions) | 
+| 5.  Adversarial Search and Games | [Slides](https://mhahsler.github.io/CS7320-AI/slides/05_games.pdf)  | [Code](Games) | 
+| 6. Constraint Satisfaction Problems | [Slides](https://mhahsler.github.io/CS7320-AI/slides/06_CSP.pdf)  | [Code](CSP) | 
+| 12. Quantifying Uncertainty | [Slides](https://mhahsler.github.io/CS7320-AI/slides/12_uncertainty.pdf)  | [Code](Uncertainty) | 
+| 13. Probabilistic Reasoning | [Slides](https://mhahsler.github.io/CS7320-AI/slides/13_bayes_nets.pdf)  | [Code](Uncertainty) | 
+| 19. Learning from Examples | [Slides](https://mhahsler.github.io/CS7320-AI/slides/19_ML_intro.pdf)  | [Code](ML) | 
+
+
+Powerpoint files can be found in the repository directory [slides](tree/master/slides).
 
 ## Installing Python and Jupyter Notebook
 
