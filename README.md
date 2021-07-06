@@ -16,17 +16,17 @@ More complex code examples accompanying the textbook can be found at the [GitHub
 
 | Chapter | Slides | Code |
 | :-------| :----: | :--: |
-| 1: Introduction to AI | [Slides](slides/intro.pdf) | No Code | 
-| 2: Intelligent Agents | [Slides](slides/agents.pdf) | [Code](Agents) | 
-| 3: Solving Problems by Search | [Slides](slides/search.pdf) | [Code](Search) |
-| 4a: Search in Complex Environments: Local Search | [Slides](slides/local_search.pdf) | [Code](Local_Search) |
-| 4b: Search in Complex Environments: Search with Uncertainty | [Slides](slides/search_with_uncertainty.pdf) | [Nondeterministic Actions in Games](Games) |
-| 5: Adversarial Search and Games | [Slides](slides/games.pdf) | [Code](Games) |
-| 6: Constraint Satisfaction Problem | [Slides](slides/CSP.pdf) | [Code](CSP) |
-| 7-9: Logical Agents | [Slides](slides/logic.pdf) | No Code |
-| 12: Uncertainty | [Slides](slides/uncertainty.pdf) | [Code](Uncertainty) |
-| 13: Probabilistic Reasoning | [Slides](slides/bayes_nets.pdf) | [Code](Uncertainty) |
-| 19: Learning from Examples (Machine Learning) | [Slides](slides/ML_intro.pdf) | [](ML) |
+| 1: Introduction to AI | [Slides](https://mhahsler.github.io/CS7320-AI/slides/intro.pdf) | No Code | 
+| 2: Intelligent Agents | [Slides](https://mhahsler.github.io/CS7320-AI/slides/agents.pdf) | [Code](Agents) | 
+| 3: Solving Problems by Search | [Slides](https://mhahsler.github.io/CS7320-AI/slides/search.pdf) | [Code](Search) |
+| 4a: Search in Complex Environments: Local Search | [Slides](https://mhahsler.github.io/CS7320-AI/slides/local_search.pdf) | [Code](Local_Search) |
+| 4b: Search in Complex Environments: Search with Uncertainty | [Slides](https://mhahsler.github.io/CS7320-AI/slides/search_with_uncertainty.pdf) | [Nondeterministic Actions in Games](Games) |
+| 5: Adversarial Search and Games | [Slides](https://mhahsler.github.io/CS7320-AI/slides/games.pdf) | [Code](Games) |
+| 6: Constraint Satisfaction Problem | [Slides](https://mhahsler.github.io/CS7320-AI/slides/CSP.pdf) | [Code](CSP) |
+| 7-9: Logical Agents | [Slides](https://mhahsler.github.io/CS7320-AI/slides/logic.pdf) | No Code |
+| 12: Uncertainty | [Slides](https://mhahsler.github.io/CS7320-AI/slides/uncertainty.pdf) | [Code](Uncertainty) |
+| 13: Probabilistic Reasoning | [Slides](https://mhahsler.github.io/CS7320-AI/slides/bayes_nets.pdf) | [Code](Uncertainty) |
+| 19: Learning from Examples (Machine Learning) | [Slides](https://mhahsler.github.io/CS7320-AI/slides/ML_intro.pdf) | [Code](ML) |
 
 ## Installing Python and Jupyter Notebook
 
