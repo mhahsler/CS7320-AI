@@ -1,7 +1,7 @@
 <!-- #region -->
 # Artificial Intelligence - Simple Python Code Examples and Assignments
 
-<img src="http://aima.cs.berkeley.edu/cover2.jpg" align="right" width="25%">
+<img src="http://aima.cs.berkeley.edu/cover2.jpg" align="right">
 
 
 Assignments and examples for the course in CS 5/7320 Artificial Intelligence taught at the 
@@ -16,7 +16,7 @@ More complex code examples accompanying the textbook can be found at the [GitHub
 
 | Chapter | Slides | Code |
 | :-------| :----: | :--: |
-| 1: Introduction to AI | [Slides](https://mhahsler.github.io/CS7320-AI/01_slides/intro.pdf) | No Code | 
+| 1: Introduction to AI | [Slides](https://mhahsler.github.io/CS7320-AI/slides/01_intro.pdf) | No Code | 
 | 2: Intelligent Agents | [Slides](https://mhahsler.github.io/CS7320-AI/slides/02_agents.pdf) | [Code](Agents) | 
 | 3: Solving Problems by Search | [Slides](https://mhahsler.github.io/CS7320-AI/slides/03_search.pdf) | [Code](Search) |
 | 4a: Search in Complex Environments: Local Search | [Slides](https://mhahsler.github.io/CS7320-AI/slides/04_local_search.pdf) | [Code](Local_Search) |
