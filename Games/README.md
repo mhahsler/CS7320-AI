@@ -12,6 +12,9 @@
 * Example: [Solving Tic-Tac-Toe with Pure Monte Carlo Search](https://nbviewer.jupyter.org/github/mhahsler/CS7320-AI/blob/master/Games/tictactoe_pure_monte_carlo_search.ipynb)
 * Example: [Solving Tic-Tac-Toe with Pure Monte Carlo Search + UCB1 Selection Policy](https://nbviewer.jupyter.org/github/mhahsler/CS7320-AI/blob/master/Games/tictactoe_monte_carlo_tree_search_restricted.ipynb)
 
+### Using Machine Learning to learn a scoring function (more in Chapter 19)
+* Example: [Learn to Score a Tic-Tac-Toe Board by Example](https://nbviewer.jupyter.org/github/mhahsler/CS7320-AI/blob/master/ML/ML_for_tictactoe.ipynb)
+
 ### Assignment
 * Assignment: [Adversarial Search: Playing Connect 4](https://nbviewer.jupyter.org/github/mhahsler/CS7320-AI/blob/master/Games/assignment_connect4.ipynb)
 
