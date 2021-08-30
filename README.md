@@ -1,7 +1,7 @@
 <!-- #region -->
 # Artificial Intelligence - Simple Python Code Examples and Assignments
 
-<img src="http://aima.cs.berkeley.edu/cover2.jpg" align="right" width="25%">
+<img src="http://aima.cs.berkeley.edu/cover2.jpg" align="right">
 
 
 Assignments and examples for the course in CS 5/7320 Artificial Intelligence taught at the 
@@ -14,13 +14,19 @@ More complex code examples accompanying the textbook can be found at the [GitHub
 
 ## Covered Chapters
 
-* Chapter 2: [Intelligent Agents](Agents) 
-* Chapter 3: [Solving Problems by Search](Search)
-* Chapter 4: Search in Complex Environments: [Local Search,](Local_Search) [Nondeterministic Actions](Games)
-* Chapter 5: [Adversarial Search and Games](Games)
-* Chapter 6: [Constraint Satisfaction Problem](CSP)
-* Chapters 12-13: [Uncertainty and Probabilistic Reasoning](Uncertainty)
-* Chapter 19: [Learning from Examples (Machine Learning)](ML)
+| Chapter | Slides | Code |
+| :-------| :----: | :--: |
+| 1: Introduction to AI | [Slides](https://mhahsler.github.io/CS7320-AI/slides/01_intro.pdf) | No Code | 
+| 2: Intelligent Agents | [Slides](https://mhahsler.github.io/CS7320-AI/slides/02_agents.pdf) | [Code](Agents) | 
+| 3: Solving Problems by Search | [Slides](https://mhahsler.github.io/CS7320-AI/slides/03_search.pdf) | [Code](Search) |
+| 4a: Search in Complex Environments: Local Search | [Slides](https://mhahsler.github.io/CS7320-AI/slides/04_local_search.pdf) | [Code](Local_Search) |
+| 4b: Search in Complex Environments: Search with Uncertainty | [Slides](https://mhahsler.github.io/CS7320-AI/slides/04_search_with_uncertainty.pdf) | [Nondeterministic Actions in Games](Games) |
+| 5: Adversarial Search and Games | [Slides](https://mhahsler.github.io/CS7320-AI/slides/05_games.pdf) | [Code](Games) |
+| 6: Constraint Satisfaction Problem | [Slides](https://mhahsler.github.io/CS7320-AI/slides/06_CSP.pdf) | [Code](CSP) |
+| 7-9: Logical Agents | [Slides](https://mhahsler.github.io/CS7320-AI/slides/07_logic.pdf) | No Code |
+| 12: Uncertainty | [Slides](https://mhahsler.github.io/CS7320-AI/slides/12_uncertainty.pdf) | [Code](Uncertainty) |
+| 13: Probabilistic Reasoning | [Slides](https://mhahsler.github.io/CS7320-AI/slides/13_bayes_nets.pdf) | [Code](Uncertainty) |
+| 19: Learning from Examples (Machine Learning) | [Slides](https://mhahsler.github.io/CS7320-AI/slides/19_ML_intro.pdf) | [Code](ML) |
 
 ## Installing Python and Jupyter Notebook
 
@@ -32,7 +38,7 @@ To work on assignments, you need to install Python and Jupyter Notebook on your 
 execute `docker run -p 8888:8888 -e JUPYTER_ENABLE_LAB=yes jupyter/datascience-notebook` to download and create a container that runs
 Jupyter Lab and bookmark the link including the login token that you get. 
 Details and configuration options can be found on the [Jupyter Docker stack GitHub page](https://github.com/jupyter/docker-stacks)) 
-From now on, use `docker ps -a` to list containers and their container id, `docker stop <container id>` and `docker start <container id>` to stop and start the container (**do not use `run` again** because it will create a new empty container), or 
+From now on, use `docker ps -a` to list containers and their container id, `docker stop <container id>` and `docker start <container id>` to stop and start the container (**do not use `run` again** because it will create a new empty container). For git use the `https` protocol and not `ssh`.
 * Install Python, Jupyter Notebook, and the needed packages (e.g., via [Anaconda](https://www.anaconda.com/)).
 
 ## Learning Python and Jupyer Notebook
@@ -46,7 +52,8 @@ How to use Jupyter notebooks is covered in many online tutorials like the [Jupye
 
 ## Working on Assignments
 
-You can fork this repository to work on your solutions locally. The notebook needs to be a complete project report with documentation (including your design choices), code and the results (e.g., tables with simulation results) with a short discussion of what they mean. Use the provided notebook cells and insert additional code and markdown cells as needed.
+You can fork this repository to work on your solutions with version control. 
+The notebook needs to be a complete project report with documentation (including your design choices), code and the results (e.g., tables with simulation results) with a short discussion of what they mean. Use the provided notebook cells and insert additional code and markdown cells as needed.
 
 To submit your finished assignment for CS 5/7302, the compiled notebook into a pdf (either export the notebook as pdf or print to pdf). Do not submit the raw notebook or a html file since [Canvas](https://www.smu.edu/OIT/Services/Canvas) does not support instructor annotations for these file types. 
 
