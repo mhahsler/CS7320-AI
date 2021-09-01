@@ -44,7 +44,7 @@ From now on, use `docker ps -a` to list containers and their container id, `dock
 
 ## Learning Python and Jupyer Notebook
 
-If you are not familiar with Python, then you should work through one of the many Python tutorials (e.g., [this tutorial](https://www.w3schools.com/python/default.asp)) to learn the basics about Python and the packages `numpy` and `pandas`.Other good sources to learn Python are 
+If you are not familiar with Python, then you should work through one of the many Python tutorials (e.g., [this tutorial](https://www.w3schools.com/python/default.asp)) to learn the basics about Python and the packages `numpy` and `pandas`. Other good sources to learn Python are 
 the notebooks [intro to Python](https://github.com/eclarson/MachineLearningNotebooks/blob/master/0.%20Python_Intro%20(optional).ipynb)
 and [intro to numpy and pandas](https://github.com/eclarson/MachineLearningNotebooks/blob/master/01_Numpy%20and%20Pandas%20Intro.ipynb)
 by Eric Larson. Some code examples that help with the assignments are available [here](Python_Code_Examples).
