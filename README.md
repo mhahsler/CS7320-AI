@@ -36,14 +36,15 @@ You can experiment with the code online without installation using Binder.
 To work on assignments, you need to install Python and Jupyter Notebook on your system. You can 
 * __[preferred solution]__ Install [Docker](https://docs.docker.com/get-docker/) and 
 execute `docker run -p 8888:8888 -e JUPYTER_ENABLE_LAB=yes jupyter/datascience-notebook` to download and create a container that runs
-Jupyter Lab and bookmark the link including the login token that you get. 
+Jupyter Lab and bookmark the link, including the login token that you get. 
 Details and configuration options can be found on the [Jupyter Docker stack GitHub page](https://github.com/jupyter/docker-stacks)) 
-From now on, use `docker ps -a` to list containers and their container id, `docker stop <container id>` and `docker start <container id>` to stop and start the container (**do not use `run` again** because it will create a new empty container). For git use the `https` protocol and not `ssh`.
+From now on, use `docker ps -a` to list containers and their container id, `docker stop <container id>` and `docker start <container id>` to stop and start the container (**do not use `run` again** because it will create a new empty container). For git, use the `https` protocol and not `ssh`.
+
 * Install Python, Jupyter Notebook, and the needed packages (e.g., via [Anaconda](https://www.anaconda.com/)).
 
 ## Learning Python and Jupyer Notebook
 
-If you are not familiar with Python, then you should work through one of the many Python tutorial (e.g., [this tutorial](https://www.w3schools.com/python/default.asp)) to learn the basics about Python and the packages `numpy` and `pandas`. Another good source to learn Python are 
+If you are not familiar with Python, then you should work through one of the many Python tutorials (e.g., [this tutorial](https://www.w3schools.com/python/default.asp)) to learn the basics about Python and the packages `numpy` and `pandas`.Other good sources to learn Python are 
 the notebooks [intro to Python](https://github.com/eclarson/MachineLearningNotebooks/blob/master/0.%20Python_Intro%20(optional).ipynb)
 and [intro to numpy and pandas](https://github.com/eclarson/MachineLearningNotebooks/blob/master/01_Numpy%20and%20Pandas%20Intro.ipynb)
 by Eric Larson. Some code examples that help with the assignments are available [here](Python_Code_Examples).
@@ -55,10 +56,10 @@ How to use Jupyter notebooks is covered in many online tutorials like the [Jupye
 You can fork this repository to work on your solutions with version control. 
 The notebook needs to be a complete project report with documentation (including your design choices), code and the results (e.g., tables with simulation results) with a short discussion of what they mean. Use the provided notebook cells and insert additional code and markdown cells as needed.
 
-To submit your finished assignment for CS 5/7302, the compiled notebook into a pdf (either export the notebook as pdf or print to pdf). Do not submit the raw notebook or a html file since [Canvas](https://www.smu.edu/OIT/Services/Canvas) does not support instructor annotations for these file types. 
+To submit your finished assignment for CS 5/7302, the compiled notebook into a pdf (either export the notebook as pdf or print to pdf). Do not submit the raw notebook or an html file since [Canvas](https://www.smu.edu/OIT/Services/Canvas) does not support instructor annotations for these file types. 
 
 ## License
-All code and documents in this repository are provided under [Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0) License](https://creativecommons.org/licenses/by-sa/4.0/)
+All code and documents in this repository are provided under [Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0) License.](https://creativecommons.org/licenses/by-sa/4.0/)
 
 ![CC BY-SA 4.0](https://licensebuttons.net/l/by-sa/3.0/88x31.png)
 <!-- #endregion -->
