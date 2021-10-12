@@ -1,5 +1,6 @@
 # +
-# Code by Nicholas Crothers modified and expanded by M. Hahsler
+# Code for CS 5/7320 by Michael Hahsler
+
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -15,6 +16,7 @@ def parse_maze(maze_str):
         
     return maze
 
+# Code by Nicholas Crothers modified and expanded by M. Hahsler
 # This is modified code I found on StackOverflow, at this link
 # https://stackoverflow.com/questions/43971138/python-plotting-colored-grid-based-on-values
 def show_maze(maze, fontsize = 10):  
@@ -36,8 +38,7 @@ def show_maze(maze, fontsize = 10):
     maze[maze == 'P'] = 4 # position/final path
     maze[maze == '.'] = 5 # explored squares
     maze[maze == 'F'] = 6 # frontier
-    # Converts all string values to integers
-    maze = maze.astype(np.int)
+    maze = maze.astype(int)
     
     fig, ax = plt.subplots()
     ax.imshow(maze, cmap = cmap, norm = colors.BoundaryNorm(list(range(cmap.N + 1)), cmap.N))
@@ -51,6 +52,7 @@ def show_maze(maze, fontsize = 10):
                  verticalalignment = 'center')
     
     plt.show()
+    
 
 # +
 # Example: Display some mazes
