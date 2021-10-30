@@ -18,6 +18,7 @@
 ### Assignment
 * Assignment: [Adversarial Search: Playing Connect 4](https://nbviewer.jupyter.org/github/mhahsler/CS7320-AI/blob/master/Games/assignment_connect4.ipynb)
 
+* Assignment: [Adversarial Search: Playing "Mean" Connect 4](https://nbviewer.jupyter.org/github/mhahsler/CS7320-AI/blob/master/Games/assignment_mean_connect4.ipynb)
 
 ## License
 All code and documents in this repository is provided under [Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0) License](https://creativecommons.org/licenses/by-sa/4.0/)
