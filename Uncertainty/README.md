@@ -3,6 +3,7 @@
 ## Contents
 
 * Example: [Simulating the Monty Hall Problem](https://nbviewer.jupyter.org/github/mhahsler/CS7320-AI/blob/master/Uncertainty/Monty_Hall_problem.ipynb)
+* Example: [Estimating Probabilities using Frequentist vs. Bayesian Inference: Coin Toss](https://nbviewer.jupyter.org/github/mhahsler/CS7320-AI/blob/master/Uncertainty/Frequentis_vs_Bayesian.ipynb)
 * Assignment: [Spam detection using a naive Bayes classifier](https://nbviewer.jupyter.org/github/mhahsler/CS7320-AI/blob/master/Uncertainty/Naive_Bayes_classifier.ipynb)
 * Example: [Alarm Example as a Bayesian Network](https://nbviewer.jupyter.org/github/mhahsler/CS7320-AI/blob/master/Uncertainty/Bayes_Network_Alarm.ipynb)
 
