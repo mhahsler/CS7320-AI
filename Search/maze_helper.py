@@ -1,7 +1,8 @@
-# Code for the Maze Assignment by Michael Hahsler
-# Usage: 
-#    import maze_helper as mh
-#    mh.show_some_mazes()
+"""Code for the Maze Assignment by Michael Hahsler
+Usage: 
+    import maze_helper as mh
+    mh.show_some_mazes()
+"""
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -18,7 +19,7 @@ def parse_maze(maze_str):
 # This is modified code I found on StackOverflow, at this link
 # https://stackoverflow.com/questions/43971138/python-plotting-colored-grid-based-on-values
 def show_maze(maze, fontsize = 10):  
-    """display a maze (numpy array)"""
+    """Display a (parsed) maze as an image."""
    
     cmap = colors.ListedColormap(['white', 'black', 'blue', 'green', 'red', 'gray', 'orange'])
     
@@ -53,28 +54,33 @@ def show_maze(maze, fontsize = 10):
     
 def find_pos(maze, what = "S"):
     """
-    Find start/goal in a maze. Caution: there is no error checking
+    Find start/goal in a maze and returns the first one. 
+    Caution: there is no error checking!
     
     Parameters:
-    maze: a array with characters
+    maze: a array with characters prodced by parse_maze()
     what: the letter to be found ('S' for start and 'G' for goal)
     
     Returns:
     a tupple (x, y) for the found position.
     """
     
+    # where returns two arrays with all found positions. We are only interested in the first one at index 0.
     pos = np.where(maze == what)
     return(tuple([pos[0][0], pos[1][0]]))
 
 def look(maze, pos):
-    """look at the label of a square with the position as an array of the form [x, y]."""
+    """Look at the label of a square with the position as an array of the form (x, y)."""
     
-    return(maze[pos[0], pos[1]])
+    x, y = pos
+    return(maze[x, y])
 
 
-# intro
+
 def welcome():
-    print("""Helper functions for the Maze Assignment
+    """Welcome message."""
+    
+    print("""Helper functions for the Maze Assignment by M. Hahsler
 Usage: 
   import maze_helper as mh
   mh.show_some_mazes()
