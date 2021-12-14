@@ -13,6 +13,10 @@ each action by the player is folloed by an unknown action of the opponent which,
 * Example: [Solving Tic-Tac-Toe with Pure Monte Carlo Search](https://nbviewer.jupyter.org/github/mhahsler/CS7320-AI/blob/master/Games/tictactoe_pure_monte_carlo_search.ipynb)
 * Example: [Solving Tic-Tac-Toe with Pure Monte Carlo Search + UCB1 Selection Policy](https://nbviewer.jupyter.org/github/mhahsler/CS7320-AI/blob/master/Games/tictactoe_monte_carlo_tree_search_restricted.ipynb)
 
+### Interactive game play
+* Example: [Play Tic-Tac-Toe Interactively (Simple Implementation)](https://nbviewer.jupyter.org/github/mhahsler/CS7320-AI/blob/master/Games/tictactoe_interactive.ipynb)
+
+
 ### Assignments
 * Assignment: [Adversarial Search: Playing Connect 4](https://nbviewer.jupyter.org/github/mhahsler/CS7320-AI/blob/master/Games/assignment_connect4.ipynb)
 * Assignment: [Adversarial Search: Playing "Mean" Connect 4](https://nbviewer.jupyter.org/github/mhahsler/CS7320-AI/blob/master/Games/assignment_mean_connect4.ipynb)
