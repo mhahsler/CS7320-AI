@@ -56,8 +56,6 @@ How to use Jupyter notebooks is covered in many online tutorials like the [Jupye
 You can fork this repository to work on your solutions with version control. 
 The notebook needs to be a complete project report with documentation (including your design choices), code and the results (e.g., tables with simulation results) with a short discussion of what they mean. Use the provided notebook cells and insert additional code and markdown cells as needed.
 
-To submit your finished assignment for CS 5/7320, the compiled notebook into a pdf (either export the notebook as pdf or print to pdf). Do not submit the raw notebook or an html file since [Canvas](https://www.smu.edu/OIT/Services/Canvas) does not support instructor annotations for these file types. 
-
 ## License
 All code and documents in this repository are provided under [Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0) License.](https://creativecommons.org/licenses/by-sa/4.0/)
 
