@@ -44,16 +44,14 @@ From now on, use `docker ps -a` to list containers and their container id, `dock
 
 ## Learning Python and Jupyer Notebook
 
-If you are not familiar with Python, then you should work through one of the many Python tutorials (e.g., [this tutorial](https://www.w3schools.com/python/default.asp)) to learn the basics about Python and the packages `numpy` and `pandas`. Other good sources to learn Python are 
-the notebooks [intro to Python](https://github.com/eclarson/MachineLearningNotebooks/blob/master/0.%20Python_Intro%20(optional).ipynb)
-and [intro to numpy and pandas](https://github.com/eclarson/MachineLearningNotebooks/blob/master/01_Numpy%20and%20Pandas%20Intro.ipynb)
-by Eric Larson. Some code examples that help with the assignments are available [here](Python_Code_Examples).
+If you are not familiar with Python, then you should work through one of the many Python tutorials (e.g., [this tutorial](https://www.w3schools.com/python/default.asp)) to learn the basics about Python and the packages `numpy` and `pandas`. Some code examples that help with the assignments are available [here](Python_Code_Examples).
 
 How to use Jupyter notebooks is covered in many online tutorials like the [Jupyer notebook tutorial](https://www.dataquest.io/blog/jupyter-notebook-tutorial/).
 
 ## Working on Assignments
 
-You can fork this repository to work on your solutions with version control. 
+You can fork this repository to work on your solutions with version control.
+The assignments are improved frequently, so always sync your fork before you start to work on a new assignment.
 The notebook needs to be a complete project report with documentation (including your design choices), code and the results (e.g., tables with simulation results) with a short discussion of what they mean. Use the provided notebook cells and insert additional code and markdown cells as needed.
 
 ## License
