@@ -40,7 +40,7 @@ Jupyter Lab and bookmark the link (including the login token) that you get durin
 Details and configuration options can be found on the [Jupyter Docker stack GitHub page](https://github.com/jupyter/docker-stacks)) 
 From now on, use `docker ps -a` to list containers and their container id, `docker stop <container id>` and `docker start <container id>` to stop and start the container (**do not use `run` again** because it will create a new empty container).
 
-* Install Python, Jupyter Notebook, and the needed packages (e.g., using [Conda](https://www.conda.io/)).
+* Install Python, Jupyter Notebook, and the needed packages (e.g., using [Anaconda](https://www.anaconda.com/)).
 
 ## Learning Python and Jupyer Notebook
 
