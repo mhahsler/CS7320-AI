@@ -1,5 +1,5 @@
 <!-- #region -->
-# Problem Solving by Search
+# Chapter 3: Problem Solving by Search
 
 ## Contents
 

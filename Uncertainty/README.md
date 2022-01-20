@@ -1,4 +1,4 @@
-# Uncertainty
+# Chapter 12 Uncertainty and Chapter 13 Probabilistic Reasoning
 
 ## Contents
 

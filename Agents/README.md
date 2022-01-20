@@ -1,5 +1,5 @@
 <!-- #region -->
-# Intelligent Agents
+# Chapter 2: Intelligent Agents
 
 ## Contents
 

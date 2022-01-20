@@ -1,5 +1,5 @@
 <!-- #region -->
-# Constraint Satisfaction Problem (CSP)
+# Chapter 6: Constraint Satisfaction Problem (CSP)
 
 ## Contents
 

@@ -1,9 +1,9 @@
 <!-- #region -->
-# Adversarial Search and Games
+# Chapter 5: Adversarial Search and Games
 
 ## Contents
 
-### Connection to search with nondeterministic actions (from Chapter 4b)
+### Connection to search with nondeterministic actions (from Chapter 4.3)
 * Example: [Solving Tic-Tac-Toe with And-Or-Tree Search](https://nbviewer.jupyter.org/github/mhahsler/CS7320-AI/blob/master/Games/tictactoe_and_or_tree_search.ipynb). Here the opponent is seen as part of the environment, i.e.,
 each action by the player is folloed by an unknown action of the opponent which, from the viewpoint of the player makes the outcomes of actions nondeterministic.
 
