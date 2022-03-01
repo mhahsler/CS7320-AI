@@ -50,17 +50,23 @@ How to use Jupyter notebooks is covered in many online tutorials like the [Jupye
 
 ## Working on Assignments
 
-This repository is a template. You can either click "Use this template"
-create your own repository and to work on your solutions with version control.
-The assignments are improved frequently, so always sync your fork before you start to work on a new assignment. Here is how to update your repository:
+You can fork this repository to work on your solutions with version control.
+The assignments are improved frequently, so always sync your fork before you start to work on a new assignment. Here is how to update your repository with my changes:
 
 ```
-git remote add template https://github.com/mhahsler/CS7320-AI.git
-git fetch --all
-git merge template/master
+git fetch upstream
+git checkout master
+git merge upstream/master
+git push
 ```
 
-The notebook needs to be a complete project report with documentation (including your design choices), code and the results (e.g., tables with simulation results) with a short discussion of what they mean. Use the provided notebook cells and insert additional code and markdown cells as needed.
+Your assignment notebooks needs to be a complete project reports with 
+
+- documentation (including your design choices), 
+- code (with comments for difficult to unserstand sections) and
+- results (e.g., tables with simulation results) with a short discussion of what they mean. 
+
+Use the provided notebook cells and insert additional code and markdown cells as needed.
 
 ## License
 All code and documents in this repository are provided under [Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0) License.](https://creativecommons.org/licenses/by-sa/4.0/)
