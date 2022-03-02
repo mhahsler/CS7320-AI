@@ -1,7 +1,7 @@
 <!-- #region -->
 # Artificial Intelligence - Simple Python Code Examples and Assignments
 
-<img src="http://aima.cs.berkeley.edu/cover2.jpg" align="right">
+<img src="assets/cover2.jpg" align="right">
 
 
 Assignments and examples for the course in CS 5/7320 Artificial Intelligence taught at the 
