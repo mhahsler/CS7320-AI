@@ -20,6 +20,8 @@ each action by the player is folloed by an unknown action of the opponent which,
 ### Assignments
 * Assignment: [Adversarial Search: Playing Connect 4](https://nbviewer.jupyter.org/github/mhahsler/CS7320-AI/blob/master/Games/assignment_connect4.ipynb)
 * Assignment: [Adversarial Search: Playing "Mean" Connect 4](https://nbviewer.jupyter.org/github/mhahsler/CS7320-AI/blob/master/Games/assignment_mean_connect4.ipynb)
+* Assignment: [Adversarial Search: Playing Dots and Boxes](https://nbviewer.jupyter.org/github/mhahsler/CS7320-AI/blob/master/Games/assignment_dots_and_boxes.ipynb)
+
 
 ### Connection to Machine Learning (more in Chapter 19)
 * The example [Learn to Score a Tic-Tac-Toe Board by Example](https://nbviewer.jupyter.org/github/mhahsler/CS7320-AI/blob/master/ML/ML_for_tictactoe.ipynb) uses a neural network trained on self-play data to lean an evaluation function that can be used as a heuristic in Heuristic Minimax Search or as a playout policy for Monte Carlo Search.
