@@ -3,7 +3,7 @@
 
 ## Contents
 
-* Assignment: [Reflex-based Agents for the Vacuum-cleaner World](https://nbviewer.jupyter.org/github/mhahsler/CS7320-AI/blob/master/Agents/robot_vacuum.ipynb)
+* Assignment: [Reflex-based Agents for the Vacuum-cleaner World](https://colab.research.google.com/github/mhahsler/CS7320-AI/blob/master/Agents/robot_vacuum.ipynb)
 
 
 ## License
