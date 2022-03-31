@@ -30,10 +30,10 @@ More complex code examples accompanying the textbook can be found at the [GitHub
 
 ## Installing Python and Jupyter Notebook
 
-You can experiment with the code online without installation using Binder. 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/mhahsler/CS7320-AI/HEAD)
+You can experiment with the code online without installation using 
+[Google CoLab](https://colab.research.google.com/github/mhahsler/CS7320-AI/)or [Binder](https://mybinder.org/v2/gh/mhahsler/CS7320-AI/HEAD).
 
-To work on assignments, you need to install Python and Jupyter Notebook on your system. You can 
+To work on assignments, you can use Colab or you need to install Python and Jupyter Notebook on your system. You can 
 * __[preferred solution]__ Install [Docker](https://www.docker.com/products/docker-desktop) and 
 execute `docker run -p 8888:8888 -e JUPYTER_ENABLE_LAB=yes jupyter/datascience-notebook` to download and create a container that runs
 Jupyter Lab and bookmark the link (including the login token) that you get during installation. 
