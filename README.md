@@ -31,7 +31,7 @@ More complex code examples accompanying the textbook can be found at the [GitHub
 ## Installing Python and Jupyter Notebook
 
 You can experiment with the code online without installation using 
-[Google CoLab](https://colab.research.google.com/github/mhahsler/CS7320-AI/)or [Binder](https://mybinder.org/v2/gh/mhahsler/CS7320-AI/HEAD).
+[Google CoLab](https://colab.research.google.com/github/mhahsler/CS7320-AI/).
 
 To work on assignments, you can use Colab or you need to install Python and Jupyter Notebook on your system. You can 
 * __[preferred solution]__ Install [Docker](https://www.docker.com/products/docker-desktop) and 
