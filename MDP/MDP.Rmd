@@ -133,14 +133,7 @@ actions <- function(s) {
   # illegal state
   if(s == 5) return('None')
   
-  # regular states
-  rc <- s_to_rc(s)
-  c(
-    if(rc[1] < ROWS) 'Up', 
-    if(rc[2] < COLS) 'Right',
-    if(rc[1] > 1) 'Down',
-    if(rc[2] > 1) 'Left'
-  )
+  c('Up', 'Right', 'Down', 'Left')
 }
      
 lapply(S, actions)
@@ -338,7 +331,7 @@ table(replicate(n = 100, sample_transition(1, 'Up')))
 ```
 
 ```{r}
-simulate_utility <- function(pi, s0 = 1) {
+simulate_utility <- function(pi, s0 = 1, max_t = 100) {
   s <- s0
   U <- 0
   t <- 0
@@ -354,10 +347,13 @@ simulate_utility <- function(pi, s0 = 1) {
     U <- U + GAMMA ^ t * R(s, a, s_prime)
     
     s <- s_prime
-    t <- t + 1
     
     ## reached an absorbing state?
     if (s == 11 || s == 12 || s == 5)
+      break
+    
+    t <- t + 1
+    if (t > max_t)
       break
   }
   
@@ -387,6 +383,7 @@ mean(utility_random)
 hist(utility_random, xlim = c(-1, 1))
 ```
 
+The random policy is really bad, we always run repeatedly into a wall.
 The manually created policy is obviously better.
 
 We can use simulation to estimate the expected utility for starting from 
@@ -634,7 +631,7 @@ approx_policy_evaluation(pi_manual)
 ```
 
 We will implement modified policy iteration. Modified means that we use
-the approximate plicy evaluation.
+the approximate policy evaluation.
 
 ```{r}
 policy_iteration <- function() {

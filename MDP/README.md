@@ -3,7 +3,7 @@
 
 ## Contents
 
-* [Markov Decision Processes](https://mhahsler.github.io/CS7320-AI/MDP/MDP.html)
+* Example: [Markov Decision Processes](https://mhahsler.github.io/CS7320-AI/MDP/MDP.html) (in R)
 
 
 ## License
