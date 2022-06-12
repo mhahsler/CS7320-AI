@@ -24,7 +24,7 @@ More complex code examples accompanying the textbook can be found at the [GitHub
 | 5: Adversarial Search and Games | [Slides](https://mhahsler.github.io/CS7320-AI/slides/05_games.pdf) | [Code](Games) |
 | 6: Constraint Satisfaction Problem | [Slides](https://mhahsler.github.io/CS7320-AI/slides/06_CSP.pdf) | [Code](CSP) |
 | 7-9: Logical Agents | [Slides](https://mhahsler.github.io/CS7320-AI/slides/07_logic.pdf) | - |
-| 12: Uncertainty | [Slides](https://mhahsler.github.io/CS7320-AI/slides/12_uncertainty.pdf) | [Code](Uncertainty) |
+| 12: Quantifying Uncertainty | [Slides](https://mhahsler.github.io/CS7320-AI/slides/12_uncertainty.pdf) | [Code](Uncertainty) |
 | 13: Probabilistic Reasoning | [Slides](https://mhahsler.github.io/CS7320-AI/slides/13_bayes_nets.pdf) | [Code](Uncertainty) |
 | 16: Making Simple Decision | [Slides](https://mhahsler.github.io/CS7320-AI/slides/16_decision_making.pdf) | - |
 | 17: Making Complex Decision | - | [Code](MDP) |
@@ -35,16 +35,14 @@ More complex code examples accompanying the textbook can be found at the [GitHub
 You can experiment with the code online without installation using 
 [Google CoLab](https://colab.research.google.com/github/mhahsler/CS7320-AI/).
 
-To work on assignments, you can use Colab or you need to install Python and Jupyter Notebook on your system. You can 
-* __[preferred solution]__ Install [Docker](https://www.docker.com/products/docker-desktop) and 
+To work on assignments, you can use 
+* Use [Google CoLab](https://colab.research.google.com).
+* Install [Docker](https://www.docker.com/products/docker-desktop) and 
 execute `docker run -p 8888:8888 -e JUPYTER_ENABLE_LAB=yes jupyter/datascience-notebook` to download and create a container that runs
 Jupyter Lab and bookmark the link (including the login token) that you get during installation. 
 Details and configuration options can be found on the [Jupyter Docker stack GitHub page](https://github.com/jupyter/docker-stacks)) 
 From now on, use `docker ps -a` to list containers and their container id, `docker stop <container id>` and `docker start <container id>` to stop and start the container (**do not use `run` again** because it will create a new empty container).
-
 * Install Python, Jupyter Notebook, and the needed packages (e.g., using [Anaconda](https://www.anaconda.com/)).
-
-* Use [Google CoLab](https://colab.research.google.com).
 
 ## Learning Python and Jupyer Notebook
 
