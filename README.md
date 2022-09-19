@@ -55,6 +55,7 @@ How to use Jupyter notebooks is covered in many online tutorials like the [Jupye
 ## Working on Assignments
 
 You can fork this repository to work on your solutions with version control.
+Make sure that you make your fork a **PRIVATE** repository.
 The assignments are improved frequently, so always sync your fork before you start to work on a new assignment. Here is how to update your repository with my changes:
 
 ```
