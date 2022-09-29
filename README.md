@@ -54,20 +54,21 @@ How to use Jupyter notebooks is covered in many online tutorials like the [Jupye
 
 ## Working on Assignments
 
-You can fork this repository to work on your solutions with version control.
-The assignments are improved frequently, so always sync your fork before you start to work on a new assignment. Here is how to update your repository with my changes:
+You can either download individual assignment notebooks or clone the complete repository using
+```
+git clone https://github.com/mhahsler/CS7320-AI
+```
+
+The assignments are improved frequently, so always `pull` the latest version before you start to work on a new assignment. 
 
 ```
-git fetch upstream
-git checkout master
-git merge upstream/master
-git push
+git pull
 ```
 
 Your assignment notebooks needs to be a complete project reports with 
 
 - documentation (including your design choices), 
-- code (with comments for difficult to unserstand sections) and
+- code (with comments for difficult to understand sections) and
 - results (e.g., tables with simulation results) with a short discussion of what they mean. 
 
 Use the provided notebook cells and insert additional code and markdown cells as needed.
