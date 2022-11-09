@@ -8,7 +8,6 @@ Assignments and examples for the course in CS 5/7320 Artificial Intelligence tau
 [Computer Science Department at SMU](https://www.smu.edu/Lyle/Academics/Departments/CS) by [Michael Hahsler](https://michael.hahsler.net/). Slides and more information for students taking the course can be found on 
 [SMU's Canvas](https://www.smu.edu/OIT/Services/Canvas).
 
-
 The code examples follow the textbook [Artificial Intelligence: A Modern Approach (AIMA)](http://aima.cs.berkeley.edu/) by Russell and Norvig. The code in this repository is intended to be simple to focus more on the basic AI concepts and less on the use of advanced implementation techniques (e.g., object-oriented design).
 More complex code examples accompanying the textbook can be found at the [GitHub repository aimacode](https://github.com/aimacode).  
 
@@ -16,6 +15,7 @@ More complex code examples accompanying the textbook can be found at the [GitHub
 
 | Chapter | Slides | Code |
 | :-------| :----: | :--: |
+| 0: Python for AI | | [HOWTOs](HOWTOs) | - | 
 | 1: Introduction to AI | [Slides](https://mhahsler.github.io/CS7320-AI/slides/01_intro.pdf) | - | 
 | 2: Intelligent Agents | [Slides](https://mhahsler.github.io/CS7320-AI/slides/02_agents.pdf) | [Code](Agents) | 
 | 3: Solving Problems by Search | [Slides](https://mhahsler.github.io/CS7320-AI/slides/03_search.pdf) | [Code](Search) |
@@ -46,11 +46,17 @@ From now on, use `docker ps -a` to list containers and their container id, `dock
 * Install Python, [JupyterLab](https://jupyter.org/) and all needed packages yourself. You can also use
 Visual Studio Code as a nice editor.
 
-## Learning Python and Jupyer Notebook
+## Learning Python, Data Structures, and the Use of Jupyer Notebook
 
-If you are not familiar with Python, then you should work through one of the many Python tutorials (e.g., [this tutorial](https://www.w3schools.com/python/default.asp)) to learn the basics about Python and the packages `numpy` and `pandas`. Some code examples that help with the assignments are available [here](Python_Code_Examples).
+If you are not familiar with Python, then you should work through one of the many Python tutorials (e.g., [this tutorial](https://www.w3schools.com/python/default.asp)) to learn the basics about Python and the packages `numpy` and `pandas`.
+
+AI requires working knowledge on how to implement data structures like trees. Here is an introduction to 
+[Data Structures and Algorithms in Python](https://www.youtube.com/watch?v=pkYVOmU3MgA). Especially focus on trees.
+data structures using Python
 
 How to use Jupyter notebooks is covered in many online tutorials like the [Jupyer notebook tutorial](https://www.dataquest.io/blog/jupyter-notebook-tutorial/).
+
+
 
 ## Working on Assignments
 
@@ -59,13 +65,15 @@ You can either download individual assignment notebooks or clone the complete re
 git clone https://github.com/mhahsler/CS7320-AI
 ```
 
-The assignments are improved frequently, so always `pull` the latest version before you start to work on a new assignment. 
+The assignments are improved frequently, so, if you have cloned the repository at the beginning of the semester, then always `pull` the latest version before you start to work on a new assignment. 
 
 ```
 git pull
 ```
 
-Your assignment notebooks needs to be a complete project reports with 
+If you want to use git for version control while you work on the assignments, then do not fork the repository, but create a new `private` repository and add the assignments. 
+
+Your assignment notebooks should be a complete project reports with 
 
 - documentation (including your design choices), 
 - code (with comments for difficult to understand sections) and
