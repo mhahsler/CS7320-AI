@@ -1,5 +1,5 @@
 <!-- #region -->
-# HOWTO Work in Assignments
+# HOWTO Work on Assignments
 
 You can either download individual assignment notebooks or clone the complete repository using
 ```
