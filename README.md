@@ -1,16 +1,16 @@
 <!-- #region -->
-# Artificial Intelligence - Simple Python Code Examples and Assignments
+# Artificial Intelligence - Lecture Material, Simple Python Code Examples and Assignments
 
 <img src="assets/cover2.jpg" align="right">
 
 
-Lecture material, code examples, and assignments for the course
+Lecture material, simple Python code examples, and assignments for the course
 CS 5/7320 Artificial Intelligence taught 
 by [Michael Hahsler](https://michael.hahsler.net/) 
 at the 
 [Department of Computer Science at SMU](https://www.smu.edu/Lyle/Academics/Departments/CS). 
 
-The code examples follow the textbook [Artificial Intelligence: A Modern Approach (AIMA)](http://aima.cs.berkeley.edu/) by Russell and Norvig. The code in this repository is intended to be simple to focus more on the basic AI concepts and less on the use of advanced implementation techniques (e.g., object-oriented design and flexibility).
+The code examples cover several chapters of the textbook [Artificial Intelligence: A Modern Approach (AIMA)](http://aima.cs.berkeley.edu/) by Russell and Norvig. The code in this repository is intended to be simple to focus more on the basic AI concepts and less on the use of advanced implementation techniques (e.g., object-oriented design and flexibility).
 More complex code examples accompanying the textbook can be found at the [GitHub repository aimacode](https://github.com/aimacode).  
 
 ## Covered AIMA Chapters
