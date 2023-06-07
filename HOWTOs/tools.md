@@ -15,7 +15,7 @@ JupyterLab and bookmark the link (including the login token) that you get during
 Details and configuration options can be found on the [Jupyter Docker stack GitHub page](https://github.com/jupyter/docker-stacks)) 
 From now on, use `docker ps -a` to list containers and their container id, `docker stop <container id>` and `docker start <container id>` to stop and start the container (**do not use `run` again** because it will create a new empty container).
 * Install Python, [JupyterLab](https://jupyter.org/) and all needed packages yourself. You can
-also use [Anaconda](https://anaconda.org/) for easier the installation. With this option, you can use
+also use [Anaconda](https://anaconda.org/) for easier installation. With this option, you can use
 Visual Studio Code as a nice editor.
 
 ## Learning Python and Jupyer Notebook
