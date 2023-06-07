@@ -1,17 +1,12 @@
 <!-- #region -->
 # HOWTO Work on Assignments
 
-You can either download individual assignment notebooks or clone the complete repository using
-```
-git clone https://github.com/mhahsler/CS7320-AI
-```
+We will provide you with a CoLab link to the assignment notebook.
 
-The assignments are improved frequently, so always `pull` the latest version before you start to work on a new assignment. 
+* **Option 1:** You can work directly on CoLab by using `File>Save a copy to Drive`(you will need a Google Account).
+* **Option 2:** You can download individual assignment notebooks using `File>Download>Download .ipynb` and then work locally on the project.
 
-```
-git pull --ff-only
-```
-
+Make sure that you have a copy of your assigment in a save place that has a backup (e.g., Google Drive).
 If you want to use work on the assignment using version control, then create a new **private** repository and check your code in there. 
 
 Your assignment notebooks needs to be a complete project reports with 
