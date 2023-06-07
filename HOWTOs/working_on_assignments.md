@@ -9,10 +9,10 @@ git clone https://github.com/mhahsler/CS7320-AI
 The assignments are improved frequently, so always `pull` the latest version before you start to work on a new assignment. 
 
 ```
-git pull
+git pull --ff-only
 ```
 
-If you want to use work on the assignment using version control, then create anew **private** repository and check your code in there. 
+If you want to use work on the assignment using version control, then create a new **private** repository and check your code in there. 
 
 Your assignment notebooks needs to be a complete project reports with 
 
