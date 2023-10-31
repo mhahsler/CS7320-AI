@@ -28,9 +28,8 @@ More complex code examples accompanying the textbook can be found at the [GitHub
 | 12: Quantifying Uncertainty | [Slides](https://mhahsler.github.io/CS7320-AI/slides/12_uncertainty.pdf) | [Code](Uncertainty) |
 | 13: Probabilistic Reasoning | [Slides](https://mhahsler.github.io/CS7320-AI/slides/13_bayes_nets.pdf) | [Code](Probabilistic_Reasoning) |
 | 16: Making Simple Decision | [Slides](https://mhahsler.github.io/CS7320-AI/slides/16_decision_making.pdf) | - |
-| 17: Making Complex Decision | - | [Code](MDP) |
 | 19: Learning from Examples (Machine Learning) | [Slides](https://mhahsler.github.io/CS7320-AI/slides/19_ML_intro.pdf) | [Code](ML) |
-
+| 21+17: Reinforcement Learning | [Slides](https://mhahsler.github.io/CS7320-AI/slides/21_Reinforcement_Learning.pdf) | [Code](MDP) |
 
 ## HOWTOs
 
