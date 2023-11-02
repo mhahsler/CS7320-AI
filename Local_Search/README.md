@@ -5,10 +5,12 @@
 
 * Assignments: 
   - [The n-Queens Problem](https://colab.research.google.com/github/mhahsler/CS7320-AI/blob/master/Local_Search/n_queens.ipynb)
-  - [The Traveling Salesman Problem](https://nbviewer.jupyter.org/github/mhahsler/CS7320-AI/blob/master/Local_Search/traveling_salesman_problem.ipynb)
+  - [The Traveling Salesman Problem](https://colab.research.google.com//github/mhahsler/CS7320-AI/blob/master/Local_Search/traveling_salesman_problem.ipynb)
  
 
-* Example: The n-Queens Problem - [Speeding up the conflict calculation with JIT compiled code (numba)](https://colab.research.google.com/github/mhahsler/CS7320-AI/blob/master/Local_Search/n_queens_fast_conflict_calculation_with_numba.ipynb).
+* Example: 
+  - The n-Queens Problem - [Speeding up the conflict calculation with JIT compiled code (numba)](https://colab.research.google.com/github/mhahsler/CS7320-AI/blob/master/Local_Search/n_queens_fast_conflict_calculation_with_numba.ipynb).
+  - [Example code for the TSP](https://colab.research.google.com//github/mhahsler/CS7320-AI/blob/master/Local_Search/traveling_salesman_problem_example_2.ipynb)
 
 
 
