@@ -255,10 +255,6 @@ For the textbook example we have:
 Note that once you are in an absorbing state (11 or 12), then the
 problem is over and there is no more reward!
 
-**Note:** The textbook uses the reward of -0.04 to make the agent get to
-the goal as fast as possible when no discounting is used. The
-discounting below already does this, so we could use 0 instead.
-
 ```{r}
 R <- function(s, a, s_prime) {
   ## no more reward when we in 11 or 12.
@@ -315,7 +311,7 @@ $U^\pi(s_0) = E\left[\sum_{t=0}^\infty \gamma^t R(s_t, \pi(s_t), s_{t+1})\right]
 We need to define the discount factor.
 
 ```{r}
-GAMMA <- 0.9
+GAMMA <- 1
 ```
 
 We can evaluate the utility of a policy using simulation. We need to be able
@@ -508,11 +504,9 @@ value_iteration <- function(eps, verbose = FALSE) {
 ```
 
 ```{r}
-U <- value_iteration(eps = 0.001)
+U <- value_iteration(eps = 1e-6)
 show_layout(U)
 ```
-
-_Note:_ You can set `GAMMA <- 0` to replicate the results from the textbook (Figure 17.3).
 
 For the optimal policy, we choose in each state the action that
 maximizes the expected utility. This is called the maximum expected utility (MEU) policy. The action that maximizes the utility can be found using the 

@@ -3,7 +3,8 @@
 
 ## Contents
 
-* Example: [Markov Decision Processes](https://mhahsler.github.io/CS7320-AI/MDP/MDP.html) (in R)
+* Example: [Markov Decision Processes solved with Value Iteration and Policy Iteration](https://mhahsler.github.io/CS7320-AI/MDP/MDP.html) (in R)
+* Example: [Q-Learning Example](https://mhahsler.github.io/CS7320-AI/MDP/QLearning.html) (in R)
 
 
 ## License

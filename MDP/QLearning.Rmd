@@ -1,0 +1,438 @@
+---
+title: "Reinforcement Learning: Q-Learning"
+author: "Michael Hahsler"
+output: 
+  html_document: 
+    df_printed: paged
+    toc: yes
+---
+
+This code is provided under [Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0) License.](https://creativecommons.org/licenses/by-sa/4.0/)
+
+![CC BY-SA 4.0](https://licensebuttons.net/l/by-sa/3.0/88x31.png)
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(tidy = TRUE)
+```
+
+# Introduction
+
+AIMA chapter 22 is about _reinforcement learning_ where the agent learns from reward signals. We will implement the 
+key concepts using R. 
+
+The used example is described in AIMA Figure 12.1 and used again in 22.1 as: 
+
+![AIMA Figure 17.1: (a) A simple, stochastic $4 \times 3$  environment that presents the
+agent with a sequential decision problem. (b) Illustration of the
+transition model of the environment: the "intended" outcome occurs with
+probability 0.8, but with probability 0.2 the agent moves at right
+angles to the intended direction. A collision with a wall results in no
+movement. Transitions into the two terminal states have reward +1 and
+-1, respectively, and all other transitions have a reward of -0.04.](AIMA_Figure_17_1.png)
+
+The environment is an MDP, but instead of trying to solve the MDP and estimate the value function estimates $U(s)$, 
+we will try to learn the Q-function $Q(s,a)$ directly.
+The Q-function the sum of rewards starting from $s$ if action $a$ is taken.
+
+The transition model will only be used to simulate the response of the environment
+to actions by the agent.
+
+# Define the Problem
+
+## States
+
+We define the atomic state space $S$ by labeling the states $1, 2, ...$.
+We convert coordinates `(rows, columns)` to the state label.
+
+```{r}
+# I use capitalized variables as global constants
+COLS <- 4
+ROWS <- 3
+
+S = seq_len(ROWS * COLS)
+
+LAYOUT <- matrix(S, nrow = ROWS , ncol = COLS)
+LAYOUT
+```
+
+Note that the rows are displayed upside-down compared to the text book,
+so we use a function to display them in reverse order.
+
+```{r}
+show_layout <- function(x) {
+  x <- matrix(x, ncol = COLS, nrow = ROWS, 
+    dimnames = list(row = seq_len(ROWS), col = seq_len(COLS)))
+  x[rev(seq_len(ROWS)), ]
+  }
+
+show_layout(LAYOUT)
+```
+
+Convert between coordinates and state labels.
+
+```{r}
+rc_to_s <- function(rc)
+  LAYOUT[rbind(rc)]
+
+s_to_rc <-
+  function(s)
+    drop(which(LAYOUT == s, arr.ind = TRUE, useNames = FALSE))
+  
+    
+rc_to_s(c(3, 4))
+s_to_rc(12)
+```
+
+Define terminal states.
+
+```{r}
+is_terminal <- function(s) s %in% c(5, 11, 12)
+```
+
+## Actions
+
+The complete set of actions is
+$A = \{\mathrm{'Up', 'Right', 'Down', 'Left', 'None'}\}$. Not all
+actions are available in every state. Also, action `None` is added as
+the only possible action in an absorbing state.
+
+```{r}
+A = c('Up', 'Right', 'Down', 'Left', 'None')
+
+actions <- function(s) { 
+  
+  # absorbing states
+  if(s == 11 || s == 12) return('None')
+  
+  # illegal state
+  if(s == 5) return('None')
+  
+  c('Up', 'Right', 'Down', 'Left')
+}
+     
+lapply(S, actions)
+```
+
+## Rewards
+
+$R(s)$ define the reward signal for being in a state.
+
+For the textbook example we have:
+
+-   Any move costs utility (a reward of -0.04).
+-   Going to state 12 has a reward of +1
+-   Going to state 11 has a reward of -1.
+
+Note that once you are in an absorbing state (11 or 12), then the
+problem is over and there is no more reward!
+
+```{r}
+R <- function(s) {
+  ## transition to the absorbing states.
+  if(s == 12) return(+1)
+  if(s == 11) return(-1)
+  
+  ## cost for each move
+  return(-0.04)
+}
+
+R(1)
+R(12)
+```
+
+## Transition Function for Simulations
+
+$P(s' | s, a)$ is the probability of going from state $s$ to $s'$ by
+when taking action $a$. We will create a matrix $P_a(s' | s)$ for each
+action.
+
+```{r}
+calc_transition <- function(s, action) {
+  action <- match.arg(action, choices = A)
+  
+  if(length(s) > 1) return(t(sapply(s, calc_transition, action = action)))
+  
+  # deal with absorbing and illegal state
+  if(s == 11 || s == 12 || s == 5 || action == 'None') {
+    P <- rep(0, length(S))
+    P[s] <- 1
+    return(P)    
+  }
+  
+  action_to_delta <- list(
+    'Up' = c(+1, 0),
+    'Down' = c(-1, 0),
+    'Right' = c(0, +1),
+    'Left' = c(0, -1)
+    )
+  delta <- action_to_delta[[action]]
+  dr <- delta[1]
+  dc <- delta[2]
+   
+  rc <- s_to_rc(s)
+  r <- rc[1]
+  c <- rc[2]
+  
+  if(dr != 0 && dc != 0) 
+    stop("You can only go up/down or right/left!")
+  
+  P <- matrix(0, nrow = ROWS, ncol = COLS)
+  
+  # UP/DOWN
+  if(dr != 0) {
+    new_r <- r + dr
+    if(new_r > ROWS || new_r < 1) new_r <- r
+    ## can't got to (2, 2)
+    if(new_r == 2 && c  == 2) new_r <- r
+    P[new_r, c] <- .8
+    
+    if(c < COLS & !(r == 2 & (c + 1) == 2)) 
+      P[r, c + 1] <- .1 else P[r, c] <- P[r, c] + .1 
+    if(c > 1 & !(r == 2 & (c - 1) == 2)) 
+      P[r, c - 1] <- .1 else P[r, c] <- P[r, c] + .1 
+  }
+  
+  # RIGHT/LEFT
+  if(dc != 0) {
+    new_c <- c + dc
+    if(new_c > COLS || new_c < 1) new_c <- c
+    ## can't got to (2, 2)
+    if(r == 2 && new_c  == 2) new_c <- c
+    P[r, new_c] <- .8
+    
+    if(r < ROWS & !((r + 1) == 2 & c  == 2)) 
+      P[r + 1, c] <- .1 else P[r, c] <- P[r, c] + .1 
+    if(r > 1 & !((r - 1) == 2 & c == 2)) 
+      P[r - 1, c] <- .1 else P[r, c] <- P[r, c] + .1 
+  }
+  
+  as.vector(P)
+}
+```
+
+
+Try to go up from state 1 (this is (1,1), the bottom left corner). 
+Note: we cannot go left so there is a .1 chance to stay in place.
+```{r}
+calc_transition(1, 'Up')
+show_layout(calc_transition(1, 'Up'))
+```
+
+Try to go right from (2,1). Since right is blocked, there is a .8 probability of staying in place.
+```{r}
+show_layout(calc_transition(2, 'Right'))
+```
+
+Calculate transitions for each state to each other state. Each row
+represents a state $s$ and each column a state $s'$ so we get a complete
+definition for $P_a(s' | s)$. Note that the matrix is stochastic (all
+rows add up to 1).
+
+Create a matrix for each action.
+
+```{r}
+P_matrices <- lapply(A, FUN = function(a) calc_transition(S, a))
+names(P_matrices) <- A
+str(P_matrices)
+```
+
+Create a function interface for $P(s' | s, a)$.
+
+```{r}
+P <- function(sp, s, a) P_matrices[[a]][s, sp]
+
+P(2, 1, 'Up')
+P(5, 4, 'Up')
+```
+
+
+Simulate transitions.
+```{r}
+sample_transition <- function(s, a)
+  sample(S, size = 1, prob = P_matrices[[a]][s,])
+
+sample_transition(1, 'Up')
+
+table(replicate(n = 1000, sample_transition(1, 'Up')))/1000
+```
+
+# Q-Learning
+
+## Agent
+
+The Q-learning agent parameters and helper functions.
+
+```{r}
+# discount factor
+gamma <- 1
+
+# I use a fixed learning rate independent of N
+alpha <- function(n)
+  .1
+
+# exploration function: I use a simple epsilon-greedy policy here
+# a more general function would use Q and N
+epsilon <- .8
+
+maxf <- function(s_prime, a_best) {
+  # epsilon-greedy
+  if (runif(1) < epsilon)
+    a_best
+  else
+    a <- sample(actions(s_prime), size = 1)
+}
+
+# helper: argmax breaking ties randomly.
+argmax <- function (x) 
+{
+    y <- seq_along(x)[x == max(x)]
+    if (length(y) > 1L) 
+        sample(y, 1L)
+    else y
+}
+```
+
+Persistent information: Agent state, $Q$ and $N$ tables.
+```{r}
+# persistent agent information are defined as global variables
+# Note: <<- in an R function assign to defined variables outside of the function
+Q <- NULL     # table for the Q-function
+N <- NULL     # Table for visit counts
+s <- NULL     # previous state
+a <- NULL     # previous action
+
+# start a new episode
+agent_next_episode <- function() {
+  s <<- NULL
+  a <<- 'None'
+}
+
+# reset the agent with Q and N all 0's
+agent_reset <- function() {
+  Q <<-
+    matrix(0,
+           nrow = length(S),
+           ncol = length(A),
+           dimnames = list(S, A))
+  N <<-
+    matrix(0L,
+           nrow = length(S),
+           ncol = length(A),
+           dimnames = list(S, A))
+}
+```
+
+The agent function. Precepts are the new state and the associated reward.
+```{r}
+Q_learning_agent_function <- function(s_prime, r) {
+  # how often did the agent try this s/a combination
+  N[s, a] <<- N[s, a] + 1L
+  
+  # find best action for s' (breaking ties randomly)
+  a_best <- A[argmax(Q[s_prime, ])]
+  
+  # No update for start of new episode
+  if (!is.null(s)) {
+    Q[s, a] <<-
+      Q[s, a] + alpha(N[s, a]) * (r + gamma * Q[s_prime, a_best] - Q[s, a])
+  }
+  
+  if (is_terminal(s_prime))
+    a <<- 'None'
+  else
+    a <<- maxf(s_prime, a_best)
+  
+  s <<- s_prime
+  
+  return(a)
+}
+```
+
+## Environment
+
+The environments to simulate $n$ episodes.
+
+```{r}
+simulate_environment <-
+  function(n = 1000,
+           random_start = FALSE,
+           reset_agent = TRUE,
+           verbose = FALSE) {
+    state <- 1L
+    if (reset_agent)
+      agent_reset()
+    agent_next_episode()
+    
+    i <- 1L
+    while (TRUE) {
+      if (verbose)
+        cat("s =", state, "; r =", R(state), "-> ")
+      
+      # call agent function with percepts
+      action <- Q_learning_agent_function(state, R(state))
+      if (verbose)
+        cat(action, "\n")
+      
+      if (is_terminal(state)) {
+        if (verbose) {
+          cat("Q:\n")
+          print(Q)
+          
+          cat("U:\n")
+          print(show_layout(apply(Q, MARGIN = 1, max)))
+        }
+        
+        # finished n episodes?
+        i <- i + 1L
+        if (i > n)
+          break
+        
+        if (verbose)
+          cat("\n*** restart episode", i , "***\n")
+        
+        if (!random_start)
+          state <- 1
+        else
+          state <- sample(S, size = 1)
+        
+        agent_next_episode()
+      }
+      else
+        state <- sample_transition(state, action)
+      
+    }
+  }
+```
+
+Run a single episode. Note that the agent has no idea about the optimal policy and
+runs around randomly.
+
+```{r}
+simulate_environment(n = 1, verbose = TRUE)
+```
+
+Run a simulation.
+
+```{r}
+simulate_environment(n = 10000, verbose = FALSE)
+```
+
+Calculate the value function $U$ from the learned Q-function as the largest 
+Q value of any action in a state.
+```{r}
+U <- apply(Q, MARGIN = 1, max)
+show_layout(U)
+```
+
+Note that not all states are reached the same amount of times and some estimates 
+may be worse than others. The best actions are used most often leading to better
+estimates around the optimal policy.
+
+Extract the optimal policy from $Q$ as the action with the highest Q-value 
+for each state.
+```{r}
+Q[Q[, 'None'] == 0, 'None'] <- 1e-9
+pi <- A[apply(Q, MARGIN = 1, which.max)]
+show_layout(pi)
+```
+
