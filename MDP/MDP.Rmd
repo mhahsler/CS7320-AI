@@ -58,18 +58,13 @@ $s_0, s_1, ..., s_\infty$, then the expected utility of being in state
 $s_0$ can be calculated as a sum. To incorporate that earlier rewards
 are more important, a discount factor $\gamma$ is used.
 
-$U^\pi(s_0) = E\left[\sum_{t=0}^\infty \gamma^t R(s_t, \pi(s_t), s_{t+1})\right]$
+$U^\pi = E\left[\sum_{t=0}^\infty \gamma^t R(s_t, \pi(s_t), s_{t+1})\right]$
 
 The goal of solving a MDP is to find an optimal policy that maximizes the expected future utility.
 
-$\pi^*_{s_0} = \mathrm{argmax}_\pi U^\pi(s_0)$
-
-Note that this is the policy if the agent starts in state $s_0$. Interestingly, under some mild conditions, the policy does not depend on the start state and can be written as simply $\pi^*$.
+$\pi^*(s) = \mathrm{argmax}_\pi U^\pi(s)$ for all $s \in S$
 
 # Implement MDPs
-
-
-
 
 ## States
 
@@ -306,7 +301,7 @@ show_layout(pi_random)
 
 The expected utility can be calculated by
 
-$U^\pi(s_0) = E\left[\sum_{t=0}^\infty \gamma^t R(s_t, \pi(s_t), s_{t+1})\right]$
+$U^\pi = E\left[\sum_{t=0}^\infty \gamma^t R(s_t, \pi(s_t), s_{t+1})\right]$
 
 We need to define the discount factor.
 
@@ -458,7 +453,7 @@ update (Bellman update) the vector iteratively until it converges. This
 procedure is guaranteed to converge to the unique optimal solution.
 
 **Stopping criterion:**
-$||U^\pi - U_||_\infty$ is called the _policy loss_ (i.e., the most the agent can loose by using policy $\pi$ instead of 
+$||U^\pi - U||_\infty$ is called the _policy loss_ (i.e., the most the agent can loose by using policy $\pi$ instead of 
 the optimal policy $\pi^*$ implied in $U$).
 The max-norm $||x||_\infty$ is defined as the largest component of a 
 vector $x$. 

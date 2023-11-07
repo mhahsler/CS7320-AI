@@ -440,15 +440,13 @@ sequence <span class="math inline">\(s_0, s_1, ..., s_\infty\)</span>,
 then the expected utility of being in state <span class="math inline">\(s_0\)</span> can be calculated as a sum. To
 incorporate that earlier rewards are more important, a discount factor
 <span class="math inline">\(\gamma\)</span> is used.</p>
-<p><span class="math inline">\(U^\pi(s_0) = E\left[\sum_{t=0}^\infty
-\gamma^t R(s_t, \pi(s_t), s_{t+1})\right]\)</span></p>
+<p><span class="math inline">\(U^\pi = E\left[\sum_{t=0}^\infty \gamma^t
+R(s_t, \pi(s_t), s_{t+1})\right]\)</span></p>
 <p>The goal of solving a MDP is to find an optimal policy that maximizes
 the expected future utility.</p>
-<p><span class="math inline">\(\pi^*_{s_0} = \mathrm{argmax}_\pi
-U^\pi(s_0)\)</span></p>
-<p>Note that this is the policy if the agent starts in state <span class="math inline">\(s_0\)</span>. Interestingly, under some mild
-conditions, the policy does not depend on the start state and can be
-written as simply <span class="math inline">\(\pi^*\)</span>.</p>
+<p><span class="math inline">\(\pi^*(s) = \mathrm{argmax}_\pi
+U^\pi(s)\)</span> for all <span class="math inline">\(s \in
+S\)</span></p>
 </div>
 <div id="implement-mdps" class="section level1">
 <h1>Implement MDPs</h1>
@@ -740,8 +738,8 @@ show_layout(pi_random)</code></pre>
 <div id="expected-utility" class="section level2">
 <h2>Expected Utility</h2>
 <p>The expected utility can be calculated by</p>
-<p><span class="math inline">\(U^\pi(s_0) = E\left[\sum_{t=0}^\infty
-\gamma^t R(s_t, \pi(s_t), s_{t+1})\right]\)</span></p>
+<p><span class="math inline">\(U^\pi = E\left[\sum_{t=0}^\infty \gamma^t
+R(s_t, \pi(s_t), s_{t+1})\right]\)</span></p>
 <p>We need to define the discount factor.</p>
 <pre class="r"><code>GAMMA &lt;- 1</code></pre>
 <p>We can evaluate the utility of a policy using simulation. We need to
@@ -865,7 +863,7 @@ state) for the MDP and then derive the implied optimal policy <span class="math 
 <p><strong>Algorithm:</strong> Start with a <span class="math inline">\(U(s)\)</span> vector of 0 for all states and then
 update (Bellman update) the vector iteratively until it converges. This
 procedure is guaranteed to converge to the unique optimal solution.</p>
-<p><strong>Stopping criterion:</strong> <span class="math inline">\(||U^\pi - U_||_\infty\)</span> is called the
+<p><strong>Stopping criterion:</strong> <span class="math inline">\(||U^\pi - U||_\infty\)</span> is called the
 <em>policy loss</em> (i.e., the most the agent can loose by using policy
 <span class="math inline">\(\pi\)</span> instead of the optimal policy
 <span class="math inline">\(\pi^*\)</span> implied in <span class="math inline">\(U\)</span>). The max-norm <span class="math inline">\(||x||_\infty\)</span> is defined as the largest
