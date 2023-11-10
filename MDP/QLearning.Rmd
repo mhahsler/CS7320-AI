@@ -263,25 +263,6 @@ table(replicate(n = 1000, sample_transition(1, 'Up')))/1000
 The Q-learning agent parameters and helper functions.
 
 ```{r}
-# discount factor
-gamma <- 1
-
-# I use a fixed learning rate independent of N
-alpha <- function(n)
-  .1
-
-# exploration function: I use a simple epsilon-greedy policy here
-# a more general function would use Q and N
-epsilon <- .8
-
-maxf <- function(s_prime, a_best) {
-  # epsilon-greedy
-  if (runif(1) < epsilon)
-    a_best
-  else
-    a <- sample(actions(s_prime), size = 1)
-}
-
 # helper: argmax breaking ties randomly.
 argmax <- function (x) 
 {
@@ -292,60 +273,104 @@ argmax <- function (x)
 }
 ```
 
-Persistent information: Agent state, $Q$ and $N$ tables.
+We use a class to store persistent information: Agent state, $Q$ and $N$ tables.
+Reference classes use `<<-` to assign values to member variables (fields). 
 ```{r}
-# persistent agent information are defined as global variables
-# Note: <<- in an R function assign to defined variables outside of the function
-Q <- NULL     # table for the Q-function
-N <- NULL     # Table for visit counts
-s <- NULL     # previous state
-a <- NULL     # previous action
-
-# start a new episode
-agent_next_episode <- function() {
-  s <<- NULL
-  a <<- 'None'
-}
-
-# reset the agent with Q and N all 0's
-agent_reset <- function() {
-  Q <<-
-    matrix(0,
-           nrow = length(S),
-           ncol = length(A),
-           dimnames = list(S, A))
-  N <<-
-    matrix(0L,
-           nrow = length(S),
-           ncol = length(A),
-           dimnames = list(S, A))
-}
+QL_Agent <- setRefClass(
+  "QL_Agent",
+  fields = c("S", "A", "Q", "N", "s", "a", "gamma"),
+  methods = list(
+    initialize = function(S, A, gamma = 1) {
+      S <<- S
+      A <<- A
+      gamma <<- gamma
+      reset()
+    },
+    
+    next_episode = function() {
+      s <<- NULL
+      a <<- 'None'
+    },
+    
+    reset = function() {
+      Q <<-
+        matrix(0,
+               nrow = length(S),
+               ncol = length(A),
+               dimnames = list(S, A))
+      N <<-
+        matrix(0L,
+               nrow = length(S),
+               ncol = length(A),
+               dimnames = list(S, A))
+      
+      next_episode()
+    }
+    
+  )
+)
 ```
 
-The agent function. Precepts are the new state and the associated reward.
+
+
+The agent function is called `run`` with the precepts including the new state 
+and the associated reward.
+
 ```{r}
-Q_learning_agent_function <- function(s_prime, r) {
-  # how often did the agent try this s/a combination
-  N[s, a] <<- N[s, a] + 1L
+QL_Agent$methods(
+  # Fixed learning rate
+  #alpha = function(n, rate = 0.1) return(rate)
+
+  # A decreasing learning rate converges faster. n is the number a 
+  # state was visited. The numbers depend on the problem.
+  alpha = function(n) {
+    return (10 / (9 + n))
+  },
+
+  # exploration function: I use a simple epsilon-greedy policy here
+  # a more general function would use a function that is increasing in Q 
+  # and decreasing in N.
+  maxf = function(s_prime, a_best, epsilon = .8) {
+    if (runif(1) < epsilon)
+      action <- a_best
+    else
+      action <- sample(actions(s_prime), size = 1)
   
-  # find best action for s' (breaking ties randomly)
-  a_best <- A[argmax(Q[s_prime, ])]
-  
-  # No update for start of new episode
-  if (!is.null(s)) {
-    Q[s, a] <<-
-      Q[s, a] + alpha(N[s, a]) * (r + gamma * Q[s_prime, a_best] - Q[s, a])
+    return(action)
+  },
+ 
+  # this is the Q-Learning algorithm 
+  run = function(s_prime, r) {
+    # how often did the agent try this s/a combination
+    N[s, a] <<- N[s, a] + 1L
+    
+    # find best action for s' (breaking ties randomly)
+    a_best <- A[argmax(Q[s_prime,])]
+    
+    # No update for start of new episode
+    if (!is.null(s)) {
+      Q[s, a] <<-
+        Q[s, a] + alpha(N[s, a]) * (r + gamma * Q[s_prime, a_best] - Q[s, a])
+    }
+    
+    if (is_terminal(s_prime))
+      a <<- 'None'
+    else
+      a <<- maxf(s_prime, a_best)
+    
+    s <<- s_prime
+    
+    return(a)
   }
   
-  if (is_terminal(s_prime))
-    a <<- 'None'
-  else
-    a <<- maxf(s_prime, a_best)
-  
-  s <<- s_prime
-  
-  return(a)
-}
+)
+```
+
+Create an agent.
+
+```{r}
+agent <- QL_Agent$new(S, A)
+agent
 ```
 
 ## Environment
@@ -354,14 +379,14 @@ The environments to simulate $n$ episodes.
 
 ```{r}
 simulate_environment <-
-  function(n = 1000,
+  function(n = 1000, agent,
            random_start = FALSE,
            reset_agent = TRUE,
            verbose = FALSE) {
     state <- 1L
     if (reset_agent)
-      agent_reset()
-    agent_next_episode()
+      agent$reset()
+    agent$next_episode()
     
     i <- 1L
     while (TRUE) {
@@ -369,17 +394,17 @@ simulate_environment <-
         cat("s =", state, "; r =", R(state), "-> ")
       
       # call agent function with percepts
-      action <- Q_learning_agent_function(state, R(state))
+      action <- agent$run(state, R(state))
       if (verbose)
         cat(action, "\n")
       
       if (is_terminal(state)) {
         if (verbose) {
           cat("Q:\n")
-          print(Q)
+          print(agent$Q)
           
           cat("U:\n")
-          print(show_layout(apply(Q, MARGIN = 1, max)))
+          print(show_layout(apply(agent$Q, MARGIN = 1, max)))
         }
         
         # finished n episodes?
@@ -395,7 +420,7 @@ simulate_environment <-
         else
           state <- sample(S, size = 1)
         
-        agent_next_episode()
+        agent$next_episode()
       }
       else
         state <- sample_transition(state, action)
@@ -408,19 +433,19 @@ Run a single episode. Note that the agent has no idea about the optimal policy a
 runs around randomly.
 
 ```{r}
-simulate_environment(n = 1, verbose = TRUE)
+simulate_environment(n = 1, agent, verbose = TRUE)
 ```
 
 Run a simulation.
 
 ```{r}
-simulate_environment(n = 10000, verbose = FALSE)
+simulate_environment(n = 10, agent, verbose = FALSE)
 ```
 
 Calculate the value function $U$ from the learned Q-function as the largest 
 Q value of any action in a state.
 ```{r}
-U <- apply(Q, MARGIN = 1, max)
+U <- apply(agent$Q, MARGIN = 1, max)
 show_layout(U)
 ```
 
@@ -428,11 +453,31 @@ Note that not all states are reached the same amount of times and some estimates
 may be worse than others. The best actions are used most often leading to better
 estimates around the optimal policy.
 
-Extract the optimal policy from $Q$ as the action with the highest Q-value 
+Extract the learned policy from $Q$ as the action with the highest Q-value 
 for each state.
 ```{r}
-Q[Q[, 'None'] == 0, 'None'] <- 1e-9
-pi <- A[apply(Q, MARGIN = 1, which.max)]
+Q2 <- agent$Q
+Q2[Q2[, 'None'] == 0, 'None'] <- 1e-9
+pi <- A[apply(Q2, MARGIN = 1, which.max)]
 show_layout(pi)
 ```
 
+Even after simulating just 10 episodes, we get a reasonable policy that will lead us to the 
+goal state. Simulating more episodes results in better estimates (also for the rarely 
+visited states).
+
+```{r}
+simulate_environment(n = 10000, agent, verbose = FALSE, reset_agent = FALSE)
+```
+
+```{r}
+U <- apply(agent$Q, MARGIN = 1, max)
+show_layout(U)
+```
+
+```{r}
+Q2 <- agent$Q
+Q2[Q2[, 'None'] == 0, 'None'] <- 1e-9
+pi <- A[apply(Q2, MARGIN = 1, which.max)]
+show_layout(pi)
+```

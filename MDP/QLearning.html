@@ -657,7 +657,7 @@ sample_transition(1, &quot;Up&quot;)</code></pre>
 <pre class="r"><code>table(replicate(n = 1000, sample_transition(1, &quot;Up&quot;)))/1000</code></pre>
 <pre><code>## 
 ##     1     2     4 
-## 0.106 0.788 0.106</code></pre>
+## 0.099 0.797 0.104</code></pre>
 </div>
 </div>
 <div id="q-learning" class="section level1">
@@ -665,80 +665,150 @@ sample_transition(1, &quot;Up&quot;)</code></pre>
 <div id="agent" class="section level2">
 <h2>Agent</h2>
 <p>The Q-learning agent parameters and helper functions.</p>
-<pre class="r"><code># discount factor
-gamma &lt;- 1
-
-# I use a fixed learning rate independent of N
-alpha &lt;- function(n) 0.1
-
-# exploration function: I use a simple epsilon-greedy policy here a more
-# general function would use Q and N
-epsilon &lt;- 0.8
-
-maxf &lt;- function(s_prime, a_best) {
-    # epsilon-greedy
-    if (runif(1) &lt; epsilon)
-        a_best else a &lt;- sample(actions(s_prime), size = 1)
-}
-
-# helper: argmax breaking ties randomly.
+<pre class="r"><code># helper: argmax breaking ties randomly.
 argmax &lt;- function(x) {
     y &lt;- seq_along(x)[x == max(x)]
     if (length(y) &gt; 1L)
         sample(y, 1L) else y
 }</code></pre>
-<p>Persistent information: Agent state, <span class="math inline">\(Q\)</span> and <span class="math inline">\(N\)</span> tables.</p>
-<pre class="r"><code># persistent agent information are defined as global variables Note: &lt;&lt;- in an
-# R function assign to defined variables outside of the function
-Q &lt;- NULL  # table for the Q-function
-N &lt;- NULL  # Table for visit counts
-s &lt;- NULL  # previous state
-a &lt;- NULL  # previous action
+<p>We use a class to store persistent information: Agent state, <span class="math inline">\(Q\)</span> and <span class="math inline">\(N\)</span> tables. Reference classes use
+<code>&lt;&lt;-</code> to assign values to member variables
+(fields).</p>
+<pre class="r"><code>QL_Agent &lt;- setRefClass(
+  &quot;QL_Agent&quot;,
+  fields = c(&quot;S&quot;, &quot;A&quot;, &quot;Q&quot;, &quot;N&quot;, &quot;s&quot;, &quot;a&quot;, &quot;gamma&quot;),
+  methods = list(
+    initialize = function(S, A, gamma = 1) {
+      S &lt;&lt;- S
+      A &lt;&lt;- A
+      gamma &lt;&lt;- gamma
+      reset()
+    },
+    
+    next_episode = function() {
+      s &lt;&lt;- NULL
+      a &lt;&lt;- &#39;None&#39;
+    },
+    
+    reset = function() {
+      Q &lt;&lt;-
+        matrix(0,
+               nrow = length(S),
+               ncol = length(A),
+               dimnames = list(S, A))
+      N &lt;&lt;-
+        matrix(0L,
+               nrow = length(S),
+               ncol = length(A),
+               dimnames = list(S, A))
+      
+      next_episode()
+    }
+    
+  )
+)</code></pre>
+<p>The agent function is called `run`` with the precepts including the
+new state and the associated reward.</p>
+<pre class="r"><code>QL_Agent$methods(
+  # Fixed learning rate
+  #alpha = function(n, rate = 0.1) return(rate)
 
-# start a new episode
-agent_next_episode &lt;- function() {
-    s &lt;&lt;- NULL
-    a &lt;&lt;- &quot;None&quot;
-}
+  # A decreasing learning rate converges faster. n is the number a 
+  # state was visited. The numbers depend on the problem.
+  alpha = function(n) {
+    return (10 / (9 + n))
+  },
 
-# reset the agent with Q and N all 0&#39;s
-agent_reset &lt;- function() {
-    Q &lt;&lt;- matrix(0, nrow = length(S), ncol = length(A), dimnames = list(S, A))
-    N &lt;&lt;- matrix(0L, nrow = length(S), ncol = length(A), dimnames = list(S, A))
-}</code></pre>
-<p>The agent function. Precepts are the new state and the associated
-reward.</p>
-<pre class="r"><code>Q_learning_agent_function &lt;- function(s_prime, r) {
+  # exploration function: I use a simple epsilon-greedy policy here
+  # a more general function would use a function that is increasing in Q 
+  # and decreasing in N.
+  maxf = function(s_prime, a_best, epsilon = .8) {
+    if (runif(1) &lt; epsilon)
+      action &lt;- a_best
+    else
+      action &lt;- sample(actions(s_prime), size = 1)
+  
+    return(action)
+  },
+ 
+  # this is the Q-Learning algorithm 
+  run = function(s_prime, r) {
     # how often did the agent try this s/a combination
     N[s, a] &lt;&lt;- N[s, a] + 1L
-
+    
     # find best action for s&#39; (breaking ties randomly)
-    a_best &lt;- A[argmax(Q[s_prime, ])]
-
+    a_best &lt;- A[argmax(Q[s_prime,])]
+    
     # No update for start of new episode
     if (!is.null(s)) {
-        Q[s, a] &lt;&lt;- Q[s, a] + alpha(N[s, a]) * (r + gamma * Q[s_prime, a_best] -
-            Q[s, a])
+      Q[s, a] &lt;&lt;-
+        Q[s, a] + alpha(N[s, a]) * (r + gamma * Q[s_prime, a_best] - Q[s, a])
     }
-
+    
     if (is_terminal(s_prime))
-        a &lt;&lt;- &quot;None&quot; else a &lt;&lt;- maxf(s_prime, a_best)
-
+      a &lt;&lt;- &#39;None&#39;
+    else
+      a &lt;&lt;- maxf(s_prime, a_best)
+    
     s &lt;&lt;- s_prime
-
+    
     return(a)
-}</code></pre>
+  }
+  
+)</code></pre>
+<p>Create an agent.</p>
+<pre class="r"><code>agent &lt;- QL_Agent$new(S, A)
+agent</code></pre>
+<pre><code>## Reference class object of class &quot;QL_Agent&quot;
+## Field &quot;S&quot;:
+##  [1]  1  2  3  4  5  6  7  8  9 10 11 12
+## Field &quot;A&quot;:
+## [1] &quot;Up&quot;    &quot;Right&quot; &quot;Down&quot;  &quot;Left&quot;  &quot;None&quot; 
+## Field &quot;Q&quot;:
+##    Up Right Down Left None
+## 1   0     0    0    0    0
+## 2   0     0    0    0    0
+## 3   0     0    0    0    0
+## 4   0     0    0    0    0
+## 5   0     0    0    0    0
+## 6   0     0    0    0    0
+## 7   0     0    0    0    0
+## 8   0     0    0    0    0
+## 9   0     0    0    0    0
+## 10  0     0    0    0    0
+## 11  0     0    0    0    0
+## 12  0     0    0    0    0
+## Field &quot;N&quot;:
+##    Up Right Down Left None
+## 1   0     0    0    0    0
+## 2   0     0    0    0    0
+## 3   0     0    0    0    0
+## 4   0     0    0    0    0
+## 5   0     0    0    0    0
+## 6   0     0    0    0    0
+## 7   0     0    0    0    0
+## 8   0     0    0    0    0
+## 9   0     0    0    0    0
+## 10  0     0    0    0    0
+## 11  0     0    0    0    0
+## 12  0     0    0    0    0
+## Field &quot;s&quot;:
+## NULL
+## Field &quot;a&quot;:
+## [1] &quot;None&quot;
+## Field &quot;gamma&quot;:
+## [1] 1</code></pre>
 </div>
 <div id="environment" class="section level2">
 <h2>Environment</h2>
 <p>The environments to simulate <span class="math inline">\(n\)</span>
 episodes.</p>
-<pre class="r"><code>simulate_environment &lt;- function(n = 1000, random_start = FALSE, reset_agent = TRUE,
+<pre class="r"><code>simulate_environment &lt;- function(n = 1000, agent, random_start = FALSE, reset_agent = TRUE,
     verbose = FALSE) {
     state &lt;- 1L
     if (reset_agent)
-        agent_reset()
-    agent_next_episode()
+        agent$reset()
+    agent$next_episode()
 
     i &lt;- 1L
     while (TRUE) {
@@ -746,17 +816,17 @@ episodes.</p>
             cat(&quot;s =&quot;, state, &quot;; r =&quot;, R(state), &quot;-&gt; &quot;)
 
         # call agent function with percepts
-        action &lt;- Q_learning_agent_function(state, R(state))
+        action &lt;- agent$run(state, R(state))
         if (verbose)
             cat(action, &quot;\n&quot;)
 
         if (is_terminal(state)) {
             if (verbose) {
                 cat(&quot;Q:\n&quot;)
-                print(Q)
+                print(agent$Q)
 
                 cat(&quot;U:\n&quot;)
-                print(show_layout(apply(Q, MARGIN = 1, max)))
+                print(show_layout(apply(agent$Q, MARGIN = 1, max)))
             }
 
             # finished n episodes?
@@ -770,127 +840,136 @@ episodes.</p>
             if (!random_start)
                 state &lt;- 1 else state &lt;- sample(S, size = 1)
 
-            agent_next_episode()
+            agent$next_episode()
         } else state &lt;- sample_transition(state, action)
 
     }
 }</code></pre>
 <p>Run a single episode. Note that the agent has no idea about the
 optimal policy and runs around randomly.</p>
-<pre class="r"><code>simulate_environment(n = 1, verbose = TRUE)</code></pre>
-<pre><code>## s = 1 ; r = -0.04 -&gt; Up 
-## s = 1 ; r = -0.04 -&gt; Down 
-## s = 1 ; r = -0.04 -&gt; None 
-## s = 1 ; r = -0.04 -&gt; Up 
-## s = 2 ; r = -0.04 -&gt; Up 
-## s = 2 ; r = -0.04 -&gt; None 
+<pre class="r"><code>simulate_environment(n = 1, agent, verbose = TRUE)</code></pre>
+<pre><code>## s = 1 ; r = -0.04 -&gt; Right 
 ## s = 2 ; r = -0.04 -&gt; None 
 ## s = 2 ; r = -0.04 -&gt; Right 
+## s = 2 ; r = -0.04 -&gt; Right 
 ## s = 2 ; r = -0.04 -&gt; Left 
-## s = 2 ; r = -0.04 -&gt; Left 
-## s = 1 ; r = -0.04 -&gt; Left 
-## s = 1 ; r = -0.04 -&gt; Right 
-## s = 4 ; r = -0.04 -&gt; Left 
-## s = 1 ; r = -0.04 -&gt; Left 
-## s = 1 ; r = -0.04 -&gt; None 
-## s = 1 ; r = -0.04 -&gt; Right 
-## s = 4 ; r = -0.04 -&gt; Right 
-## s = 4 ; r = -0.04 -&gt; Left 
-## s = 1 ; r = -0.04 -&gt; Down 
-## s = 1 ; r = -0.04 -&gt; Down 
-## s = 1 ; r = -0.04 -&gt; Up 
-## s = 2 ; r = -0.04 -&gt; Down 
-## s = 1 ; r = -0.04 -&gt; Right 
-## s = 1 ; r = -0.04 -&gt; Right 
-## s = 4 ; r = -0.04 -&gt; Right 
-## s = 7 ; r = -0.04 -&gt; Left 
-## s = 4 ; r = -0.04 -&gt; None 
-## s = 4 ; r = -0.04 -&gt; Up 
-## s = 4 ; r = -0.04 -&gt; Right 
-## s = 7 ; r = -0.04 -&gt; Down 
-## s = 4 ; r = -0.04 -&gt; Down 
-## s = 1 ; r = -0.04 -&gt; None 
-## s = 1 ; r = -0.04 -&gt; Left 
-## s = 1 ; r = -0.04 -&gt; Left 
-## s = 1 ; r = -0.04 -&gt; Up 
-## s = 2 ; r = -0.04 -&gt; Up 
+## s = 3 ; r = -0.04 -&gt; Down 
 ## s = 2 ; r = -0.04 -&gt; Up 
 ## s = 3 ; r = -0.04 -&gt; Left 
-## s = 3 ; r = -0.04 -&gt; None 
-## s = 3 ; r = -0.04 -&gt; Right 
-## s = 2 ; r = -0.04 -&gt; Right 
-## s = 2 ; r = -0.04 -&gt; Right 
+## s = 3 ; r = -0.04 -&gt; Left 
 ## s = 2 ; r = -0.04 -&gt; Down 
-## s = 1 ; r = -0.04 -&gt; Down 
-## s = 1 ; r = -0.04 -&gt; Down 
-## s = 1 ; r = -0.04 -&gt; None 
-## s = 1 ; r = -0.04 -&gt; Down 
+## s = 1 ; r = -0.04 -&gt; Left 
 ## s = 1 ; r = -0.04 -&gt; Up 
+## s = 2 ; r = -0.04 -&gt; Left 
 ## s = 2 ; r = -0.04 -&gt; None 
 ## s = 2 ; r = -0.04 -&gt; None 
 ## s = 2 ; r = -0.04 -&gt; Up 
-## s = 2 ; r = -0.04 -&gt; Left 
-## s = 1 ; r = -0.04 -&gt; Right 
-## s = 4 ; r = -0.04 -&gt; Up 
-## s = 4 ; r = -0.04 -&gt; Up 
-## s = 4 ; r = -0.04 -&gt; None 
-## s = 4 ; r = -0.04 -&gt; None 
-## s = 4 ; r = -0.04 -&gt; Down 
-## s = 4 ; r = -0.04 -&gt; Left 
-## s = 4 ; r = -0.04 -&gt; Left 
-## s = 1 ; r = -0.04 -&gt; Left 
-## s = 1 ; r = -0.04 -&gt; Left 
-## s = 1 ; r = -0.04 -&gt; Left 
+## s = 3 ; r = -0.04 -&gt; Right 
+## s = 6 ; r = -0.04 -&gt; Down 
+## s = 6 ; r = -0.04 -&gt; Left 
+## s = 3 ; r = -0.04 -&gt; None 
+## s = 3 ; r = -0.04 -&gt; None 
+## s = 3 ; r = -0.04 -&gt; Up 
+## s = 3 ; r = -0.04 -&gt; Up 
+## s = 3 ; r = -0.04 -&gt; Right 
+## s = 2 ; r = -0.04 -&gt; Right 
+## s = 2 ; r = -0.04 -&gt; Up 
+## s = 3 ; r = -0.04 -&gt; Down 
+## s = 2 ; r = -0.04 -&gt; Right 
+## s = 2 ; r = -0.04 -&gt; Down 
 ## s = 1 ; r = -0.04 -&gt; None 
+## s = 1 ; r = -0.04 -&gt; Down 
+## s = 1 ; r = -0.04 -&gt; Down 
+## s = 1 ; r = -0.04 -&gt; Down 
+## s = 4 ; r = -0.04 -&gt; Up 
+## s = 4 ; r = -0.04 -&gt; Right 
+## s = 7 ; r = -0.04 -&gt; Right 
+## s = 10 ; r = -0.04 -&gt; None 
+## s = 10 ; r = -0.04 -&gt; Left 
+## s = 7 ; r = -0.04 -&gt; Down 
+## s = 7 ; r = -0.04 -&gt; Up 
+## s = 4 ; r = -0.04 -&gt; None 
+## s = 4 ; r = -0.04 -&gt; None 
+## s = 4 ; r = -0.04 -&gt; Up 
+## s = 7 ; r = -0.04 -&gt; Left 
+## s = 4 ; r = -0.04 -&gt; Left 
+## s = 1 ; r = -0.04 -&gt; Down 
+## s = 1 ; r = -0.04 -&gt; None 
+## s = 1 ; r = -0.04 -&gt; None 
+## s = 1 ; r = -0.04 -&gt; Left 
+## s = 1 ; r = -0.04 -&gt; Left 
 ## s = 1 ; r = -0.04 -&gt; Right 
 ## s = 4 ; r = -0.04 -&gt; Down 
-## s = 7 ; r = -0.04 -&gt; Up 
-## s = 8 ; r = -0.04 -&gt; Right 
+## s = 4 ; r = -0.04 -&gt; Down 
+## s = 7 ; r = -0.04 -&gt; None 
+## s = 7 ; r = -0.04 -&gt; Right 
+## s = 10 ; r = -0.04 -&gt; Up 
 ## s = 11 ; r = -1 -&gt; None 
 ## Q:
-##            Up      Right       Down        Left     None
-## 1  -0.0175004 -0.0205364 -0.0230232 -0.02674604 -0.02000
-## 2  -0.0148400 -0.0116760 -0.0094800 -0.01228400 -0.01520
-## 3   0.0000000 -0.0044000  0.0000000 -0.00400000 -0.00400
-## 4  -0.0116000 -0.0108400 -0.0119200 -0.01671240 -0.01168
-## 5   0.0000000  0.0000000  0.0000000  0.00000000  0.00000
-## 6   0.0000000  0.0000000  0.0000000  0.00000000  0.00000
-## 7  -0.0040000  0.0000000 -0.0040000 -0.00400000  0.00000
-## 8   0.0000000 -0.1000000  0.0000000  0.00000000  0.00000
-## 9   0.0000000  0.0000000  0.0000000  0.00000000  0.00000
-## 10  0.0000000  0.0000000  0.0000000  0.00000000  0.00000
-## 11  0.0000000  0.0000000  0.0000000  0.00000000  0.00000
-## 12  0.0000000  0.0000000  0.0000000  0.00000000  0.00000
+##             Up       Right        Down        Left        None
+## 1  -0.08000000 -0.04000000 -0.07216783 -0.07939394 -0.07939394
+## 2  -0.07333333 -0.07846154 -0.04000000 -0.07636364 -0.07939394
+## 3  -0.07636364 -0.07636364 -0.07636364 -0.04000000 -0.04000000
+## 4  -0.04000000 -0.04000000 -0.04000000 -0.08000000 -0.04000000
+## 5   0.00000000  0.00000000  0.00000000  0.00000000  0.00000000
+## 6   0.00000000  0.00000000 -0.04000000 -0.04000000  0.00000000
+## 7  -0.04000000 -0.04000000 -0.04000000 -0.04000000 -0.04000000
+## 8   0.00000000  0.00000000  0.00000000  0.00000000  0.00000000
+## 9   0.00000000  0.00000000  0.00000000  0.00000000  0.00000000
+## 10 -1.00000000  0.00000000  0.00000000 -0.04000000 -0.04000000
+## 11  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000
+## 12  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000
 ## U:
 ##    col
-## row          1        2 3 4
-##   3  0.0000000  0.00000 0 0
-##   2 -0.0094800  0.00000 0 0
-##   1 -0.0175004 -0.01084 0 0</code></pre>
+## row     1     2     3 4
+##   3 -0.04  0.00  0.00 0
+##   2 -0.04  0.00  0.00 0
+##   1 -0.04 -0.04 -0.04 0</code></pre>
 <p>Run a simulation.</p>
-<pre class="r"><code>simulate_environment(n = 10000, verbose = FALSE)</code></pre>
+<pre class="r"><code>simulate_environment(n = 10, agent, verbose = FALSE)</code></pre>
 <p>Calculate the value function <span class="math inline">\(U\)</span>
 from the learned Q-function as the largest Q value of any action in a
 state.</p>
-<pre class="r"><code>U &lt;- apply(Q, MARGIN = 1, max)
+<pre class="r"><code>U &lt;- apply(agent$Q, MARGIN = 1, max)
 show_layout(U)</code></pre>
 <pre><code>##    col
-## row         1         2         3         4
-##   3 0.8480408 0.9078043 0.9604426 0.0000000
-##   2 0.8104487 0.0000000 0.7680827 0.0000000
-##   1 0.7605170 0.6860196 0.6400480 0.2905525</code></pre>
+## row         1           2         3     4
+##   3 0.9040932  0.95599151 1.0000000  0.00
+##   2 0.7954718  0.00000000 0.9600000  0.00
+##   1 0.3941001 -0.07972028 0.6984615 -0.04</code></pre>
 <p>Note that not all states are reached the same amount of times and
 some estimates may be worse than others. The best actions are used most
 often leading to better estimates around the optimal policy.</p>
-<p>Extract the optimal policy from <span class="math inline">\(Q\)</span> as the action with the highest Q-value
+<p>Extract the learned policy from <span class="math inline">\(Q\)</span> as the action with the highest Q-value
 for each state.</p>
-<pre class="r"><code>Q[Q[, &quot;None&quot;] == 0, &quot;None&quot;] &lt;- 1e-09
-pi &lt;- A[apply(Q, MARGIN = 1, which.max)]
+<pre class="r"><code>Q2 &lt;- agent$Q
+Q2[Q2[, &quot;None&quot;] == 0, &quot;None&quot;] &lt;- 1e-09
+pi &lt;- A[apply(Q2, MARGIN = 1, which.max)]
+show_layout(pi)</code></pre>
+<pre><code>##    col
+## row 1       2       3       4      
+##   3 &quot;Right&quot; &quot;Right&quot; &quot;Right&quot; &quot;None&quot; 
+##   2 &quot;Up&quot;    &quot;None&quot;  &quot;Up&quot;    &quot;None&quot; 
+##   1 &quot;Up&quot;    &quot;Right&quot; &quot;Up&quot;    &quot;Right&quot;</code></pre>
+<p>Even after simulating just 10 episodes, we get a reasonable policy
+that will lead us to the goal state. Simulating more episodes results in
+better estimates (also for the rarely visited states).</p>
+<pre class="r"><code>simulate_environment(n = 10000, agent, verbose = FALSE, reset_agent = FALSE)</code></pre>
+<pre class="r"><code>U &lt;- apply(agent$Q, MARGIN = 1, max)
+show_layout(U)</code></pre>
+<pre><code>##    col
+## row         1         2         3         4
+##   3 0.8548768 0.9122181 0.9612994 0.0000000
+##   2 0.8033924 0.0000000 0.6433884 0.0000000
+##   1 0.7456026 0.6965552 0.6532730 0.3411048</code></pre>
+<pre class="r"><code>Q2 &lt;- agent$Q
+Q2[Q2[, &quot;None&quot;] == 0, &quot;None&quot;] &lt;- 1e-09
+pi &lt;- A[apply(Q2, MARGIN = 1, which.max)]
 show_layout(pi)</code></pre>
 <pre><code>##    col
 ## row 1       2       3       4     
 ##   3 &quot;Right&quot; &quot;Right&quot; &quot;Right&quot; &quot;None&quot;
-##   2 &quot;Up&quot;    &quot;None&quot;  &quot;Up&quot;    &quot;None&quot;
+##   2 &quot;Up&quot;    &quot;None&quot;  &quot;Left&quot;  &quot;None&quot;
 ##   1 &quot;Up&quot;    &quot;Left&quot;  &quot;Left&quot;  &quot;Left&quot;</code></pre>
 </div>
 </div>
