@@ -1,10 +1,10 @@
 <!-- #region -->
-# Chapter 17: Making Complex Decisions
+# Chapters 17 and 21: Reinforcement LEarning and MDPs
 
 ## Contents
 
-* Example: [Markov Decision Processes solved with Value Iteration and Policy Iteration](https://mhahsler.github.io/CS7320-AI/MDP/MDP.html) (in R)
-* Example: [Q-Learning Example](https://mhahsler.github.io/CS7320-AI/MDP/QLearning.html) (in R)
+* Chapter 17 Example: [Markov Decision Processes solved with Value Iteration and Policy Iteration](https://mhahsler.github.io/CS7320-AI/RL/MDP.html) (in R)
+* Chapter 21 Example: [Reinforcement Learning with Q-Learning](https://mhahsler.github.io/CS7320-AI/RL/QLearning.html) (in R)
 
 
 ## License
