@@ -288,11 +288,15 @@ QL_Agent <- setRefClass(
     },
     
     next_episode = function() {
+      "Start a new episode."
+      
       s <<- NULL
       a <<- 'None'
     },
     
     reset = function() {
+      "Reset the agent's state and erase all persistent information."
+      
       Q <<-
         matrix(0,
                nrow = length(S),
@@ -341,6 +345,8 @@ QL_Agent$methods(
  
   # this is the Q-Learning algorithm 
   run = function(s_prime, r) {
+    "Agent function. The pecepts are the current state and the reward."
+    
     # how often did the agent try this s/a combination
     N[s, a] <<- N[s, a] + 1L
     
