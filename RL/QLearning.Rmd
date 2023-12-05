@@ -13,6 +13,7 @@ This code is provided under [Creative Commons Attribution-ShareAlike 4.0 Interna
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 knitr::opts_chunk$set(tidy = TRUE)
+options(digits = 2)
 ```
 
 # Introduction
@@ -474,6 +475,9 @@ visited states).
 
 ```{r}
 simulate_environment(n = 10000, agent, verbose = FALSE, reset_agent = FALSE)
+show_layout(LAYOUT)
+
+agent$Q
 ```
 
 ```{r}

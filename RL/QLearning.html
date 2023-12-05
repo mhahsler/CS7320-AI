@@ -657,7 +657,7 @@ sample_transition(1, &quot;Up&quot;)</code></pre>
 <pre class="r"><code>table(replicate(n = 1000, sample_transition(1, &quot;Up&quot;)))/1000</code></pre>
 <pre><code>## 
 ##     1     2     4 
-## 0.099 0.797 0.104</code></pre>
+## 0.112 0.789 0.099</code></pre>
 </div>
 </div>
 <div id="q-learning" class="section level1">
@@ -686,11 +686,15 @@ argmax &lt;- function(x) {
     },
     
     next_episode = function() {
+      &quot;Start a new episode.&quot;
+      
       s &lt;&lt;- NULL
       a &lt;&lt;- &#39;None&#39;
     },
     
     reset = function() {
+      &quot;Reset the agent&#39;s state and erase all persistent information.&quot;
+      
       Q &lt;&lt;-
         matrix(0,
                nrow = length(S),
@@ -733,6 +737,8 @@ new state and the associated reward.</p>
  
   # this is the Q-Learning algorithm 
   run = function(s_prime, r) {
+    &quot;Agent function. The pecepts are the current state and the reward.&quot;
+    
     # how often did the agent try this s/a combination
     N[s, a] &lt;&lt;- N[s, a] + 1L
     
@@ -848,83 +854,69 @@ episodes.</p>
 <p>Run a single episode. Note that the agent has no idea about the
 optimal policy and runs around randomly.</p>
 <pre class="r"><code>simulate_environment(n = 1, agent, verbose = TRUE)</code></pre>
-<pre><code>## s = 1 ; r = -0.04 -&gt; Right 
-## s = 2 ; r = -0.04 -&gt; None 
-## s = 2 ; r = -0.04 -&gt; Right 
-## s = 2 ; r = -0.04 -&gt; Right 
-## s = 2 ; r = -0.04 -&gt; Left 
-## s = 3 ; r = -0.04 -&gt; Down 
-## s = 2 ; r = -0.04 -&gt; Up 
-## s = 3 ; r = -0.04 -&gt; Left 
-## s = 3 ; r = -0.04 -&gt; Left 
-## s = 2 ; r = -0.04 -&gt; Down 
-## s = 1 ; r = -0.04 -&gt; Left 
+<pre><code>## s = 1 ; r = -0.04 -&gt; Left 
+## s = 1 ; r = -0.04 -&gt; Down 
+## s = 4 ; r = -0.04 -&gt; None 
+## s = 4 ; r = -0.04 -&gt; Down 
 ## s = 1 ; r = -0.04 -&gt; Up 
-## s = 2 ; r = -0.04 -&gt; Left 
-## s = 2 ; r = -0.04 -&gt; None 
-## s = 2 ; r = -0.04 -&gt; None 
-## s = 2 ; r = -0.04 -&gt; Up 
-## s = 3 ; r = -0.04 -&gt; Right 
-## s = 6 ; r = -0.04 -&gt; Down 
-## s = 6 ; r = -0.04 -&gt; Left 
-## s = 3 ; r = -0.04 -&gt; None 
-## s = 3 ; r = -0.04 -&gt; None 
-## s = 3 ; r = -0.04 -&gt; Up 
-## s = 3 ; r = -0.04 -&gt; Up 
-## s = 3 ; r = -0.04 -&gt; Right 
-## s = 2 ; r = -0.04 -&gt; Right 
-## s = 2 ; r = -0.04 -&gt; Up 
-## s = 3 ; r = -0.04 -&gt; Down 
-## s = 2 ; r = -0.04 -&gt; Right 
-## s = 2 ; r = -0.04 -&gt; Down 
+## s = 4 ; r = -0.04 -&gt; Left 
 ## s = 1 ; r = -0.04 -&gt; None 
-## s = 1 ; r = -0.04 -&gt; Down 
-## s = 1 ; r = -0.04 -&gt; Down 
-## s = 1 ; r = -0.04 -&gt; Down 
+## s = 1 ; r = -0.04 -&gt; Right 
 ## s = 4 ; r = -0.04 -&gt; Up 
 ## s = 4 ; r = -0.04 -&gt; Right 
-## s = 7 ; r = -0.04 -&gt; Right 
-## s = 10 ; r = -0.04 -&gt; None 
-## s = 10 ; r = -0.04 -&gt; Left 
-## s = 7 ; r = -0.04 -&gt; Down 
-## s = 7 ; r = -0.04 -&gt; Up 
-## s = 4 ; r = -0.04 -&gt; None 
-## s = 4 ; r = -0.04 -&gt; None 
-## s = 4 ; r = -0.04 -&gt; Up 
 ## s = 7 ; r = -0.04 -&gt; Left 
 ## s = 4 ; r = -0.04 -&gt; Left 
 ## s = 1 ; r = -0.04 -&gt; Down 
-## s = 1 ; r = -0.04 -&gt; None 
-## s = 1 ; r = -0.04 -&gt; None 
+## s = 1 ; r = -0.04 -&gt; Up 
+## s = 2 ; r = -0.04 -&gt; Left 
+## s = 2 ; r = -0.04 -&gt; Down 
 ## s = 1 ; r = -0.04 -&gt; Left 
+## s = 1 ; r = -0.04 -&gt; Left 
+## s = 2 ; r = -0.04 -&gt; Down 
+## s = 1 ; r = -0.04 -&gt; Right 
+## s = 2 ; r = -0.04 -&gt; None 
+## s = 2 ; r = -0.04 -&gt; Right 
+## s = 2 ; r = -0.04 -&gt; Right 
+## s = 1 ; r = -0.04 -&gt; Left 
+## s = 1 ; r = -0.04 -&gt; None 
 ## s = 1 ; r = -0.04 -&gt; Left 
 ## s = 1 ; r = -0.04 -&gt; Right 
-## s = 4 ; r = -0.04 -&gt; Down 
-## s = 4 ; r = -0.04 -&gt; Down 
-## s = 7 ; r = -0.04 -&gt; None 
-## s = 7 ; r = -0.04 -&gt; Right 
-## s = 10 ; r = -0.04 -&gt; Up 
-## s = 11 ; r = -1 -&gt; None 
+## s = 1 ; r = -0.04 -&gt; Up 
+## s = 1 ; r = -0.04 -&gt; Up 
+## s = 1 ; r = -0.04 -&gt; Left 
+## s = 1 ; r = -0.04 -&gt; Right 
+## s = 2 ; r = -0.04 -&gt; Up 
+## s = 3 ; r = -0.04 -&gt; Right 
+## s = 6 ; r = -0.04 -&gt; None 
+## s = 6 ; r = -0.04 -&gt; None 
+## s = 6 ; r = -0.04 -&gt; Down 
+## s = 6 ; r = -0.04 -&gt; Down 
+## s = 6 ; r = -0.04 -&gt; Up 
+## s = 6 ; r = -0.04 -&gt; Right 
+## s = 6 ; r = -0.04 -&gt; Right 
+## s = 9 ; r = -0.04 -&gt; Up 
+## s = 9 ; r = -0.04 -&gt; Up 
+## s = 12 ; r = 1 -&gt; None 
 ## Q:
-##             Up       Right        Down        Left        None
-## 1  -0.08000000 -0.04000000 -0.07216783 -0.07939394 -0.07939394
-## 2  -0.07333333 -0.07846154 -0.04000000 -0.07636364 -0.07939394
-## 3  -0.07636364 -0.07636364 -0.07636364 -0.04000000 -0.04000000
-## 4  -0.04000000 -0.04000000 -0.04000000 -0.08000000 -0.04000000
-## 5   0.00000000  0.00000000  0.00000000  0.00000000  0.00000000
-## 6   0.00000000  0.00000000 -0.04000000 -0.04000000  0.00000000
-## 7  -0.04000000 -0.04000000 -0.04000000 -0.04000000 -0.04000000
-## 8   0.00000000  0.00000000  0.00000000  0.00000000  0.00000000
-## 9   0.00000000  0.00000000  0.00000000  0.00000000  0.00000000
-## 10 -1.00000000  0.00000000  0.00000000 -0.04000000 -0.04000000
-## 11  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000
-## 12  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000
+##       Up  Right   Down   Left   None
+## 1  -0.10 -0.048 -0.076 -0.101 -0.076
+## 2  -0.04 -0.076 -0.080 -0.040 -0.040
+## 3   0.00 -0.040  0.000  0.000  0.000
+## 4  -0.04 -0.040 -0.040 -0.076 -0.040
+## 5   0.00  0.000  0.000  0.000  0.000
+## 6  -0.04 -0.040 -0.040  0.000 -0.040
+## 7   0.00  0.000  0.000 -0.080  0.000
+## 8   0.00  0.000  0.000  0.000  0.000
+## 9   0.91  0.000  0.000  0.000  0.000
+## 10  0.00  0.000  0.000  0.000  0.000
+## 11  0.00  0.000  0.000  0.000  0.000
+## 12  0.00  0.000  0.000  0.000  0.000
 ## U:
 ##    col
-## row     1     2     3 4
-##   3 -0.04  0.00  0.00 0
-##   2 -0.04  0.00  0.00 0
-##   1 -0.04 -0.04 -0.04 0</code></pre>
+## row      1     2    3 4
+##   3  0.000  0.00 0.91 0
+##   2 -0.040  0.00 0.00 0
+##   1 -0.048 -0.04 0.00 0</code></pre>
 <p>Run a simulation.</p>
 <pre class="r"><code>simulate_environment(n = 10, agent, verbose = FALSE)</code></pre>
 <p>Calculate the value function <span class="math inline">\(U\)</span>
@@ -933,10 +925,10 @@ state.</p>
 <pre class="r"><code>U &lt;- apply(agent$Q, MARGIN = 1, max)
 show_layout(U)</code></pre>
 <pre><code>##    col
-## row         1           2         3     4
-##   3 0.9040932  0.95599151 1.0000000  0.00
-##   2 0.7954718  0.00000000 0.9600000  0.00
-##   1 0.3941001 -0.07972028 0.6984615 -0.04</code></pre>
+## row     1    2    3    4
+##   3 0.753 0.93 0.99 0.00
+##   2 0.310 0.00 0.92 0.00
+##   1 0.087 0.50 0.80 0.27</code></pre>
 <p>Note that not all states are reached the same amount of times and
 some estimates may be worse than others. The best actions are used most
 often leading to better estimates around the optimal policy.</p>
@@ -947,21 +939,41 @@ Q2[Q2[, &quot;None&quot;] == 0, &quot;None&quot;] &lt;- 1e-09
 pi &lt;- A[apply(Q2, MARGIN = 1, which.max)]
 show_layout(pi)</code></pre>
 <pre><code>##    col
-## row 1       2       3       4      
-##   3 &quot;Right&quot; &quot;Right&quot; &quot;Right&quot; &quot;None&quot; 
-##   2 &quot;Up&quot;    &quot;None&quot;  &quot;Up&quot;    &quot;None&quot; 
-##   1 &quot;Up&quot;    &quot;Right&quot; &quot;Up&quot;    &quot;Right&quot;</code></pre>
+## row 1       2       3       4     
+##   3 &quot;Right&quot; &quot;Right&quot; &quot;Right&quot; &quot;None&quot;
+##   2 &quot;Left&quot;  &quot;None&quot;  &quot;Up&quot;    &quot;None&quot;
+##   1 &quot;Right&quot; &quot;Right&quot; &quot;Up&quot;    &quot;Down&quot;</code></pre>
 <p>Even after simulating just 10 episodes, we get a reasonable policy
 that will lead us to the goal state. Simulating more episodes results in
 better estimates (also for the rarely visited states).</p>
-<pre class="r"><code>simulate_environment(n = 10000, agent, verbose = FALSE, reset_agent = FALSE)</code></pre>
+<pre class="r"><code>simulate_environment(n = 10000, agent, verbose = FALSE, reset_agent = FALSE)
+show_layout(LAYOUT)</code></pre>
+<pre><code>##    col
+## row 1 2 3  4
+##   3 3 6 9 12
+##   2 2 5 8 11
+##   1 1 4 7 10</code></pre>
+<pre class="r"><code>agent$Q</code></pre>
+<pre><code>##       Up Right  Down   Left   None
+## 1   0.74  0.66 0.691  0.702 -0.116
+## 2   0.80  0.75 0.709  0.754 -0.111
+## 3   0.81  0.85 0.772  0.800 -0.113
+## 4   0.64  0.61 0.649  0.688 -0.107
+## 5   0.00  0.00 0.000  0.000  0.000
+## 6   0.86  0.90 0.864  0.819 -0.079
+## 7   0.60  0.35 0.601  0.644 -0.078
+## 8   0.69 -0.74 0.441  0.630 -0.116
+## 9   0.92  0.96 0.709  0.847  0.000
+## 10 -1.00 -0.66 0.036 -0.069 -0.040
+## 11  0.00  0.00 0.000  0.000  0.000
+## 12  0.00  0.00 0.000  0.000  0.000</code></pre>
 <pre class="r"><code>U &lt;- apply(agent$Q, MARGIN = 1, max)
 show_layout(U)</code></pre>
 <pre><code>##    col
-## row         1         2         3         4
-##   3 0.8548768 0.9122181 0.9612994 0.0000000
-##   2 0.8033924 0.0000000 0.6433884 0.0000000
-##   1 0.7456026 0.6965552 0.6532730 0.3411048</code></pre>
+## row    1    2    3     4
+##   3 0.85 0.90 0.96 0.000
+##   2 0.80 0.00 0.69 0.000
+##   1 0.74 0.69 0.64 0.036</code></pre>
 <pre class="r"><code>Q2 &lt;- agent$Q
 Q2[Q2[, &quot;None&quot;] == 0, &quot;None&quot;] &lt;- 1e-09
 pi &lt;- A[apply(Q2, MARGIN = 1, which.max)]
@@ -969,8 +981,8 @@ show_layout(pi)</code></pre>
 <pre><code>##    col
 ## row 1       2       3       4     
 ##   3 &quot;Right&quot; &quot;Right&quot; &quot;Right&quot; &quot;None&quot;
-##   2 &quot;Up&quot;    &quot;None&quot;  &quot;Left&quot;  &quot;None&quot;
-##   1 &quot;Up&quot;    &quot;Left&quot;  &quot;Left&quot;  &quot;Left&quot;</code></pre>
+##   2 &quot;Up&quot;    &quot;None&quot;  &quot;Up&quot;    &quot;None&quot;
+##   1 &quot;Up&quot;    &quot;Left&quot;  &quot;Left&quot;  &quot;Down&quot;</code></pre>
 </div>
 </div>
 
