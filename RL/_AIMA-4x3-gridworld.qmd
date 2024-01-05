@@ -1,0 +1,400 @@
+
+# The 4x3 Grid World Example
+
+The used example is the simple 4x3 grid world
+described in AIMA Figure 12.1 and used again in 22.1 as: 
+
+![AIMA Figure 17.1: (a) A simple, stochastic $4 \times 3$  environment that presents the
+agent with a sequential decision problem. (b) Illustration of the
+transition model of the environment: the "intended" outcome occurs with
+probability 0.8, but with probability 0.2 the agent moves at right
+angles to the intended direction. A collision with a wall results in no
+movement. Transitions into the two terminal states have reward +1 and
+-1, respectively, and all other transitions have a reward of -0.04.](figures/AIMA_Figure_17_1.png)
+
+In the following, we implement states, actions, the reward function,and the
+transition model. We also show how to represent a policy and how to
+estimate the expected utility using simulation.
+
+
+## States
+
+We define the atomic state space $S$ by labeling the states $1, 2, ...$.
+We convert coordinates `(rows, columns)` to the state label.
+
+```{r}
+# I use capitalized variables as global constants
+COLS <- 4
+ROWS <- 3
+
+S = seq_len(ROWS * COLS)
+
+LAYOUT <- matrix(S, nrow = ROWS , ncol = COLS)
+LAYOUT
+```
+
+Note that the rows are displayed upside-down compared to the text book,
+so we use a function to display them in reverse order.
+
+```{r}
+show_layout <- function(x) {
+  x <- matrix(x, ncol = COLS, nrow = ROWS, 
+    dimnames = list(row = seq_len(ROWS), col = seq_len(COLS)))
+  x[rev(seq_len(ROWS)), ]
+  }
+
+show_layout(LAYOUT)
+```
+
+Convert between coordinates and state labels.
+
+```{r}
+rc_to_s <- function(rc)
+  LAYOUT[rbind(rc)]
+
+s_to_rc <-
+  function(s)
+    drop(which(LAYOUT == s, arr.ind = TRUE, useNames = FALSE))
+  
+    
+rc_to_s(c(3, 4))
+s_to_rc(12)
+```
+
+Start state
+```{r}
+start <- 1L
+```
+
+Define terminal states.
+
+```{r}
+is_terminal <- function(s) s %in% c(5, 11, 12)
+```
+
+## Actions
+
+The complete set of actions is
+$A = \{\mathrm{'Up', 'Right', 'Down', 'Left', 'None'}\}$. Not all
+actions are available in every state. Also, action `None` is added as
+the only possible action in an absorbing state.
+
+```{r}
+A = c('Up', 'Right', 'Down', 'Left', 'None')
+
+actions <- function(s) { 
+  
+  # absorbing states
+  if(s == 11 || s == 12) return('None')
+  
+  # illegal state
+  if(s == 5) return('None')
+  
+  c('Up', 'Right', 'Down', 'Left')
+}
+     
+lapply(S, actions)
+```
+
+## Rewards
+
+$R(s, a, s')$ define the reward for the transition from $s$ to $s'$ with
+action $a$.
+
+For the textbook example we have:
+
+-   Any move costs utility (a reward of -0.04).
+-   Going to state 12 has a reward of +1
+-   Going to state 11 has a reward of -1.
+
+Note that once you are in an absorbing state (11 or 12), then the
+problem is over and there is no more reward!
+
+```{r}
+R <- function(s, a, s_prime) {
+  ## no more reward when we in 11 or 12.
+  if(a == 'None' || s == 11 || s == 12) return(0)
+  
+  ## transition to the absorbing states.
+  if(s_prime == 12) return(+1)
+  if(s_prime == 11) return(-1)
+  
+  ## cost for each move
+  return(-0.04)
+}
+
+R(1, 'Up', 2)
+R(9, 'Right', 12)
+R(12, 'None', 12)
+```
+
+## Transition Model
+
+$P(s' | s, a)$ is the probability of going from state $s$ to $s'$ by
+when taking action $a$. We will create a matrix $P_a(s' | s)$ for each
+action.
+
+```{r}
+calc_transition <- function(s, action) {
+  action <- match.arg(action, choices = A)
+  
+  if(length(s) > 1) return(t(sapply(s, calc_transition, action = action)))
+  
+  # deal with absorbing and illegal state
+  if(s == 11 || s == 12 || s == 5 || action == 'None') {
+    P <- rep(0, length(S))
+    P[s] <- 1
+    return(P)    
+  }
+  
+  action_to_delta <- list(
+    'Up' = c(+1, 0),
+    'Down' = c(-1, 0),
+    'Right' = c(0, +1),
+    'Left' = c(0, -1)
+    )
+  delta <- action_to_delta[[action]]
+  dr <- delta[1]
+  dc <- delta[2]
+   
+  rc <- s_to_rc(s)
+  r <- rc[1]
+  c <- rc[2]
+  
+  if(dr != 0 && dc != 0) 
+    stop("You can only go up/down or right/left!")
+  
+  P <- matrix(0, nrow = ROWS, ncol = COLS)
+  
+  # UP/DOWN
+  if(dr != 0) {
+    new_r <- r + dr
+    if(new_r > ROWS || new_r < 1) new_r <- r
+    ## can't got to (2, 2)
+    if(new_r == 2 && c  == 2) new_r <- r
+    P[new_r, c] <- .8
+    
+    if(c < COLS & !(r == 2 & (c + 1) == 2)) 
+      P[r, c + 1] <- .1 else P[r, c] <- P[r, c] + .1 
+    if(c > 1 & !(r == 2 & (c - 1) == 2)) 
+      P[r, c - 1] <- .1 else P[r, c] <- P[r, c] + .1 
+  }
+  
+  # RIGHT/LEFT
+  if(dc != 0) {
+    new_c <- c + dc
+    if(new_c > COLS || new_c < 1) new_c <- c
+    ## can't got to (2, 2)
+    if(r == 2 && new_c  == 2) new_c <- c
+    P[r, new_c] <- .8
+    
+    if(r < ROWS & !((r + 1) == 2 & c  == 2)) 
+      P[r + 1, c] <- .1 else P[r, c] <- P[r, c] + .1 
+    if(r > 1 & !((r - 1) == 2 & c == 2)) 
+      P[r - 1, c] <- .1 else P[r, c] <- P[r, c] + .1 
+  }
+  
+  as.vector(P)
+}
+```
+
+
+Try to go up from state 1 (this is (1,1), the bottom left corner). 
+Note: we cannot go left so there is a .1 chance to stay in place.
+```{r}
+calc_transition(1, 'Up')
+show_layout(calc_transition(1, 'Up'))
+```
+
+Try to go right from (2,1). Since right is blocked, there is a .8 probability of staying in place.
+```{r}
+show_layout(calc_transition(2, 'Right'))
+```
+
+Calculate transitions for each state to each other state. Each row
+represents a state $s$ and each column a state $s'$ so we get a complete
+definition for $P_a(s' | s)$. Note that the matrix is stochastic (all
+rows add up to 1).
+
+Create a matrix for each action.
+
+```{r}
+P_matrices <- lapply(A, FUN = function(a) calc_transition(S, a))
+names(P_matrices) <- A
+str(P_matrices)
+```
+
+Create a function interface for $P(s' | s, a)$.
+
+```{r}
+P <- function(sp, s, a) P_matrices[[a]][s, sp]
+
+P(2, 1, 'Up')
+P(5, 4, 'Up')
+```
+
+## Policy
+The solution to an MDP is a policy $\pi$ which defines which action
+to take in each state. We represent deterministic policies as a vector of
+actions.
+I make up a policy that always goes up and then to the right once the
+agent hits the top.
+
+```{r}
+pi_manual <- rep('Up', times = length(S))
+pi_manual[c(3, 6, 9)] <- 'Right'
+pi_manual
+
+show_layout(pi_manual)
+```
+
+We can also create a random policy by randomly choosing from the
+available actions for each state.
+
+```{r}
+set.seed(1234)
+create_random_policy <-
+  function()
+    sapply(
+      S,
+      FUN = function(s)
+        sample(actions(s), 1)
+    )
+
+pi_random <- create_random_policy()
+show_layout(pi_random)
+```
+
+Stochastic policies use probabilities of actions in each state. We use
+as simple table with probabilities where each row is a state and the columns 
+are the actions.
+
+```{r}
+set.seed(1234)
+create_random_soft_policy <-
+  function() {
+    p <- matrix(0, nrow = length(S), ncol = length(A), dimnames = list(S, A)) 
+    for (s in S)
+        p[s, actions(s)] <- runif(n = length(actions(s)))
+  
+    # make stochastic (rows sum up to 1)
+p <- sweep(p, MARGIN = 1, STATS = rowSums(p), FUN = '/')
+p
+}
+
+pi_random_soft <- create_random_soft_policy()
+pi_random_soft
+```
+
+## Expected Utility
+
+The expected utility can be calculated by
+
+$U^\pi = E\left[\sum_{t=0}^\infty \gamma^t R(s_t, \pi(s_t), s_{t+1})\right]$
+
+We need to define the discount factor.
+
+```{r}
+GAMMA <- 1
+```
+
+We can evaluate the utility of a policy using simulation. For the 
+stochastic transition model, we need to be able
+to sample the state $s'$ the system transitions to 
+when using action $a$ in state $s$.
+
+```{r}
+sample_transition <- function(s, a)
+  sample(S, size = 1, prob = P_matrices[[a]][s,])
+
+sample_transition(1, 'Up')
+
+table(replicate(n = 100, sample_transition(1, 'Up')))
+```
+
+We can now simulate the utility for one episode. Note that we use the cutoff 
+`max_t` in case a policy does not end up in a terminal state before that.
+
+```{r}
+simulate_utility <- function(pi, s0 = 1, max_t = 100) {
+  s <- s0
+  U <- 0
+  t <- 0
+  
+  while (TRUE) {
+    ## get action from policy (matrix means it is a stochastic policy)
+    if (!is.matrix(pi))
+      a <- pi[s]
+    else
+      a <- sample(A, size = 1, prob = pi[s, ])
+    
+    ## sample a transition given the action from the policy
+    s_prime <- sample_transition(s, a)
+    
+    ##
+    U <- U + GAMMA ^ t * R(s, a, s_prime)
+    
+    s <- s_prime
+    
+    ## reached an absorbing state?
+    if (s == 11 || s == 12 || s == 5)
+      break
+    
+    t <- t + 1
+    if (t >= max_t)
+      break
+  }
+  
+  U
+}
+```
+
+Simulate the `N` episodes. 
+
+```{r}
+simulate_utilities <- function(pi, s0 = 1, N = 1000, max_t = 100)
+  replicate(N, simulate_utility(pi, s0, max_t))
+
+utility_manual <- simulate_utilities(pi_manual)
+```
+
+The expected utility for starting from state $s_0 = 1$ is.
+
+```{r}
+mean(utility_manual)
+hist(utility_manual, xlim = c(-1, 1))
+```
+
+Compare with the utility of the random policy.
+```{r}
+utility_random <- simulate_utilities(pi_random, max_t = 100)
+
+table(utility_random)
+```
+
+The random policy performs really bad and most likely always 
+stumbles around for `max_t` moves at a cost of .04 each.
+The manually created policy is obviously better.
+
+We can use simulation to estimate the expected utility for starting from 
+each state following the policy.
+
+```{r}
+U_manual <-
+  sapply(
+    S,
+    FUN = function(s)
+      mean(simulate_utilities(pi_manual, s0 = s))
+  )
+show_layout(U_manual)
+```
+
+```{r}
+U_random <-
+  sapply(
+    S,
+    FUN = function(s)
+      mean(simulate_utilities(pi_random, s0 = s))
+  )
+show_layout(U_random)
+```

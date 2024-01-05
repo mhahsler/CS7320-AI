@@ -1,0 +1,261 @@
+---
+title: "Reinforcement Learning: TD Control with Sarsa" 
+author: "Michael Hahsler"
+format: 
+  html: 
+    theme: default
+    toc: true
+    number-sections: true
+    code-line-numbers: true
+    embed-resources: true
+---
+
+This code is provided under [Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0) License.](https://creativecommons.org/licenses/by-sa/4.0/)
+
+![CC BY-SA 4.0](https://licensebuttons.net/l/by-sa/3.0/88x31.png)
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(tidy = TRUE)
+options(digits = 2)
+```
+
+# Introduction
+
+[Reinforcement Learning: An Introduction (RL)](http://incompleteideas.net/book/the-book-2nd.html) by Sutton and Barto (2020) introduce several temporal-difference learning control algorithms in
+Chapter 6. Here we implement the on-policy TD control algorithm Sarsa.
+
+We will implement the 
+key concepts using R for the AIMA 3x4 grid world example. The environment is an MDP, but instead of trying to solve the MDP and estimate the value function estimates $U(s)$, 
+we will try to learn the Q-function $Q(s,a)$ directly.
+The Q-function the sum of rewards starting from $s$ if action $a$ is taken.
+The transition model will only be used to simulate the response of the environment
+to actions by the agent.
+
+The code in this notebook defines explicit functions 
+matching the textbook definitions and is for demonstration purposes only. Efficient implementations for larger problems use fast vector multiplications
+instead. 
+
+
+{{< include _AIMA-4x3-gridworld.qmd >}}
+
+# Implementing the Temporal-Difference Learning Algorithm
+
+Here is the pseudo code for Sarsa from the RL book, 
+Chapter 6.4:
+
+![Reinforcement Learning Chapter 6.4: Sarsa](figures/RL_Sarsa.png)
+
+The algorithm uses a __temporal-difference (TD) learning__ since it updates
+using the TD error given by $Q(S',A') - Q(S, A)$.
+
+The algorithm performs __on-policy learning__ since it uses
+only a single policy (e.g., $\epsilon$-greedy) as the behavior and
+target policy.
+
+
+## Behavior and Target Policies
+
+Next, we implement the greedy and $\epsilon$-greedy policy action choice 
+given $Q$. The greedy policy is deterministic and always chooses the best 
+action with the highest
+$Q$-value for the current state.
+The $\epsilon$-greedy policy is a stochastic policy which chooses the best 
+action with probability $1 - \epsilon$ and a random action otherwise.
+Setting $\epsilon = 0$ reduces the $\epsilon$-greedy policy to a 
+deterministic greedy policy.
+
+```{r}
+greedy_action <- function(s, Q, epsilon = 0) {
+  available_A <- actions(s)
+  
+  if (epsilon == 0 ||
+      length(available_A) == 1L || runif(1) > epsilon) {
+    a <- available_A[which.max(Q[s, available_A])]
+  } else {
+    a <- sample(available_A, size = 1L)
+  }
+  
+  a
+}
+
+greedy_prob <- function(s, Q, epsilon = 0) {
+  p <- structure(rep(0, length(A)), names = A)
+  available_A <- actions(s)
+  a <- available_A[which.max(Q[s, available_A])]
+  p[a] <- 1 - epsilon
+  p[available_A] <- p[available_A] + epsilon / length(available_A)
+  
+  p
+}
+```
+
+## The TD Learning Algorithm
+
+The temporal-difference learning algorithm follows the Sarsa implementation, 
+but just changing how the TD error is calculated lets the algorithm
+also perform Q-learning and expected Sarsa.
+
+```{r}
+DT_learning <- function(method = "sarsa",
+                        alpha = 0.1,
+                        epsilon = 0.1,
+                        gamma = 1,
+                        N = 100,
+                        verbose = FALSE) {
+  method <- match.arg(method, c("sarsa", "q", "expected_sarsa"))
+  
+  # Initialize Q
+  Q <-
+    matrix(
+      NA_real_,
+      nrow = length(S),
+      ncol = length(A),
+      dimnames = list(S, A)
+    )
+  for (s in S)
+    Q[s, actions(s)] <- 0
+  
+  # loop episodes
+  for (e in seq(N)) {
+    s <- start
+    a <- greedy_action(s, Q, epsilon)
+    
+    # loop steps in episode
+    i <- 1L
+    while (TRUE) {
+      s_prime <- sample_transition(s, a)
+      r <- R(s, a, s_prime)
+      a_prime <- greedy_action(s_prime, Q, epsilon)
+      
+      if (verbose) {
+        if (step == 1L)
+          cat("\n*** Episode", e, "***\n")
+        cat("Step", i, "- s a r s' a':", s, a, r, s_prime, a_prime, "\n")
+      }
+      
+      if (method == "sarsa")
+        # is called Sarsa because it uses the sequence s, a, r, s', a'
+        Q[s, a] <-
+        Q[s, a] + alpha * (r + gamma * Q[s_prime, a_prime] - Q[s, a])
+      else if (method == "q") {
+        # a' is greedy instead of using the behavior policy
+        a_max <- greedy_action(s_prime, Q, epsilon = 0)
+        Q[s, a] <-
+          Q[s, a] + alpha * (r + gamma * Q[s_prime, a_max] - Q[s, a])
+      } else if (method == "expected_sarsa") {
+        p <- greedy_prob(s_prime, Q, epsilon)
+        exp_Q_prime <-
+          sum(greedy_prob(s_prime, Q, epsilon) * Q[s_prime, ], na.rm = TRUE)
+        Q[s, a] <-
+          Q[s, a] + alpha * (r + gamma * exp_Q_prime - Q[s, a])
+      }
+      
+      s <- s_prime
+      a <- a_prime
+      
+      if (is_terminal(s))
+        break
+      
+      i <- i + 1L
+    }
+  }
+  Q
+}
+```
+
+## Sarsa
+
+Sarsa is on-policy and calculates the TD-error for the update as:
+
+$$
+\gamma\,Q(S', A') - Q(S, A)
+$$
+where the $S'$ and $A'$ are determined by the same policy that is used for the agents 
+behavior. In this case it is $\epsilon$-greedy.
+
+
+```{r}
+Q <- DT_learning(method = "sarsa", N = 10000, verbose = FALSE)
+Q
+```
+
+
+Calculate the value function $U$ from the learned Q-function as the largest 
+Q value of any action in a state.
+```{r}
+U <- apply(Q, MARGIN = 1, max, na.rm = TRUE)
+show_layout(U)
+```
+
+Extract the greedy policy for the learned $Q$-value function.
+
+```{r}
+pi <- A[apply(Q, MARGIN = 1, which.max)]
+show_layout(pi)
+```
+
+## Q-Learning
+
+Q-Learning is off-policy and calculates the TD-error for the update as:
+
+$$
+\gamma\,\mathrm{max}_a Q(S', a) - Q(S, A)
+$$
+where the target policy is greedy reflected by the maximum that chooses the
+action with the largest $Q$-value. 
+
+```{r}
+Q <- DT_learning(method = "q", N = 10000, verbose = FALSE)
+Q
+```
+
+
+Calculate the value function $U$ from the learned Q-function as the largest 
+Q value of any action in a state.
+```{r}
+U <- apply(Q, MARGIN = 1, max, na.rm = TRUE)
+show_layout(U)
+```
+
+Extract the greedy policy for the learned $Q$-value function.
+
+```{r}
+pi <- A[apply(Q, MARGIN = 1, which.max)]
+show_layout(pi)
+```
+
+## Expected Sarsa
+
+Expected Sarsa calculates the TD-error for the update as:
+
+$$
+\gamma\, E_\pi[Q(S', Q')] - Q(S, A) = \gamma \sum_a\pi(a|S')Q(S', a) - Q(S, A)
+$$
+using the expected value under the current policy. It moves deterministically
+in the same direction as Sarsa moved in expectation. Because it uses the expectation,
+we can set $\alpha$ to large values and even 1.
+
+```{r}
+Q <- DT_learning(method = "expected_sarsa", N = 10000, alpha = 1, verbose = FALSE)
+Q
+```
+
+Calculate the value function $U$ from the learned Q-function as the largest 
+Q value of any action in a state.
+```{r}
+U <- apply(Q, MARGIN = 1, max, na.rm = TRUE)
+show_layout(U)
+```
+
+Extract the greedy policy for the learned $Q$-value function.
+
+```{r}
+pi <- A[apply(Q, MARGIN = 1, which.max)]
+show_layout(pi)
+```
+Not implemented yet.
+
+## Reducing $\epsilon$ and $\alpha$ Over Time
+
+To improve convergence, $\epsilon$ and $\alpha$ are typically reduced
+slowly over time. This is not implemented here.
