@@ -1,5 +1,5 @@
 ---
-title: "Reinforcement Learning: TD Control with Q-Learning"
+title: "Reinforcement Learning: A Q-Learning Agent"
 author: "Michael Hahsler"
 format: 
   html: 
