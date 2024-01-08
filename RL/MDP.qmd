@@ -23,6 +23,10 @@ knitr::opts_chunk$set(tidy = TRUE)
 AIMA chapter 17 is about _sequential decision problems_ where the agent's utility depends on a sequence of decisions. We will implement the 
 key concepts using R for the AIMA 3x4 grid world example. 
 
+More details can be found in 
+[Reinforcement Learning: An Introduction (RL)](http://incompleteideas.net/book/the-book-2nd.html) by Sutton and Barto (2020)
+in Chapter 4: Dynamic Programming.
+
 **Note** that the code in this notebook defines explicit functions 
 matching the textbook definitions and is for demonstration purposes only. Efficient implementations for larger problems use fast vector multiplications
 instead. 

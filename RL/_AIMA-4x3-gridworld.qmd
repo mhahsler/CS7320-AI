@@ -16,6 +16,28 @@ In the following, we implement states, actions, the reward function,and the
 transition model. We also show how to represent a policy and how to
 estimate the expected utility using simulation.
 
+The MDP will be defined as the following global variables/functions:
+
+* `S`: set of states.
+* `A`: set of actions.
+* `actions(s)`: returns the available actions for state $s$.
+* `R(s, a, s_prime)`: reward function for the transition from $s$ to $s`$ with 
+  action `a`.
+* `P(sp, s, a)`: a function returning the transition probability $P(s' | s, a)$.
+
+Policies are represented as:
+
+* Deterministic policies are a vector with the action for each state.
+* Stochastic policies are a matrix with probabilities where each row is a 
+  state and the columns are the actions 
+
+Other useful functions:
+
+* `sample_transition(s, a)`: returns a $s'$ sampled using the transition model.
+* `simulate_utilities(pi, s0 = 1, N = 1000, max_t = 100)`: Estimates the 
+  utility of following policy $\pi$, starting $N$ episodes in state $s_0$. 
+  The maximal episode length is `max_t` to ensure that the function finishes 
+  also for policies that do not lead to a terminal state.
 
 ## States
 
@@ -267,23 +289,38 @@ show_layout(pi_random)
 
 Stochastic policies use probabilities of actions in each state. We use
 as simple table with probabilities where each row is a state and the columns 
-are the actions.
+are the actions. Here we create a random $\epsilon$-soft policy. Each available has
+at least a probability of $\epsilon$.
 
 ```{r}
 set.seed(1234)
-create_random_soft_policy <-
-  function() {
-    p <- matrix(0, nrow = length(S), ncol = length(A), dimnames = list(S, A)) 
+create_random_epsilon_soft_policy <-
+  function(epsilon = 0.1) {
+    
+    # split total randomly into n numbers that add up to total.
+    random_split <- function(n, total) {
+      if (n == 1)
+        return(total)
+      
+      bordersR <- c(sort(runif(n - 1)), 1)
+      bordersL <- c(0, bordersR[1:(n - 1)])
+      (bordersR - bordersL) * total
+    }
+    
+    p <-
+      matrix(0,
+             nrow = length(S),
+             ncol = length(A),
+             dimnames = list(S, A))
     for (s in S)
-        p[s, actions(s)] <- runif(n = length(actions(s)))
-  
-    # make stochastic (rows sum up to 1)
-p <- sweep(p, MARGIN = 1, STATS = rowSums(p), FUN = '/')
-p
+      p[s, actions(s)] <- epsilon / length(actions(s)) +
+      random_split(n = length(actions(s)), 1 - epsilon)
+    
+    p
 }
 
-pi_random_soft <- create_random_soft_policy()
-pi_random_soft
+pi_random_epsilon_soft <- create_random_epsilon_soft_policy()
+pi_random_epsilon_soft
 ```
 
 ## Expected Utility

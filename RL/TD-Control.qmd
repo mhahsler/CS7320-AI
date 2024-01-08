@@ -22,19 +22,20 @@ options(digits = 2)
 # Introduction
 
 [Reinforcement Learning: An Introduction (RL)](http://incompleteideas.net/book/the-book-2nd.html) by Sutton and Barto (2020) introduce several temporal-difference learning control algorithms in
-Chapter 6. Here we implement the on-policy TD control algorithm Sarsa.
+Chapter 6: Temporal-Difference Learning. 
+Here we implement the on-policy TD control algorithm Sarsa.
 
 We will implement the 
-key concepts using R for the AIMA 3x4 grid world example. The environment is an MDP, but instead of trying to solve the MDP and estimate the value function estimates $U(s)$, 
-we will try to learn the Q-function $Q(s,a)$ directly.
-The Q-function the sum of rewards starting from $s$ if action $a$ is taken.
-The transition model will only be used to simulate the response of the environment
+key concepts using R for the AIMA 3x4 grid world example. 
+The used environment is an MDP, but instead of trying to solve the MDP directly
+and estimating the value function estimates $U(s)$, we will try to learn 
+a policy from interactions with the environment.
+The MDP's transition model will only be used to simulate the response of the environment
 to actions by the agent.
 
 The code in this notebook defines explicit functions 
 matching the textbook definitions and is for demonstration purposes only. Efficient implementations for larger problems use fast vector multiplications
 instead. 
-
 
 {{< include _AIMA-4x3-gridworld.qmd >}}
 

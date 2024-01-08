@@ -3192,8 +3192,8 @@ return!"\t\n\x0B\f\r                　\u2028\u2029
 </div>
 <section id="introduction" class="level1" data-number="1">
 <h1 data-number="1"><span class="header-section-number">1</span> Introduction</h1>
-<p><a href="http://incompleteideas.net/book/the-book-2nd.html">Reinforcement Learning: An Introduction (RL)</a> by Sutton and Barto (2020) introduce several temporal-difference learning control algorithms in Chapter 6. Here we implement the on-policy TD control algorithm Sarsa.</p>
-<p>We will implement the key concepts using R for the AIMA 3x4 grid world example. The environment is an MDP, but instead of trying to solve the MDP and estimate the value function estimates <span class="math inline">\(U(s)\)</span>, we will try to learn the Q-function <span class="math inline">\(Q(s,a)\)</span> directly. The Q-function the sum of rewards starting from <span class="math inline">\(s\)</span> if action <span class="math inline">\(a\)</span> is taken. The transition model will only be used to simulate the response of the environment to actions by the agent.</p>
+<p><a href="http://incompleteideas.net/book/the-book-2nd.html">Reinforcement Learning: An Introduction (RL)</a> by Sutton and Barto (2020) introduce several temporal-difference learning control algorithms in Chapter 6: Temporal-Difference Learning. Here we implement the on-policy TD control algorithm Sarsa.</p>
+<p>We will implement the key concepts using R for the AIMA 3x4 grid world example. The used environment is an MDP, but instead of trying to solve the MDP directly and estimating the value function estimates <span class="math inline">\(U(s)\)</span>, we will try to learn a policy from interactions with the environment. The MDP’s transition model will only be used to simulate the response of the environment to actions by the agent.</p>
 <p>The code in this notebook defines explicit functions matching the textbook definitions and is for demonstration purposes only. Efficient implementations for larger problems use fast vector multiplications instead.</p>
 </section>
 <section id="the-4x3-grid-world-example" class="level1" data-number="2">

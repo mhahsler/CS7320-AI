@@ -22,10 +22,15 @@ options(digits = 2)
 # Introduction
 
 AIMA chapter 22 is about _reinforcement learning_ where the agent learns from reward signals. We will implement the 
-key concepts using R for the AIMA 3x4 grid world example. The environment is an MDP, but instead of trying to solve the MDP and estimate the value function estimates $U(s)$, 
-we will try to learn the Q-function $Q(s,a)$ directly.
-The Q-function the sum of rewards starting from $s$ if action $a$ is taken.
-The transition model will only be used to simulate the response of the environment
+key concepts using R for the AIMA 3x4 grid world example. 
+A more detailed treatment of the algorithm and its properties can be found in 
+[Reinforcement Learning: An Introduction (RL)](http://incompleteideas.net/book/the-book-2nd.html) by Sutton and Barto (2020)
+in Chapter 6: Temporal-Difference Learning.
+
+The used environment is an MDP, but instead of trying to solve the MDP directly
+and estimating the value function estimates $U(s)$, we will try to learn 
+a policy from interactions with the environment.
+The MDP's transition model will only be used to simulate the response of the environment
 to actions by the agent.
 
 The code in this notebook defines explicit functions 
