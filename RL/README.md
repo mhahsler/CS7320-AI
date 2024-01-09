@@ -7,7 +7,7 @@
 
 ## Chapter 21: Reinfocement Learning
 * Example: [A Q-Learning Agent](https://mhahsler.github.io/CS7320-AI/RL/QLearning.html) (in R)
-* Example: [Reinforcement Learning: Monte Carlo Control](https://mhahsler.github.io/CS7320-AI/RL/MC-Control.html) (in R)
+* Example: [Monte Carlo Control](https://mhahsler.github.io/CS7320-AI/RL/MC-Control.html) (in R)
 * Example: [TD Control with Sarsa, Q-Learning and Expected Sarsa](https://mhahsler.github.io/CS7320-AI/RL/TD-Control.html) (in R)
 
 ## License
