@@ -21,9 +21,9 @@ The MDP will be defined as the following global variables/functions:
 * `S`: set of states.
 * `A`: set of actions.
 * `actions(s)`: returns the available actions for state $s$.
+* `P(sp, s, a)`: a function returning the transition probability $P(s' | s, a)$.
 * `R(s, a, s_prime)`: reward function for the transition from $s$ to $s`$ with 
   action `a`.
-* `P(sp, s, a)`: a function returning the transition probability $P(s' | s, a)$.
 
 Policies are represented as:
 
@@ -116,38 +116,6 @@ actions <- function(s) {
 }
      
 lapply(S, actions)
-```
-
-## Rewards
-
-$R(s, a, s')$ define the reward for the transition from $s$ to $s'$ with
-action $a$.
-
-For the textbook example we have:
-
--   Any move costs utility (a reward of -0.04).
--   Going to state 12 has a reward of +1
--   Going to state 11 has a reward of -1.
-
-Note that once you are in an absorbing state (11 or 12), then the
-problem is over and there is no more reward!
-
-```{r}
-R <- function(s, a, s_prime) {
-  ## no more reward when we in 11 or 12.
-  if(a == 'None' || s == 11 || s == 12) return(0)
-  
-  ## transition to the absorbing states.
-  if(s_prime == 12) return(+1)
-  if(s_prime == 11) return(-1)
-  
-  ## cost for each move
-  return(-0.04)
-}
-
-R(1, 'Up', 2)
-R(9, 'Right', 12)
-R(12, 'None', 12)
 ```
 
 ## Transition Model
@@ -255,6 +223,38 @@ P(2, 1, 'Up')
 P(5, 4, 'Up')
 ```
 
+## Reward
+
+$R(s, a, s')$ define the reward for the transition from $s$ to $s'$ with
+action $a$.
+
+For the textbook example we have:
+
+-   Any move costs utility (a reward of -0.04).
+-   Going to state 12 has a reward of +1
+-   Going to state 11 has a reward of -1.
+
+Note that once you are in an absorbing state (11 or 12), then the
+problem is over and there is no more reward!
+
+```{r}
+R <- function(s, a, s_prime) {
+  ## no more reward when we in 11 or 12.
+  if(a == 'None' || s == 11 || s == 12) return(0)
+  
+  ## transition to the absorbing states.
+  if(s_prime == 12) return(+1)
+  if(s_prime == 11) return(-1)
+  
+  ## cost for each move
+  return(-0.04)
+}
+
+R(1, 'Up', 2)
+R(9, 'Right', 12)
+R(12, 'None', 12)
+```
+
 ## Policy
 The solution to an MDP is a policy $\pi$ which defines which action
 to take in each state. We represent deterministic policies as a vector of
@@ -274,16 +274,17 @@ We can also create a random policy by randomly choosing from the
 available actions for each state.
 
 ```{r}
-set.seed(1234)
-create_random_policy <-
+create_random_deterministic_policy <-
   function()
-    sapply(
+    structure(sapply(
       S,
       FUN = function(s)
-        sample(actions(s), 1)
-    )
+        sample(actions(s), 1L)
+    ), names = S)
 
-pi_random <- create_random_policy()
+set.seed(1234)
+pi_random <- create_random_deterministic_policy()
+pi_random
 show_layout(pi_random)
 ```
 
@@ -292,12 +293,37 @@ as simple table with probabilities where each row is a state and the columns
 are the actions. Here we create a random $\epsilon$-soft policy. Each available has
 at least a probability of $\epsilon$.
 
+We can make a deterministic policy soft.
 ```{r}
-set.seed(1234)
+make_policy_soft <- 
+  function(pi, epsilon = 0.1) {
+    if(!is.vector(pi))
+      stop("pi is not a deterministic policy!")
+    
+     p <-
+      matrix(0,
+             nrow = length(S),
+             ncol = length(A),
+             dimnames = list(S, A))
+      
+     for (s in S) {
+      p[s, actions(s)] <- epsilon / length(actions(s))
+      p[s, pi[s]] <- p[s, pi[s]] + (1 - epsilon)
+     }
+     
+    p
+  }
+
+make_policy_soft(pi_random)
+```
+
+Or we can create a completely random soft policy
+
+```{r}
 create_random_epsilon_soft_policy <-
   function(epsilon = 0.1) {
     
-    # split total randomly into n numbers that add up to total.
+    # split total randomly into n numbers that add up to total
     random_split <- function(n, total) {
       if (n == 1)
         return(total)
@@ -319,6 +345,7 @@ create_random_epsilon_soft_policy <-
     p
 }
 
+set.seed(1234)
 pi_random_epsilon_soft <- create_random_epsilon_soft_policy()
 pi_random_epsilon_soft
 ```

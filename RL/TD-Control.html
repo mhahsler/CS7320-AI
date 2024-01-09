@@ -3141,8 +3141,8 @@ return!"\t\n\x0B\f\r                　\u2028\u2029
   <ul class="collapse">
   <li><a href="#states" id="toc-states" class="nav-link" data-scroll-target="#states"><span class="header-section-number">2.1</span> States</a></li>
   <li><a href="#actions" id="toc-actions" class="nav-link" data-scroll-target="#actions"><span class="header-section-number">2.2</span> Actions</a></li>
-  <li><a href="#rewards" id="toc-rewards" class="nav-link" data-scroll-target="#rewards"><span class="header-section-number">2.3</span> Rewards</a></li>
-  <li><a href="#transition-model" id="toc-transition-model" class="nav-link" data-scroll-target="#transition-model"><span class="header-section-number">2.4</span> Transition Model</a></li>
+  <li><a href="#transition-model" id="toc-transition-model" class="nav-link" data-scroll-target="#transition-model"><span class="header-section-number">2.3</span> Transition Model</a></li>
+  <li><a href="#reward" id="toc-reward" class="nav-link" data-scroll-target="#reward"><span class="header-section-number">2.4</span> Reward</a></li>
   <li><a href="#policy" id="toc-policy" class="nav-link" data-scroll-target="#policy"><span class="header-section-number">2.5</span> Policy</a></li>
   <li><a href="#expected-utility" id="toc-expected-utility" class="nav-link" data-scroll-target="#expected-utility"><span class="header-section-number">2.6</span> Expected Utility</a></li>
   </ul></li>
@@ -3206,6 +3206,24 @@ return!"\t\n\x0B\f\r                　\u2028\u2029
 </figure>
 </div>
 <p>In the following, we implement states, actions, the reward function,and the transition model. We also show how to represent a policy and how to estimate the expected utility using simulation.</p>
+<p>The MDP will be defined as the following global variables/functions:</p>
+<ul>
+<li><code>S</code>: set of states.</li>
+<li><code>A</code>: set of actions.</li>
+<li><code>actions(s)</code>: returns the available actions for state <span class="math inline">\(s\)</span>.</li>
+<li><code>P(sp, s, a)</code>: a function returning the transition probability <span class="math inline">\(P(s&#39; | s, a)\)</span>.</li>
+<li><code>R(s, a, s_prime)</code>: reward function for the transition from <span class="math inline">\(s\)</span> to <span class="math inline">\(s`\)</span> with action <code>a</code>.</li>
+</ul>
+<p>Policies are represented as:</p>
+<ul>
+<li>Deterministic policies are a vector with the action for each state.</li>
+<li>Stochastic policies are a matrix with probabilities where each row is a state and the columns are the actions</li>
+</ul>
+<p>Other useful functions:</p>
+<ul>
+<li><code>sample_transition(s, a)</code>: returns a <span class="math inline">\(s&#39;\)</span> sampled using the transition model.</li>
+<li><code>simulate_utilities(pi, s0 = 1, N = 1000, max_t = 100)</code>: Estimates the utility of following policy <span class="math inline">\(\pi\)</span>, starting <span class="math inline">\(N\)</span> episodes in state <span class="math inline">\(s_0\)</span>. The maximal episode length is <code>max_t</code> to ensure that the function finishes also for policies that do not lead to a terminal state.</li>
+</ul>
 <section id="states" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="states"><span class="header-section-number">2.1</span> States</h2>
 <p>We define the atomic state space <span class="math inline">\(S\)</span> by labeling the states <span class="math inline">\(1, 2, ...\)</span>. We convert coordinates <code>(rows, columns)</code> to the state label.</p>
@@ -3325,119 +3343,79 @@ row 1 2 3  4
 </div>
 </div>
 </section>
-<section id="rewards" class="level2" data-number="2.3">
-<h2 data-number="2.3" class="anchored" data-anchor-id="rewards"><span class="header-section-number">2.3</span> Rewards</h2>
-<p><span class="math inline">\(R(s, a, s&#39;)\)</span> define the reward for the transition from <span class="math inline">\(s\)</span> to <span class="math inline">\(s&#39;\)</span> with action <span class="math inline">\(a\)</span>.</p>
-<p>For the textbook example we have:</p>
-<ul>
-<li>Any move costs utility (a reward of -0.04).</li>
-<li>Going to state 12 has a reward of +1</li>
-<li>Going to state 11 has a reward of -1.</li>
-</ul>
-<p>Note that once you are in an absorbing state (11 or 12), then the problem is over and there is no more reward!</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>R <span class="ot">&lt;-</span> <span class="cf">function</span>(s, a, s_prime) {</span>
-<span id="cb13-2"><a href="#cb13-2"></a>    <span class="do">## no more reward when we in 11 or 12.</span></span>
-<span id="cb13-3"><a href="#cb13-3"></a>    <span class="cf">if</span> (a <span class="sc">==</span> <span class="st">&quot;None&quot;</span> <span class="sc">||</span> s <span class="sc">==</span> <span class="dv">11</span> <span class="sc">||</span> s <span class="sc">==</span> <span class="dv">12</span>)</span>
-<span id="cb13-4"><a href="#cb13-4"></a>        <span class="fu">return</span>(<span class="dv">0</span>)</span>
-<span id="cb13-5"><a href="#cb13-5"></a></span>
-<span id="cb13-6"><a href="#cb13-6"></a>    <span class="do">## transition to the absorbing states.</span></span>
-<span id="cb13-7"><a href="#cb13-7"></a>    <span class="cf">if</span> (s_prime <span class="sc">==</span> <span class="dv">12</span>)</span>
-<span id="cb13-8"><a href="#cb13-8"></a>        <span class="fu">return</span>(<span class="sc">+</span><span class="dv">1</span>)</span>
-<span id="cb13-9"><a href="#cb13-9"></a>    <span class="cf">if</span> (s_prime <span class="sc">==</span> <span class="dv">11</span>)</span>
-<span id="cb13-10"><a href="#cb13-10"></a>        <span class="fu">return</span>(<span class="sc">-</span><span class="dv">1</span>)</span>
-<span id="cb13-11"><a href="#cb13-11"></a></span>
-<span id="cb13-12"><a href="#cb13-12"></a>    <span class="do">## cost for each move</span></span>
-<span id="cb13-13"><a href="#cb13-13"></a>    <span class="fu">return</span>(<span class="sc">-</span><span class="fl">0.04</span>)</span>
-<span id="cb13-14"><a href="#cb13-14"></a>}</span>
-<span id="cb13-15"><a href="#cb13-15"></a></span>
-<span id="cb13-16"><a href="#cb13-16"></a><span class="fu">R</span>(<span class="dv">1</span>, <span class="st">&quot;Up&quot;</span>, <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] -0.04</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="fu">R</span>(<span class="dv">9</span>, <span class="st">&quot;Right&quot;</span>, <span class="dv">12</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 1</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="fu">R</span>(<span class="dv">12</span>, <span class="st">&quot;None&quot;</span>, <span class="dv">12</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 0</code></pre>
-</div>
-</div>
-</section>
-<section id="transition-model" class="level2" data-number="2.4">
-<h2 data-number="2.4" class="anchored" data-anchor-id="transition-model"><span class="header-section-number">2.4</span> Transition Model</h2>
+<section id="transition-model" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="transition-model"><span class="header-section-number">2.3</span> Transition Model</h2>
 <p><span class="math inline">\(P(s&#39; | s, a)\)</span> is the probability of going from state <span class="math inline">\(s\)</span> to <span class="math inline">\(s&#39;\)</span> by when taking action <span class="math inline">\(a\)</span>. We will create a matrix <span class="math inline">\(P_a(s&#39; | s)\)</span> for each action.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a>calc_transition <span class="ot">&lt;-</span> <span class="cf">function</span>(s, action) {</span>
-<span id="cb19-2"><a href="#cb19-2"></a>    action <span class="ot">&lt;-</span> <span class="fu">match.arg</span>(action, <span class="at">choices =</span> A)</span>
-<span id="cb19-3"><a href="#cb19-3"></a></span>
-<span id="cb19-4"><a href="#cb19-4"></a>    <span class="cf">if</span> (<span class="fu">length</span>(s) <span class="sc">&gt;</span> <span class="dv">1</span>)</span>
-<span id="cb19-5"><a href="#cb19-5"></a>        <span class="fu">return</span>(<span class="fu">t</span>(<span class="fu">sapply</span>(s, calc_transition, <span class="at">action =</span> action)))</span>
-<span id="cb19-6"><a href="#cb19-6"></a></span>
-<span id="cb19-7"><a href="#cb19-7"></a>    <span class="co"># deal with absorbing and illegal state</span></span>
-<span id="cb19-8"><a href="#cb19-8"></a>    <span class="cf">if</span> (s <span class="sc">==</span> <span class="dv">11</span> <span class="sc">||</span> s <span class="sc">==</span> <span class="dv">12</span> <span class="sc">||</span> s <span class="sc">==</span> <span class="dv">5</span> <span class="sc">||</span> action <span class="sc">==</span> <span class="st">&quot;None&quot;</span>) {</span>
-<span id="cb19-9"><a href="#cb19-9"></a>        P <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">0</span>, <span class="fu">length</span>(S))</span>
-<span id="cb19-10"><a href="#cb19-10"></a>        P[s] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb19-11"><a href="#cb19-11"></a>        <span class="fu">return</span>(P)</span>
-<span id="cb19-12"><a href="#cb19-12"></a>    }</span>
-<span id="cb19-13"><a href="#cb19-13"></a></span>
-<span id="cb19-14"><a href="#cb19-14"></a>    action_to_delta <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">Up =</span> <span class="fu">c</span>(<span class="sc">+</span><span class="dv">1</span>, <span class="dv">0</span>), <span class="at">Down =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">0</span>), <span class="at">Right =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="sc">+</span><span class="dv">1</span>), <span class="at">Left =</span> <span class="fu">c</span>(<span class="dv">0</span>,</span>
-<span id="cb19-15"><a href="#cb19-15"></a>        <span class="sc">-</span><span class="dv">1</span>))</span>
-<span id="cb19-16"><a href="#cb19-16"></a>    delta <span class="ot">&lt;-</span> action_to_delta[[action]]</span>
-<span id="cb19-17"><a href="#cb19-17"></a>    dr <span class="ot">&lt;-</span> delta[<span class="dv">1</span>]</span>
-<span id="cb19-18"><a href="#cb19-18"></a>    dc <span class="ot">&lt;-</span> delta[<span class="dv">2</span>]</span>
-<span id="cb19-19"><a href="#cb19-19"></a></span>
-<span id="cb19-20"><a href="#cb19-20"></a>    rc <span class="ot">&lt;-</span> <span class="fu">s_to_rc</span>(s)</span>
-<span id="cb19-21"><a href="#cb19-21"></a>    r <span class="ot">&lt;-</span> rc[<span class="dv">1</span>]</span>
-<span id="cb19-22"><a href="#cb19-22"></a>    c <span class="ot">&lt;-</span> rc[<span class="dv">2</span>]</span>
-<span id="cb19-23"><a href="#cb19-23"></a></span>
-<span id="cb19-24"><a href="#cb19-24"></a>    <span class="cf">if</span> (dr <span class="sc">!=</span> <span class="dv">0</span> <span class="sc">&amp;&amp;</span> dc <span class="sc">!=</span> <span class="dv">0</span>)</span>
-<span id="cb19-25"><a href="#cb19-25"></a>        <span class="fu">stop</span>(<span class="st">&quot;You can only go up/down or right/left!&quot;</span>)</span>
-<span id="cb19-26"><a href="#cb19-26"></a></span>
-<span id="cb19-27"><a href="#cb19-27"></a>    P <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">nrow =</span> ROWS, <span class="at">ncol =</span> COLS)</span>
-<span id="cb19-28"><a href="#cb19-28"></a></span>
-<span id="cb19-29"><a href="#cb19-29"></a>    <span class="co"># UP/DOWN</span></span>
-<span id="cb19-30"><a href="#cb19-30"></a>    <span class="cf">if</span> (dr <span class="sc">!=</span> <span class="dv">0</span>) {</span>
-<span id="cb19-31"><a href="#cb19-31"></a>        new_r <span class="ot">&lt;-</span> r <span class="sc">+</span> dr</span>
-<span id="cb19-32"><a href="#cb19-32"></a>        <span class="cf">if</span> (new_r <span class="sc">&gt;</span> ROWS <span class="sc">||</span> new_r <span class="sc">&lt;</span> <span class="dv">1</span>)</span>
-<span id="cb19-33"><a href="#cb19-33"></a>            new_r <span class="ot">&lt;-</span> r</span>
-<span id="cb19-34"><a href="#cb19-34"></a>        <span class="do">## can&#39;t got to (2, 2)</span></span>
-<span id="cb19-35"><a href="#cb19-35"></a>        <span class="cf">if</span> (new_r <span class="sc">==</span> <span class="dv">2</span> <span class="sc">&amp;&amp;</span> c <span class="sc">==</span> <span class="dv">2</span>)</span>
-<span id="cb19-36"><a href="#cb19-36"></a>            new_r <span class="ot">&lt;-</span> r</span>
-<span id="cb19-37"><a href="#cb19-37"></a>        P[new_r, c] <span class="ot">&lt;-</span> <span class="fl">0.8</span></span>
-<span id="cb19-38"><a href="#cb19-38"></a></span>
-<span id="cb19-39"><a href="#cb19-39"></a>        <span class="cf">if</span> (c <span class="sc">&lt;</span> COLS <span class="sc">&amp;</span> <span class="sc">!</span>(r <span class="sc">==</span> <span class="dv">2</span> <span class="sc">&amp;</span> (c <span class="sc">+</span> <span class="dv">1</span>) <span class="sc">==</span> <span class="dv">2</span>))</span>
-<span id="cb19-40"><a href="#cb19-40"></a>            P[r, c <span class="sc">+</span> <span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fl">0.1</span> <span class="cf">else</span> P[r, c] <span class="ot">&lt;-</span> P[r, c] <span class="sc">+</span> <span class="fl">0.1</span></span>
-<span id="cb19-41"><a href="#cb19-41"></a>        <span class="cf">if</span> (c <span class="sc">&gt;</span> <span class="dv">1</span> <span class="sc">&amp;</span> <span class="sc">!</span>(r <span class="sc">==</span> <span class="dv">2</span> <span class="sc">&amp;</span> (c <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">==</span> <span class="dv">2</span>))</span>
-<span id="cb19-42"><a href="#cb19-42"></a>            P[r, c <span class="sc">-</span> <span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fl">0.1</span> <span class="cf">else</span> P[r, c] <span class="ot">&lt;-</span> P[r, c] <span class="sc">+</span> <span class="fl">0.1</span></span>
-<span id="cb19-43"><a href="#cb19-43"></a>    }</span>
-<span id="cb19-44"><a href="#cb19-44"></a></span>
-<span id="cb19-45"><a href="#cb19-45"></a>    <span class="co"># RIGHT/LEFT</span></span>
-<span id="cb19-46"><a href="#cb19-46"></a>    <span class="cf">if</span> (dc <span class="sc">!=</span> <span class="dv">0</span>) {</span>
-<span id="cb19-47"><a href="#cb19-47"></a>        new_c <span class="ot">&lt;-</span> c <span class="sc">+</span> dc</span>
-<span id="cb19-48"><a href="#cb19-48"></a>        <span class="cf">if</span> (new_c <span class="sc">&gt;</span> COLS <span class="sc">||</span> new_c <span class="sc">&lt;</span> <span class="dv">1</span>)</span>
-<span id="cb19-49"><a href="#cb19-49"></a>            new_c <span class="ot">&lt;-</span> c</span>
-<span id="cb19-50"><a href="#cb19-50"></a>        <span class="do">## can&#39;t got to (2, 2)</span></span>
-<span id="cb19-51"><a href="#cb19-51"></a>        <span class="cf">if</span> (r <span class="sc">==</span> <span class="dv">2</span> <span class="sc">&amp;&amp;</span> new_c <span class="sc">==</span> <span class="dv">2</span>)</span>
-<span id="cb19-52"><a href="#cb19-52"></a>            new_c <span class="ot">&lt;-</span> c</span>
-<span id="cb19-53"><a href="#cb19-53"></a>        P[r, new_c] <span class="ot">&lt;-</span> <span class="fl">0.8</span></span>
-<span id="cb19-54"><a href="#cb19-54"></a></span>
-<span id="cb19-55"><a href="#cb19-55"></a>        <span class="cf">if</span> (r <span class="sc">&lt;</span> ROWS <span class="sc">&amp;</span> <span class="sc">!</span>((r <span class="sc">+</span> <span class="dv">1</span>) <span class="sc">==</span> <span class="dv">2</span> <span class="sc">&amp;</span> c <span class="sc">==</span> <span class="dv">2</span>))</span>
-<span id="cb19-56"><a href="#cb19-56"></a>            P[r <span class="sc">+</span> <span class="dv">1</span>, c] <span class="ot">&lt;-</span> <span class="fl">0.1</span> <span class="cf">else</span> P[r, c] <span class="ot">&lt;-</span> P[r, c] <span class="sc">+</span> <span class="fl">0.1</span></span>
-<span id="cb19-57"><a href="#cb19-57"></a>        <span class="cf">if</span> (r <span class="sc">&gt;</span> <span class="dv">1</span> <span class="sc">&amp;</span> <span class="sc">!</span>((r <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">==</span> <span class="dv">2</span> <span class="sc">&amp;</span> c <span class="sc">==</span> <span class="dv">2</span>))</span>
-<span id="cb19-58"><a href="#cb19-58"></a>            P[r <span class="sc">-</span> <span class="dv">1</span>, c] <span class="ot">&lt;-</span> <span class="fl">0.1</span> <span class="cf">else</span> P[r, c] <span class="ot">&lt;-</span> P[r, c] <span class="sc">+</span> <span class="fl">0.1</span></span>
-<span id="cb19-59"><a href="#cb19-59"></a>    }</span>
-<span id="cb19-60"><a href="#cb19-60"></a></span>
-<span id="cb19-61"><a href="#cb19-61"></a>    <span class="fu">as.vector</span>(P)</span>
-<span id="cb19-62"><a href="#cb19-62"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>calc_transition <span class="ot">&lt;-</span> <span class="cf">function</span>(s, action) {</span>
+<span id="cb13-2"><a href="#cb13-2"></a>    action <span class="ot">&lt;-</span> <span class="fu">match.arg</span>(action, <span class="at">choices =</span> A)</span>
+<span id="cb13-3"><a href="#cb13-3"></a></span>
+<span id="cb13-4"><a href="#cb13-4"></a>    <span class="cf">if</span> (<span class="fu">length</span>(s) <span class="sc">&gt;</span> <span class="dv">1</span>)</span>
+<span id="cb13-5"><a href="#cb13-5"></a>        <span class="fu">return</span>(<span class="fu">t</span>(<span class="fu">sapply</span>(s, calc_transition, <span class="at">action =</span> action)))</span>
+<span id="cb13-6"><a href="#cb13-6"></a></span>
+<span id="cb13-7"><a href="#cb13-7"></a>    <span class="co"># deal with absorbing and illegal state</span></span>
+<span id="cb13-8"><a href="#cb13-8"></a>    <span class="cf">if</span> (s <span class="sc">==</span> <span class="dv">11</span> <span class="sc">||</span> s <span class="sc">==</span> <span class="dv">12</span> <span class="sc">||</span> s <span class="sc">==</span> <span class="dv">5</span> <span class="sc">||</span> action <span class="sc">==</span> <span class="st">&quot;None&quot;</span>) {</span>
+<span id="cb13-9"><a href="#cb13-9"></a>        P <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">0</span>, <span class="fu">length</span>(S))</span>
+<span id="cb13-10"><a href="#cb13-10"></a>        P[s] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb13-11"><a href="#cb13-11"></a>        <span class="fu">return</span>(P)</span>
+<span id="cb13-12"><a href="#cb13-12"></a>    }</span>
+<span id="cb13-13"><a href="#cb13-13"></a></span>
+<span id="cb13-14"><a href="#cb13-14"></a>    action_to_delta <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">Up =</span> <span class="fu">c</span>(<span class="sc">+</span><span class="dv">1</span>, <span class="dv">0</span>), <span class="at">Down =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">0</span>), <span class="at">Right =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="sc">+</span><span class="dv">1</span>), <span class="at">Left =</span> <span class="fu">c</span>(<span class="dv">0</span>,</span>
+<span id="cb13-15"><a href="#cb13-15"></a>        <span class="sc">-</span><span class="dv">1</span>))</span>
+<span id="cb13-16"><a href="#cb13-16"></a>    delta <span class="ot">&lt;-</span> action_to_delta[[action]]</span>
+<span id="cb13-17"><a href="#cb13-17"></a>    dr <span class="ot">&lt;-</span> delta[<span class="dv">1</span>]</span>
+<span id="cb13-18"><a href="#cb13-18"></a>    dc <span class="ot">&lt;-</span> delta[<span class="dv">2</span>]</span>
+<span id="cb13-19"><a href="#cb13-19"></a></span>
+<span id="cb13-20"><a href="#cb13-20"></a>    rc <span class="ot">&lt;-</span> <span class="fu">s_to_rc</span>(s)</span>
+<span id="cb13-21"><a href="#cb13-21"></a>    r <span class="ot">&lt;-</span> rc[<span class="dv">1</span>]</span>
+<span id="cb13-22"><a href="#cb13-22"></a>    c <span class="ot">&lt;-</span> rc[<span class="dv">2</span>]</span>
+<span id="cb13-23"><a href="#cb13-23"></a></span>
+<span id="cb13-24"><a href="#cb13-24"></a>    <span class="cf">if</span> (dr <span class="sc">!=</span> <span class="dv">0</span> <span class="sc">&amp;&amp;</span> dc <span class="sc">!=</span> <span class="dv">0</span>)</span>
+<span id="cb13-25"><a href="#cb13-25"></a>        <span class="fu">stop</span>(<span class="st">&quot;You can only go up/down or right/left!&quot;</span>)</span>
+<span id="cb13-26"><a href="#cb13-26"></a></span>
+<span id="cb13-27"><a href="#cb13-27"></a>    P <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">nrow =</span> ROWS, <span class="at">ncol =</span> COLS)</span>
+<span id="cb13-28"><a href="#cb13-28"></a></span>
+<span id="cb13-29"><a href="#cb13-29"></a>    <span class="co"># UP/DOWN</span></span>
+<span id="cb13-30"><a href="#cb13-30"></a>    <span class="cf">if</span> (dr <span class="sc">!=</span> <span class="dv">0</span>) {</span>
+<span id="cb13-31"><a href="#cb13-31"></a>        new_r <span class="ot">&lt;-</span> r <span class="sc">+</span> dr</span>
+<span id="cb13-32"><a href="#cb13-32"></a>        <span class="cf">if</span> (new_r <span class="sc">&gt;</span> ROWS <span class="sc">||</span> new_r <span class="sc">&lt;</span> <span class="dv">1</span>)</span>
+<span id="cb13-33"><a href="#cb13-33"></a>            new_r <span class="ot">&lt;-</span> r</span>
+<span id="cb13-34"><a href="#cb13-34"></a>        <span class="do">## can&#39;t got to (2, 2)</span></span>
+<span id="cb13-35"><a href="#cb13-35"></a>        <span class="cf">if</span> (new_r <span class="sc">==</span> <span class="dv">2</span> <span class="sc">&amp;&amp;</span> c <span class="sc">==</span> <span class="dv">2</span>)</span>
+<span id="cb13-36"><a href="#cb13-36"></a>            new_r <span class="ot">&lt;-</span> r</span>
+<span id="cb13-37"><a href="#cb13-37"></a>        P[new_r, c] <span class="ot">&lt;-</span> <span class="fl">0.8</span></span>
+<span id="cb13-38"><a href="#cb13-38"></a></span>
+<span id="cb13-39"><a href="#cb13-39"></a>        <span class="cf">if</span> (c <span class="sc">&lt;</span> COLS <span class="sc">&amp;</span> <span class="sc">!</span>(r <span class="sc">==</span> <span class="dv">2</span> <span class="sc">&amp;</span> (c <span class="sc">+</span> <span class="dv">1</span>) <span class="sc">==</span> <span class="dv">2</span>))</span>
+<span id="cb13-40"><a href="#cb13-40"></a>            P[r, c <span class="sc">+</span> <span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fl">0.1</span> <span class="cf">else</span> P[r, c] <span class="ot">&lt;-</span> P[r, c] <span class="sc">+</span> <span class="fl">0.1</span></span>
+<span id="cb13-41"><a href="#cb13-41"></a>        <span class="cf">if</span> (c <span class="sc">&gt;</span> <span class="dv">1</span> <span class="sc">&amp;</span> <span class="sc">!</span>(r <span class="sc">==</span> <span class="dv">2</span> <span class="sc">&amp;</span> (c <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">==</span> <span class="dv">2</span>))</span>
+<span id="cb13-42"><a href="#cb13-42"></a>            P[r, c <span class="sc">-</span> <span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fl">0.1</span> <span class="cf">else</span> P[r, c] <span class="ot">&lt;-</span> P[r, c] <span class="sc">+</span> <span class="fl">0.1</span></span>
+<span id="cb13-43"><a href="#cb13-43"></a>    }</span>
+<span id="cb13-44"><a href="#cb13-44"></a></span>
+<span id="cb13-45"><a href="#cb13-45"></a>    <span class="co"># RIGHT/LEFT</span></span>
+<span id="cb13-46"><a href="#cb13-46"></a>    <span class="cf">if</span> (dc <span class="sc">!=</span> <span class="dv">0</span>) {</span>
+<span id="cb13-47"><a href="#cb13-47"></a>        new_c <span class="ot">&lt;-</span> c <span class="sc">+</span> dc</span>
+<span id="cb13-48"><a href="#cb13-48"></a>        <span class="cf">if</span> (new_c <span class="sc">&gt;</span> COLS <span class="sc">||</span> new_c <span class="sc">&lt;</span> <span class="dv">1</span>)</span>
+<span id="cb13-49"><a href="#cb13-49"></a>            new_c <span class="ot">&lt;-</span> c</span>
+<span id="cb13-50"><a href="#cb13-50"></a>        <span class="do">## can&#39;t got to (2, 2)</span></span>
+<span id="cb13-51"><a href="#cb13-51"></a>        <span class="cf">if</span> (r <span class="sc">==</span> <span class="dv">2</span> <span class="sc">&amp;&amp;</span> new_c <span class="sc">==</span> <span class="dv">2</span>)</span>
+<span id="cb13-52"><a href="#cb13-52"></a>            new_c <span class="ot">&lt;-</span> c</span>
+<span id="cb13-53"><a href="#cb13-53"></a>        P[r, new_c] <span class="ot">&lt;-</span> <span class="fl">0.8</span></span>
+<span id="cb13-54"><a href="#cb13-54"></a></span>
+<span id="cb13-55"><a href="#cb13-55"></a>        <span class="cf">if</span> (r <span class="sc">&lt;</span> ROWS <span class="sc">&amp;</span> <span class="sc">!</span>((r <span class="sc">+</span> <span class="dv">1</span>) <span class="sc">==</span> <span class="dv">2</span> <span class="sc">&amp;</span> c <span class="sc">==</span> <span class="dv">2</span>))</span>
+<span id="cb13-56"><a href="#cb13-56"></a>            P[r <span class="sc">+</span> <span class="dv">1</span>, c] <span class="ot">&lt;-</span> <span class="fl">0.1</span> <span class="cf">else</span> P[r, c] <span class="ot">&lt;-</span> P[r, c] <span class="sc">+</span> <span class="fl">0.1</span></span>
+<span id="cb13-57"><a href="#cb13-57"></a>        <span class="cf">if</span> (r <span class="sc">&gt;</span> <span class="dv">1</span> <span class="sc">&amp;</span> <span class="sc">!</span>((r <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">==</span> <span class="dv">2</span> <span class="sc">&amp;</span> c <span class="sc">==</span> <span class="dv">2</span>))</span>
+<span id="cb13-58"><a href="#cb13-58"></a>            P[r <span class="sc">-</span> <span class="dv">1</span>, c] <span class="ot">&lt;-</span> <span class="fl">0.1</span> <span class="cf">else</span> P[r, c] <span class="ot">&lt;-</span> P[r, c] <span class="sc">+</span> <span class="fl">0.1</span></span>
+<span id="cb13-59"><a href="#cb13-59"></a>    }</span>
+<span id="cb13-60"><a href="#cb13-60"></a></span>
+<span id="cb13-61"><a href="#cb13-61"></a>    <span class="fu">as.vector</span>(P)</span>
+<span id="cb13-62"><a href="#cb13-62"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Try to go up from state 1 (this is (1,1), the bottom left corner). Note: we cannot go left so there is a .1 chance to stay in place. ::: {.cell}</p>
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a><span class="fu">calc_transition</span>(<span class="dv">1</span>, <span class="st">&quot;Up&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="fu">calc_transition</span>(<span class="dv">1</span>, <span class="st">&quot;Up&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] 0.1 0.8 0.0 0.1 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a><span class="fu">show_layout</span>(<span class="fu">calc_transition</span>(<span class="dv">1</span>, <span class="st">&quot;Up&quot;</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="fu">show_layout</span>(<span class="fu">calc_transition</span>(<span class="dv">1</span>, <span class="st">&quot;Up&quot;</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   col
 row   1   2 3 4
@@ -3447,7 +3425,7 @@ row   1   2 3 4
 </div>
 <p>:::</p>
 <p>Try to go right from (2,1). Since right is blocked, there is a .8 probability of staying in place. ::: {.cell}</p>
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a><span class="fu">show_layout</span>(<span class="fu">calc_transition</span>(<span class="dv">2</span>, <span class="st">&quot;Right&quot;</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="fu">show_layout</span>(<span class="fu">calc_transition</span>(<span class="dv">2</span>, <span class="st">&quot;Right&quot;</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   col
 row   1 2 3 4
@@ -3459,9 +3437,9 @@ row   1 2 3 4
 <p>Calculate transitions for each state to each other state. Each row represents a state <span class="math inline">\(s\)</span> and each column a state <span class="math inline">\(s&#39;\)</span> so we get a complete definition for <span class="math inline">\(P_a(s&#39; | s)\)</span>. Note that the matrix is stochastic (all rows add up to 1).</p>
 <p>Create a matrix for each action.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a>P_matrices <span class="ot">&lt;-</span> <span class="fu">lapply</span>(A, <span class="at">FUN =</span> <span class="cf">function</span>(a) <span class="fu">calc_transition</span>(S, a))</span>
-<span id="cb26-2"><a href="#cb26-2"></a><span class="fu">names</span>(P_matrices) <span class="ot">&lt;-</span> A</span>
-<span id="cb26-3"><a href="#cb26-3"></a><span class="fu">str</span>(P_matrices)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a>P_matrices <span class="ot">&lt;-</span> <span class="fu">lapply</span>(A, <span class="at">FUN =</span> <span class="cf">function</span>(a) <span class="fu">calc_transition</span>(S, a))</span>
+<span id="cb20-2"><a href="#cb20-2"></a><span class="fu">names</span>(P_matrices) <span class="ot">&lt;-</span> A</span>
+<span id="cb20-3"><a href="#cb20-3"></a><span class="fu">str</span>(P_matrices)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>List of 5
  $ Up   : num [1:12, 1:12] 0.1 0 0 0.1 0 0 0 0 0 0 ...
@@ -3473,13 +3451,53 @@ row   1 2 3 4
 </div>
 <p>Create a function interface for <span class="math inline">\(P(s&#39; | s, a)\)</span>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a>P <span class="ot">&lt;-</span> <span class="cf">function</span>(sp, s, a) P_matrices[[a]][s, sp]</span>
-<span id="cb28-2"><a href="#cb28-2"></a></span>
-<span id="cb28-3"><a href="#cb28-3"></a><span class="fu">P</span>(<span class="dv">2</span>, <span class="dv">1</span>, <span class="st">&quot;Up&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a>P <span class="ot">&lt;-</span> <span class="cf">function</span>(sp, s, a) P_matrices[[a]][s, sp]</span>
+<span id="cb22-2"><a href="#cb22-2"></a></span>
+<span id="cb22-3"><a href="#cb22-3"></a><span class="fu">P</span>(<span class="dv">2</span>, <span class="dv">1</span>, <span class="st">&quot;Up&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.8</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1"></a><span class="fu">P</span>(<span class="dv">5</span>, <span class="dv">4</span>, <span class="st">&quot;Up&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a><span class="fu">P</span>(<span class="dv">5</span>, <span class="dv">4</span>, <span class="st">&quot;Up&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0</code></pre>
+</div>
+</div>
+</section>
+<section id="reward" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="reward"><span class="header-section-number">2.4</span> Reward</h2>
+<p><span class="math inline">\(R(s, a, s&#39;)\)</span> define the reward for the transition from <span class="math inline">\(s\)</span> to <span class="math inline">\(s&#39;\)</span> with action <span class="math inline">\(a\)</span>.</p>
+<p>For the textbook example we have:</p>
+<ul>
+<li>Any move costs utility (a reward of -0.04).</li>
+<li>Going to state 12 has a reward of +1</li>
+<li>Going to state 11 has a reward of -1.</li>
+</ul>
+<p>Note that once you are in an absorbing state (11 or 12), then the problem is over and there is no more reward!</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a>R <span class="ot">&lt;-</span> <span class="cf">function</span>(s, a, s_prime) {</span>
+<span id="cb26-2"><a href="#cb26-2"></a>    <span class="do">## no more reward when we in 11 or 12.</span></span>
+<span id="cb26-3"><a href="#cb26-3"></a>    <span class="cf">if</span> (a <span class="sc">==</span> <span class="st">&quot;None&quot;</span> <span class="sc">||</span> s <span class="sc">==</span> <span class="dv">11</span> <span class="sc">||</span> s <span class="sc">==</span> <span class="dv">12</span>)</span>
+<span id="cb26-4"><a href="#cb26-4"></a>        <span class="fu">return</span>(<span class="dv">0</span>)</span>
+<span id="cb26-5"><a href="#cb26-5"></a></span>
+<span id="cb26-6"><a href="#cb26-6"></a>    <span class="do">## transition to the absorbing states.</span></span>
+<span id="cb26-7"><a href="#cb26-7"></a>    <span class="cf">if</span> (s_prime <span class="sc">==</span> <span class="dv">12</span>)</span>
+<span id="cb26-8"><a href="#cb26-8"></a>        <span class="fu">return</span>(<span class="sc">+</span><span class="dv">1</span>)</span>
+<span id="cb26-9"><a href="#cb26-9"></a>    <span class="cf">if</span> (s_prime <span class="sc">==</span> <span class="dv">11</span>)</span>
+<span id="cb26-10"><a href="#cb26-10"></a>        <span class="fu">return</span>(<span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb26-11"><a href="#cb26-11"></a></span>
+<span id="cb26-12"><a href="#cb26-12"></a>    <span class="do">## cost for each move</span></span>
+<span id="cb26-13"><a href="#cb26-13"></a>    <span class="fu">return</span>(<span class="sc">-</span><span class="fl">0.04</span>)</span>
+<span id="cb26-14"><a href="#cb26-14"></a>}</span>
+<span id="cb26-15"><a href="#cb26-15"></a></span>
+<span id="cb26-16"><a href="#cb26-16"></a><span class="fu">R</span>(<span class="dv">1</span>, <span class="st">&quot;Up&quot;</span>, <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -0.04</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a><span class="fu">R</span>(<span class="dv">9</span>, <span class="st">&quot;Right&quot;</span>, <span class="dv">12</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1"></a><span class="fu">R</span>(<span class="dv">12</span>, <span class="st">&quot;None&quot;</span>, <span class="dv">12</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0</code></pre>
 </div>
@@ -3507,12 +3525,19 @@ row 1       2       3       4
 </div>
 <p>We can also create a random policy by randomly choosing from the available actions for each state.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
-<span id="cb36-2"><a href="#cb36-2"></a>create_random_policy <span class="ot">&lt;-</span> <span class="cf">function</span>() <span class="fu">sapply</span>(S, <span class="at">FUN =</span> <span class="cf">function</span>(s) <span class="fu">sample</span>(<span class="fu">actions</span>(s),</span>
-<span id="cb36-3"><a href="#cb36-3"></a>    <span class="dv">1</span>))</span>
-<span id="cb36-4"><a href="#cb36-4"></a></span>
-<span id="cb36-5"><a href="#cb36-5"></a>pi_random <span class="ot">&lt;-</span> <span class="fu">create_random_policy</span>()</span>
-<span id="cb36-6"><a href="#cb36-6"></a><span class="fu">show_layout</span>(pi_random)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1"></a>create_random_deterministic_policy <span class="ot">&lt;-</span> <span class="cf">function</span>() <span class="fu">structure</span>(<span class="fu">sapply</span>(S, <span class="at">FUN =</span> <span class="cf">function</span>(s) <span class="fu">sample</span>(<span class="fu">actions</span>(s),</span>
+<span id="cb36-2"><a href="#cb36-2"></a>    1L)), <span class="at">names =</span> S)</span>
+<span id="cb36-3"><a href="#cb36-3"></a></span>
+<span id="cb36-4"><a href="#cb36-4"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb36-5"><a href="#cb36-5"></a>pi_random <span class="ot">&lt;-</span> <span class="fu">create_random_deterministic_policy</span>()</span>
+<span id="cb36-6"><a href="#cb36-6"></a>pi_random</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      1       2       3       4       5       6       7       8       9      10 
+ &quot;Left&quot;  &quot;Left&quot; &quot;Right&quot; &quot;Right&quot;  &quot;None&quot;  &quot;Left&quot;  &quot;Down&quot;    &quot;Up&quot;    &quot;Up&quot; &quot;Right&quot; 
+     11      12 
+ &quot;None&quot;  &quot;None&quot; </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1"></a><span class="fu">show_layout</span>(pi_random)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   col
 row 1       2       3      4      
@@ -3521,34 +3546,77 @@ row 1       2       3      4
   1 &quot;Left&quot;  &quot;Right&quot; &quot;Down&quot; &quot;Right&quot;</code></pre>
 </div>
 </div>
-<p>Stochastic policies use probabilities of actions in each state. We use as simple table with probabilities where each row is a state and the columns are the actions.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
-<span id="cb38-2"><a href="#cb38-2"></a>create_random_soft_policy <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
-<span id="cb38-3"><a href="#cb38-3"></a>    p <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">nrow =</span> <span class="fu">length</span>(S), <span class="at">ncol =</span> <span class="fu">length</span>(A), <span class="at">dimnames =</span> <span class="fu">list</span>(S, A))</span>
-<span id="cb38-4"><a href="#cb38-4"></a>    <span class="cf">for</span> (s <span class="cf">in</span> S) p[s, <span class="fu">actions</span>(s)] <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">n =</span> <span class="fu">length</span>(<span class="fu">actions</span>(s)))</span>
-<span id="cb38-5"><a href="#cb38-5"></a></span>
-<span id="cb38-6"><a href="#cb38-6"></a>    <span class="co"># make stochastic (rows sum up to 1)</span></span>
-<span id="cb38-7"><a href="#cb38-7"></a>    p <span class="ot">&lt;-</span> <span class="fu">sweep</span>(p, <span class="at">MARGIN =</span> <span class="dv">1</span>, <span class="at">STATS =</span> <span class="fu">rowSums</span>(p), <span class="at">FUN =</span> <span class="st">&quot;/&quot;</span>)</span>
-<span id="cb38-8"><a href="#cb38-8"></a>    p</span>
-<span id="cb38-9"><a href="#cb38-9"></a>}</span>
-<span id="cb38-10"><a href="#cb38-10"></a></span>
-<span id="cb38-11"><a href="#cb38-11"></a>pi_random_soft <span class="ot">&lt;-</span> <span class="fu">create_random_soft_policy</span>()</span>
-<span id="cb38-12"><a href="#cb38-12"></a>pi_random_soft</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Stochastic policies use probabilities of actions in each state. We use as simple table with probabilities where each row is a state and the columns are the actions. Here we create a random <span class="math inline">\(\epsilon\)</span>-soft policy. Each available has at least a probability of <span class="math inline">\(\epsilon\)</span>.</p>
+<p>We can make a deterministic policy soft. ::: {.cell}</p>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1"></a>make_policy_soft <span class="ot">&lt;-</span> <span class="cf">function</span>(pi, <span class="at">epsilon =</span> <span class="fl">0.1</span>) {</span>
+<span id="cb40-2"><a href="#cb40-2"></a>    <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.vector</span>(pi))</span>
+<span id="cb40-3"><a href="#cb40-3"></a>        <span class="fu">stop</span>(<span class="st">&quot;pi is not a deterministic policy!&quot;</span>)</span>
+<span id="cb40-4"><a href="#cb40-4"></a></span>
+<span id="cb40-5"><a href="#cb40-5"></a>    p <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">nrow =</span> <span class="fu">length</span>(S), <span class="at">ncol =</span> <span class="fu">length</span>(A), <span class="at">dimnames =</span> <span class="fu">list</span>(S, A))</span>
+<span id="cb40-6"><a href="#cb40-6"></a></span>
+<span id="cb40-7"><a href="#cb40-7"></a>    <span class="cf">for</span> (s <span class="cf">in</span> S) {</span>
+<span id="cb40-8"><a href="#cb40-8"></a>        p[s, <span class="fu">actions</span>(s)] <span class="ot">&lt;-</span> epsilon<span class="sc">/</span><span class="fu">length</span>(<span class="fu">actions</span>(s))</span>
+<span id="cb40-9"><a href="#cb40-9"></a>        p[s, pi[s]] <span class="ot">&lt;-</span> p[s, pi[s]] <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">-</span> epsilon)</span>
+<span id="cb40-10"><a href="#cb40-10"></a>    }</span>
+<span id="cb40-11"><a href="#cb40-11"></a></span>
+<span id="cb40-12"><a href="#cb40-12"></a>    p</span>
+<span id="cb40-13"><a href="#cb40-13"></a>}</span>
+<span id="cb40-14"><a href="#cb40-14"></a></span>
+<span id="cb40-15"><a href="#cb40-15"></a><span class="fu">make_policy_soft</span>(pi_random)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>      Up Right   Down Left None
-1  0.058  0.32 0.3095 0.32    0
-2  0.494  0.37 0.0054 0.13    0
-3  0.275  0.21 0.2867 0.23    0
-4  0.121  0.40 0.1251 0.36    0
-5  0.000  0.00 0.0000 0.00    1
-6  0.266  0.19 0.2317 0.32    0
-7  0.420  0.22 0.0555 0.30    0
-8  0.263  0.17 0.2967 0.27    0
-9  0.043  0.43 0.2474 0.28    0
-10 0.308  0.11 0.4606 0.12    0
-11 0.000  0.00 0.0000 0.00    1
-12 0.000  0.00 0.0000 0.00    1</code></pre>
+<pre><code>      Up Right  Down  Left None
+1  0.025 0.025 0.025 0.925    0
+2  0.025 0.025 0.025 0.925    0
+3  0.025 0.925 0.025 0.025    0
+4  0.025 0.925 0.025 0.025    0
+5  0.000 0.000 0.000 0.000    1
+6  0.025 0.025 0.025 0.925    0
+7  0.025 0.025 0.925 0.025    0
+8  0.925 0.025 0.025 0.025    0
+9  0.925 0.025 0.025 0.025    0
+10 0.025 0.925 0.025 0.025    0
+11 0.000 0.000 0.000 0.000    1
+12 0.000 0.000 0.000 0.000    1</code></pre>
+</div>
+<p>:::</p>
+<p>Or we can create a completely random soft policy</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1"></a>create_random_epsilon_soft_policy <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">epsilon =</span> <span class="fl">0.1</span>) {</span>
+<span id="cb42-2"><a href="#cb42-2"></a></span>
+<span id="cb42-3"><a href="#cb42-3"></a>    <span class="co"># split total randomly into n numbers that add up to total</span></span>
+<span id="cb42-4"><a href="#cb42-4"></a>    random_split <span class="ot">&lt;-</span> <span class="cf">function</span>(n, total) {</span>
+<span id="cb42-5"><a href="#cb42-5"></a>        <span class="cf">if</span> (n <span class="sc">==</span> <span class="dv">1</span>)</span>
+<span id="cb42-6"><a href="#cb42-6"></a>            <span class="fu">return</span>(total)</span>
+<span id="cb42-7"><a href="#cb42-7"></a></span>
+<span id="cb42-8"><a href="#cb42-8"></a>        bordersR <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">sort</span>(<span class="fu">runif</span>(n <span class="sc">-</span> <span class="dv">1</span>)), <span class="dv">1</span>)</span>
+<span id="cb42-9"><a href="#cb42-9"></a>        bordersL <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>, bordersR[<span class="dv">1</span><span class="sc">:</span>(n <span class="sc">-</span> <span class="dv">1</span>)])</span>
+<span id="cb42-10"><a href="#cb42-10"></a>        (bordersR <span class="sc">-</span> bordersL) <span class="sc">*</span> total</span>
+<span id="cb42-11"><a href="#cb42-11"></a>    }</span>
+<span id="cb42-12"><a href="#cb42-12"></a></span>
+<span id="cb42-13"><a href="#cb42-13"></a>    p <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">nrow =</span> <span class="fu">length</span>(S), <span class="at">ncol =</span> <span class="fu">length</span>(A), <span class="at">dimnames =</span> <span class="fu">list</span>(S, A))</span>
+<span id="cb42-14"><a href="#cb42-14"></a>    <span class="cf">for</span> (s <span class="cf">in</span> S) p[s, <span class="fu">actions</span>(s)] <span class="ot">&lt;-</span> epsilon<span class="sc">/</span><span class="fu">length</span>(<span class="fu">actions</span>(s)) <span class="sc">+</span> <span class="fu">random_split</span>(<span class="at">n =</span> <span class="fu">length</span>(<span class="fu">actions</span>(s)),</span>
+<span id="cb42-15"><a href="#cb42-15"></a>        <span class="dv">1</span> <span class="sc">-</span> epsilon)</span>
+<span id="cb42-16"><a href="#cb42-16"></a></span>
+<span id="cb42-17"><a href="#cb42-17"></a>    p</span>
+<span id="cb42-18"><a href="#cb42-18"></a>}</span>
+<span id="cb42-19"><a href="#cb42-19"></a></span>
+<span id="cb42-20"><a href="#cb42-20"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb42-21"><a href="#cb42-21"></a>pi_random_epsilon_soft <span class="ot">&lt;-</span> <span class="fu">create_random_epsilon_soft_policy</span>()</span>
+<span id="cb42-22"><a href="#cb42-22"></a>pi_random_epsilon_soft</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      Up Right  Down  Left None
+1  0.127 0.471 0.037 0.365    0
+2  0.586 0.040 0.224 0.150    0
+3  0.034 0.226 0.415 0.326    0
+4  0.488 0.053 0.159 0.301    0
+5  0.000 0.000 0.000 0.000    1
+6  0.279 0.034 0.593 0.094    0
+7  0.265 0.042 0.521 0.171    0
+8  0.193 0.066 0.101 0.640    0
+9  0.061 0.132 0.154 0.653    0
+10 0.222 0.301 0.281 0.195    0
+11 0.000 0.000 0.000 0.000    1
+12 0.000 0.000 0.000 0.000    1</code></pre>
 </div>
 </div>
 </section>
@@ -3558,78 +3626,78 @@ row 1       2       3      4
 <p><span class="math inline">\(U^\pi = E\left[\sum_{t=0}^\infty \gamma^t R(s_t, \pi(s_t), s_{t+1})\right]\)</span></p>
 <p>We need to define the discount factor.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1"></a>GAMMA <span class="ot">&lt;-</span> <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1"></a>GAMMA <span class="ot">&lt;-</span> <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can evaluate the utility of a policy using simulation. For the stochastic transition model, we need to be able to sample the state <span class="math inline">\(s&#39;\)</span> the system transitions to when using action <span class="math inline">\(a\)</span> in state <span class="math inline">\(s\)</span>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1"></a>sample_transition <span class="ot">&lt;-</span> <span class="cf">function</span>(s, a) <span class="fu">sample</span>(S, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">prob =</span> P_matrices[[a]][s,</span>
-<span id="cb41-2"><a href="#cb41-2"></a>    ])</span>
-<span id="cb41-3"><a href="#cb41-3"></a></span>
-<span id="cb41-4"><a href="#cb41-4"></a><span class="fu">sample_transition</span>(<span class="dv">1</span>, <span class="st">&quot;Up&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1"></a>sample_transition <span class="ot">&lt;-</span> <span class="cf">function</span>(s, a) <span class="fu">sample</span>(S, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">prob =</span> P_matrices[[a]][s,</span>
+<span id="cb45-2"><a href="#cb45-2"></a>    ])</span>
+<span id="cb45-3"><a href="#cb45-3"></a></span>
+<span id="cb45-4"><a href="#cb45-4"></a><span class="fu">sample_transition</span>(<span class="dv">1</span>, <span class="st">&quot;Up&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 4</code></pre>
+<pre><code>[1] 1</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1"></a><span class="fu">table</span>(<span class="fu">replicate</span>(<span class="at">n =</span> <span class="dv">100</span>, <span class="fu">sample_transition</span>(<span class="dv">1</span>, <span class="st">&quot;Up&quot;</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1"></a><span class="fu">table</span>(<span class="fu">replicate</span>(<span class="at">n =</span> <span class="dv">100</span>, <span class="fu">sample_transition</span>(<span class="dv">1</span>, <span class="st">&quot;Up&quot;</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
  1  2  4 
-11 83  6 </code></pre>
+ 9 84  7 </code></pre>
 </div>
 </div>
 <p>We can now simulate the utility for one episode. Note that we use the cutoff <code>max_t</code> in case a policy does not end up in a terminal state before that.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1"></a>simulate_utility <span class="ot">&lt;-</span> <span class="cf">function</span>(pi, <span class="at">s0 =</span> <span class="dv">1</span>, <span class="at">max_t =</span> <span class="dv">100</span>) {</span>
-<span id="cb45-2"><a href="#cb45-2"></a>    s <span class="ot">&lt;-</span> s0</span>
-<span id="cb45-3"><a href="#cb45-3"></a>    U <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb45-4"><a href="#cb45-4"></a>    t <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb45-5"><a href="#cb45-5"></a></span>
-<span id="cb45-6"><a href="#cb45-6"></a>    <span class="cf">while</span> (<span class="cn">TRUE</span>) {</span>
-<span id="cb45-7"><a href="#cb45-7"></a>        <span class="do">## get action from policy (matrix means it is a stochastic policy)</span></span>
-<span id="cb45-8"><a href="#cb45-8"></a>        <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.matrix</span>(pi))</span>
-<span id="cb45-9"><a href="#cb45-9"></a>            a <span class="ot">&lt;-</span> pi[s] <span class="cf">else</span> a <span class="ot">&lt;-</span> <span class="fu">sample</span>(A, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">prob =</span> pi[s, ])</span>
-<span id="cb45-10"><a href="#cb45-10"></a></span>
-<span id="cb45-11"><a href="#cb45-11"></a>        <span class="do">## sample a transition given the action from the policy</span></span>
-<span id="cb45-12"><a href="#cb45-12"></a>        s_prime <span class="ot">&lt;-</span> <span class="fu">sample_transition</span>(s, a)</span>
-<span id="cb45-13"><a href="#cb45-13"></a></span>
-<span id="cb45-14"><a href="#cb45-14"></a>        <span class="do">##</span></span>
-<span id="cb45-15"><a href="#cb45-15"></a>        U <span class="ot">&lt;-</span> U <span class="sc">+</span> GAMMA<span class="sc">^</span>t <span class="sc">*</span> <span class="fu">R</span>(s, a, s_prime)</span>
-<span id="cb45-16"><a href="#cb45-16"></a></span>
-<span id="cb45-17"><a href="#cb45-17"></a>        s <span class="ot">&lt;-</span> s_prime</span>
-<span id="cb45-18"><a href="#cb45-18"></a></span>
-<span id="cb45-19"><a href="#cb45-19"></a>        <span class="do">## reached an absorbing state?</span></span>
-<span id="cb45-20"><a href="#cb45-20"></a>        <span class="cf">if</span> (s <span class="sc">==</span> <span class="dv">11</span> <span class="sc">||</span> s <span class="sc">==</span> <span class="dv">12</span> <span class="sc">||</span> s <span class="sc">==</span> <span class="dv">5</span>)</span>
-<span id="cb45-21"><a href="#cb45-21"></a>            <span class="cf">break</span></span>
-<span id="cb45-22"><a href="#cb45-22"></a></span>
-<span id="cb45-23"><a href="#cb45-23"></a>        t <span class="ot">&lt;-</span> t <span class="sc">+</span> <span class="dv">1</span></span>
-<span id="cb45-24"><a href="#cb45-24"></a>        <span class="cf">if</span> (t <span class="sc">&gt;=</span> max_t)</span>
-<span id="cb45-25"><a href="#cb45-25"></a>            <span class="cf">break</span></span>
-<span id="cb45-26"><a href="#cb45-26"></a>    }</span>
-<span id="cb45-27"><a href="#cb45-27"></a></span>
-<span id="cb45-28"><a href="#cb45-28"></a>    U</span>
-<span id="cb45-29"><a href="#cb45-29"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1"></a>simulate_utility <span class="ot">&lt;-</span> <span class="cf">function</span>(pi, <span class="at">s0 =</span> <span class="dv">1</span>, <span class="at">max_t =</span> <span class="dv">100</span>) {</span>
+<span id="cb49-2"><a href="#cb49-2"></a>    s <span class="ot">&lt;-</span> s0</span>
+<span id="cb49-3"><a href="#cb49-3"></a>    U <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb49-4"><a href="#cb49-4"></a>    t <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb49-5"><a href="#cb49-5"></a></span>
+<span id="cb49-6"><a href="#cb49-6"></a>    <span class="cf">while</span> (<span class="cn">TRUE</span>) {</span>
+<span id="cb49-7"><a href="#cb49-7"></a>        <span class="do">## get action from policy (matrix means it is a stochastic policy)</span></span>
+<span id="cb49-8"><a href="#cb49-8"></a>        <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.matrix</span>(pi))</span>
+<span id="cb49-9"><a href="#cb49-9"></a>            a <span class="ot">&lt;-</span> pi[s] <span class="cf">else</span> a <span class="ot">&lt;-</span> <span class="fu">sample</span>(A, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">prob =</span> pi[s, ])</span>
+<span id="cb49-10"><a href="#cb49-10"></a></span>
+<span id="cb49-11"><a href="#cb49-11"></a>        <span class="do">## sample a transition given the action from the policy</span></span>
+<span id="cb49-12"><a href="#cb49-12"></a>        s_prime <span class="ot">&lt;-</span> <span class="fu">sample_transition</span>(s, a)</span>
+<span id="cb49-13"><a href="#cb49-13"></a></span>
+<span id="cb49-14"><a href="#cb49-14"></a>        <span class="do">##</span></span>
+<span id="cb49-15"><a href="#cb49-15"></a>        U <span class="ot">&lt;-</span> U <span class="sc">+</span> GAMMA<span class="sc">^</span>t <span class="sc">*</span> <span class="fu">R</span>(s, a, s_prime)</span>
+<span id="cb49-16"><a href="#cb49-16"></a></span>
+<span id="cb49-17"><a href="#cb49-17"></a>        s <span class="ot">&lt;-</span> s_prime</span>
+<span id="cb49-18"><a href="#cb49-18"></a></span>
+<span id="cb49-19"><a href="#cb49-19"></a>        <span class="do">## reached an absorbing state?</span></span>
+<span id="cb49-20"><a href="#cb49-20"></a>        <span class="cf">if</span> (s <span class="sc">==</span> <span class="dv">11</span> <span class="sc">||</span> s <span class="sc">==</span> <span class="dv">12</span> <span class="sc">||</span> s <span class="sc">==</span> <span class="dv">5</span>)</span>
+<span id="cb49-21"><a href="#cb49-21"></a>            <span class="cf">break</span></span>
+<span id="cb49-22"><a href="#cb49-22"></a></span>
+<span id="cb49-23"><a href="#cb49-23"></a>        t <span class="ot">&lt;-</span> t <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb49-24"><a href="#cb49-24"></a>        <span class="cf">if</span> (t <span class="sc">&gt;=</span> max_t)</span>
+<span id="cb49-25"><a href="#cb49-25"></a>            <span class="cf">break</span></span>
+<span id="cb49-26"><a href="#cb49-26"></a>    }</span>
+<span id="cb49-27"><a href="#cb49-27"></a></span>
+<span id="cb49-28"><a href="#cb49-28"></a>    U</span>
+<span id="cb49-29"><a href="#cb49-29"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Simulate the <code>N</code> episodes.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1"></a>simulate_utilities <span class="ot">&lt;-</span> <span class="cf">function</span>(pi, <span class="at">s0 =</span> <span class="dv">1</span>, <span class="at">N =</span> <span class="dv">1000</span>, <span class="at">max_t =</span> <span class="dv">100</span>) <span class="fu">replicate</span>(N, <span class="fu">simulate_utility</span>(pi,</span>
-<span id="cb46-2"><a href="#cb46-2"></a>    s0, max_t))</span>
-<span id="cb46-3"><a href="#cb46-3"></a></span>
-<span id="cb46-4"><a href="#cb46-4"></a>utility_manual <span class="ot">&lt;-</span> <span class="fu">simulate_utilities</span>(pi_manual)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1"></a>simulate_utilities <span class="ot">&lt;-</span> <span class="cf">function</span>(pi, <span class="at">s0 =</span> <span class="dv">1</span>, <span class="at">N =</span> <span class="dv">1000</span>, <span class="at">max_t =</span> <span class="dv">100</span>) <span class="fu">replicate</span>(N, <span class="fu">simulate_utility</span>(pi,</span>
+<span id="cb50-2"><a href="#cb50-2"></a>    s0, max_t))</span>
+<span id="cb50-3"><a href="#cb50-3"></a></span>
+<span id="cb50-4"><a href="#cb50-4"></a>utility_manual <span class="ot">&lt;-</span> <span class="fu">simulate_utilities</span>(pi_manual)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The expected utility for starting from state <span class="math inline">\(s_0 = 1\)</span> is.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1"></a><span class="fu">mean</span>(utility_manual)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1"></a><span class="fu">mean</span>(utility_manual)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.7</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1"></a><span class="fu">hist</span>(utility_manual, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1"></a><span class="fu">hist</span>(utility_manual, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="data:image/png;base64,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" class="img-fluid" width="672"></p>
+<p><img src="data:image/png;base64,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c5kfjoCAmicxL0FAY4GAJkl7fwr/wqdbP1C3+mLhhUnHlhbkgaHFa/S9sbjehilb5fYdsLz6T3rkLTssf7tDXlzkv+22OnRAzXcfFNCWKwvnKT1ubekvQJYM1HZAy8fPFH56NTTosc5pey7jwxEUUPMkxiUIaCwQ0CRp/8uYnr1s3G7bNXbpfdA3ni9eueWOUbs0bbvPz3KXNt9/xt69m3YYctLt75fexVNnDem2zX4//DBzYlBAMy0/Hb97l12Ou6clszb3lyjeDB9Q490H/1G5V84+cucuA457oPw3yEsGakdAy8fPZH7tH3vlqfYqtOdXOQ0PR1BAAyYxLUFAY4GAws4h3gfw/HofhUMb/Reg/rPeh4FYI6Bot5/+OCv/qp41/inoF9X3gJxa5g14YL2PAvFGQNFu/l+q6Of/yD5zsrfd44M2brEl838d/up6HwXijYCi3c7zv/+2/4NrViz2T05fOLly8qzKLL/U+wq+cXm9jwTxRkDRbqt2kzKfqHGety3buPyfb/58Ycc5E41er+dBIgYIKNrvrUNK+/m5d9u+xRYq/8c2t/prYccgMar9IlEkHwFFCJtvKvz13k5jHqj3wTiUC2jjvOIOAgojAopw1v3tgR9de+uj77V9zS3YSZ079x954Yv1PgzEHgEFAEsEFAAsEVAAsERAAcASAQUASwQUACwRUACwREABwBIBBQBLBBQALBFQALBEQAHAEgEFAEsEFAAsEVAAsERAAcASAQUASwQUACwRUACwREABwBIBBQBLBBQALBFQALBEQAHAEgEFAEsEFAAsEVAAsERAAcASAQUASwQUACwRUACwREABwBIBBQBLBBQALBFQALBEQAHAEgEFAEsEFAAsEVAAsERAAcASAQUASwQUACwRUACwREABwBIBBQBLBBQALBFQALBEQAHAEgEFAEsEFAAsEVAAsERAAcASAQUASwQUACwRUACwREABwBIBBQBLBBQALBFQALBEQAHAEgEFAEsEFAAsEVAAsERAAcASAQUASwQUACwRUACwREABwBIBBQBLBBQALBFQALBEQAHAEgEFAEsEFAAsEVAAsERAAcASAQUASwQUSKP/rorEh/We0zECCqTQI40SieH1HtQxAgqk0I3SeZsISNIDk/T5ABjcKMc9GwECCiB5CKiOpM8HwICA6kj6fAAMCKiOpM8HwICA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" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Compare with the utility of the random policy. ::: {.cell}</p>
-<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1"></a>utility_random <span class="ot">&lt;-</span> <span class="fu">simulate_utilities</span>(pi_random, <span class="at">max_t =</span> <span class="dv">100</span>)</span>
-<span id="cb50-2"><a href="#cb50-2"></a></span>
-<span id="cb50-3"><a href="#cb50-3"></a><span class="fu">table</span>(utility_random)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1"></a>utility_random <span class="ot">&lt;-</span> <span class="fu">simulate_utilities</span>(pi_random, <span class="at">max_t =</span> <span class="dv">100</span>)</span>
+<span id="cb54-2"><a href="#cb54-2"></a></span>
+<span id="cb54-3"><a href="#cb54-3"></a><span class="fu">table</span>(utility_random)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>utility_random
   -4 
@@ -3639,24 +3707,24 @@ row 1       2       3      4
 <p>The random policy performs really bad and most likely always stumbles around for <code>max_t</code> moves at a cost of .04 each. The manually created policy is obviously better.</p>
 <p>We can use simulation to estimate the expected utility for starting from each state following the policy.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1"></a>U_manual <span class="ot">&lt;-</span> <span class="fu">sapply</span>(S, <span class="at">FUN =</span> <span class="cf">function</span>(s) <span class="fu">mean</span>(<span class="fu">simulate_utilities</span>(pi_manual, <span class="at">s0 =</span> s)))</span>
-<span id="cb52-2"><a href="#cb52-2"></a><span class="fu">show_layout</span>(U_manual)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1"></a>U_manual <span class="ot">&lt;-</span> <span class="fu">sapply</span>(S, <span class="at">FUN =</span> <span class="cf">function</span>(s) <span class="fu">mean</span>(<span class="fu">simulate_utilities</span>(pi_manual, <span class="at">s0 =</span> s)))</span>
+<span id="cb56-2"><a href="#cb56-2"></a><span class="fu">show_layout</span>(U_manual)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   col
 row    1     2    3     4
   3 0.86  0.90 0.95  0.00
-  2 0.79 -0.04 0.71  0.00
+  2 0.79 -0.04 0.72  0.00
   1 0.72  0.36 0.52 -0.87</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1"></a>U_random <span class="ot">&lt;-</span> <span class="fu">sapply</span>(S, <span class="at">FUN =</span> <span class="cf">function</span>(s) <span class="fu">mean</span>(<span class="fu">simulate_utilities</span>(pi_random, <span class="at">s0 =</span> s)))</span>
-<span id="cb54-2"><a href="#cb54-2"></a><span class="fu">show_layout</span>(U_random)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1"></a>U_random <span class="ot">&lt;-</span> <span class="fu">sapply</span>(S, <span class="at">FUN =</span> <span class="cf">function</span>(s) <span class="fu">mean</span>(<span class="fu">simulate_utilities</span>(pi_random, <span class="at">s0 =</span> s)))</span>
+<span id="cb58-2"><a href="#cb58-2"></a><span class="fu">show_layout</span>(U_random)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   col
 row  1    2    3    4
   3 -4 -4.0 -1.6  0.0
-  2 -4  0.0 -1.4  0.0
+  2 -4  0.0 -1.5  0.0
   1 -4 -1.8 -1.8 -1.4</code></pre>
 </div>
 </div>
@@ -3677,98 +3745,98 @@ row  1    2    3    4
 <h2 data-number="3.1" class="anchored" data-anchor-id="behavior-and-target-policies"><span class="header-section-number">3.1</span> Behavior and Target Policies</h2>
 <p>Next, we implement the greedy and <span class="math inline">\(\epsilon\)</span>-greedy policy action choice given <span class="math inline">\(Q\)</span>. The greedy policy is deterministic and always chooses the best action with the highest <span class="math inline">\(Q\)</span>-value for the current state. The <span class="math inline">\(\epsilon\)</span>-greedy policy is a stochastic policy which chooses the best action with probability <span class="math inline">\(1 - \epsilon\)</span> and a random action otherwise. Setting <span class="math inline">\(\epsilon = 0\)</span> reduces the <span class="math inline">\(\epsilon\)</span>-greedy policy to a deterministic greedy policy.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1"></a>greedy_action <span class="ot">&lt;-</span> <span class="cf">function</span>(s, Q, <span class="at">epsilon =</span> <span class="dv">0</span>) {</span>
-<span id="cb56-2"><a href="#cb56-2"></a>    available_A <span class="ot">&lt;-</span> <span class="fu">actions</span>(s)</span>
-<span id="cb56-3"><a href="#cb56-3"></a></span>
-<span id="cb56-4"><a href="#cb56-4"></a>    <span class="cf">if</span> (epsilon <span class="sc">==</span> <span class="dv">0</span> <span class="sc">||</span> <span class="fu">length</span>(available_A) <span class="sc">==</span> 1L <span class="sc">||</span> <span class="fu">runif</span>(<span class="dv">1</span>) <span class="sc">&gt;</span> epsilon) {</span>
-<span id="cb56-5"><a href="#cb56-5"></a>        a <span class="ot">&lt;-</span> available_A[<span class="fu">which.max</span>(Q[s, available_A])]</span>
-<span id="cb56-6"><a href="#cb56-6"></a>    } <span class="cf">else</span> {</span>
-<span id="cb56-7"><a href="#cb56-7"></a>        a <span class="ot">&lt;-</span> <span class="fu">sample</span>(available_A, <span class="at">size =</span> 1L)</span>
-<span id="cb56-8"><a href="#cb56-8"></a>    }</span>
-<span id="cb56-9"><a href="#cb56-9"></a></span>
-<span id="cb56-10"><a href="#cb56-10"></a>    a</span>
-<span id="cb56-11"><a href="#cb56-11"></a>}</span>
-<span id="cb56-12"><a href="#cb56-12"></a></span>
-<span id="cb56-13"><a href="#cb56-13"></a>greedy_prob <span class="ot">&lt;-</span> <span class="cf">function</span>(s, Q, <span class="at">epsilon =</span> <span class="dv">0</span>) {</span>
-<span id="cb56-14"><a href="#cb56-14"></a>    p <span class="ot">&lt;-</span> <span class="fu">structure</span>(<span class="fu">rep</span>(<span class="dv">0</span>, <span class="fu">length</span>(A)), <span class="at">names =</span> A)</span>
-<span id="cb56-15"><a href="#cb56-15"></a>    available_A <span class="ot">&lt;-</span> <span class="fu">actions</span>(s)</span>
-<span id="cb56-16"><a href="#cb56-16"></a>    a <span class="ot">&lt;-</span> available_A[<span class="fu">which.max</span>(Q[s, available_A])]</span>
-<span id="cb56-17"><a href="#cb56-17"></a>    p[a] <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> epsilon</span>
-<span id="cb56-18"><a href="#cb56-18"></a>    p[available_A] <span class="ot">&lt;-</span> p[available_A] <span class="sc">+</span> epsilon<span class="sc">/</span><span class="fu">length</span>(available_A)</span>
-<span id="cb56-19"><a href="#cb56-19"></a></span>
-<span id="cb56-20"><a href="#cb56-20"></a>    p</span>
-<span id="cb56-21"><a href="#cb56-21"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1"></a>greedy_action <span class="ot">&lt;-</span> <span class="cf">function</span>(s, Q, <span class="at">epsilon =</span> <span class="dv">0</span>) {</span>
+<span id="cb60-2"><a href="#cb60-2"></a>    available_A <span class="ot">&lt;-</span> <span class="fu">actions</span>(s)</span>
+<span id="cb60-3"><a href="#cb60-3"></a></span>
+<span id="cb60-4"><a href="#cb60-4"></a>    <span class="cf">if</span> (epsilon <span class="sc">==</span> <span class="dv">0</span> <span class="sc">||</span> <span class="fu">length</span>(available_A) <span class="sc">==</span> 1L <span class="sc">||</span> <span class="fu">runif</span>(<span class="dv">1</span>) <span class="sc">&gt;</span> epsilon) {</span>
+<span id="cb60-5"><a href="#cb60-5"></a>        a <span class="ot">&lt;-</span> available_A[<span class="fu">which.max</span>(Q[s, available_A])]</span>
+<span id="cb60-6"><a href="#cb60-6"></a>    } <span class="cf">else</span> {</span>
+<span id="cb60-7"><a href="#cb60-7"></a>        a <span class="ot">&lt;-</span> <span class="fu">sample</span>(available_A, <span class="at">size =</span> 1L)</span>
+<span id="cb60-8"><a href="#cb60-8"></a>    }</span>
+<span id="cb60-9"><a href="#cb60-9"></a></span>
+<span id="cb60-10"><a href="#cb60-10"></a>    a</span>
+<span id="cb60-11"><a href="#cb60-11"></a>}</span>
+<span id="cb60-12"><a href="#cb60-12"></a></span>
+<span id="cb60-13"><a href="#cb60-13"></a>greedy_prob <span class="ot">&lt;-</span> <span class="cf">function</span>(s, Q, <span class="at">epsilon =</span> <span class="dv">0</span>) {</span>
+<span id="cb60-14"><a href="#cb60-14"></a>    p <span class="ot">&lt;-</span> <span class="fu">structure</span>(<span class="fu">rep</span>(<span class="dv">0</span>, <span class="fu">length</span>(A)), <span class="at">names =</span> A)</span>
+<span id="cb60-15"><a href="#cb60-15"></a>    available_A <span class="ot">&lt;-</span> <span class="fu">actions</span>(s)</span>
+<span id="cb60-16"><a href="#cb60-16"></a>    a <span class="ot">&lt;-</span> available_A[<span class="fu">which.max</span>(Q[s, available_A])]</span>
+<span id="cb60-17"><a href="#cb60-17"></a>    p[a] <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> epsilon</span>
+<span id="cb60-18"><a href="#cb60-18"></a>    p[available_A] <span class="ot">&lt;-</span> p[available_A] <span class="sc">+</span> epsilon<span class="sc">/</span><span class="fu">length</span>(available_A)</span>
+<span id="cb60-19"><a href="#cb60-19"></a></span>
+<span id="cb60-20"><a href="#cb60-20"></a>    p</span>
+<span id="cb60-21"><a href="#cb60-21"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="the-td-learning-algorithm" class="level2" data-number="3.2">
 <h2 data-number="3.2" class="anchored" data-anchor-id="the-td-learning-algorithm"><span class="header-section-number">3.2</span> The TD Learning Algorithm</h2>
 <p>The temporal-difference learning algorithm follows the Sarsa implementation, but just changing how the TD error is calculated lets the algorithm also perform Q-learning and expected Sarsa.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1"></a>DT_learning <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">method =</span> <span class="st">&quot;sarsa&quot;</span>,</span>
-<span id="cb57-2"><a href="#cb57-2"></a>                        <span class="at">alpha =</span> <span class="fl">0.1</span>,</span>
-<span id="cb57-3"><a href="#cb57-3"></a>                        <span class="at">epsilon =</span> <span class="fl">0.1</span>,</span>
-<span id="cb57-4"><a href="#cb57-4"></a>                        <span class="at">gamma =</span> <span class="dv">1</span>,</span>
-<span id="cb57-5"><a href="#cb57-5"></a>                        <span class="at">N =</span> <span class="dv">100</span>,</span>
-<span id="cb57-6"><a href="#cb57-6"></a>                        <span class="at">verbose =</span> <span class="cn">FALSE</span>) {</span>
-<span id="cb57-7"><a href="#cb57-7"></a>  method <span class="ot">&lt;-</span> <span class="fu">match.arg</span>(method, <span class="fu">c</span>(<span class="st">&quot;sarsa&quot;</span>, <span class="st">&quot;q&quot;</span>, <span class="st">&quot;expected_sarsa&quot;</span>))</span>
-<span id="cb57-8"><a href="#cb57-8"></a>  </span>
-<span id="cb57-9"><a href="#cb57-9"></a>  <span class="co"># Initialize Q</span></span>
-<span id="cb57-10"><a href="#cb57-10"></a>  Q <span class="ot">&lt;-</span></span>
-<span id="cb57-11"><a href="#cb57-11"></a>    <span class="fu">matrix</span>(</span>
-<span id="cb57-12"><a href="#cb57-12"></a>      <span class="cn">NA_real_</span>,</span>
-<span id="cb57-13"><a href="#cb57-13"></a>      <span class="at">nrow =</span> <span class="fu">length</span>(S),</span>
-<span id="cb57-14"><a href="#cb57-14"></a>      <span class="at">ncol =</span> <span class="fu">length</span>(A),</span>
-<span id="cb57-15"><a href="#cb57-15"></a>      <span class="at">dimnames =</span> <span class="fu">list</span>(S, A)</span>
-<span id="cb57-16"><a href="#cb57-16"></a>    )</span>
-<span id="cb57-17"><a href="#cb57-17"></a>  <span class="cf">for</span> (s <span class="cf">in</span> S)</span>
-<span id="cb57-18"><a href="#cb57-18"></a>    Q[s, <span class="fu">actions</span>(s)] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb57-19"><a href="#cb57-19"></a>  </span>
-<span id="cb57-20"><a href="#cb57-20"></a>  <span class="co"># loop episodes</span></span>
-<span id="cb57-21"><a href="#cb57-21"></a>  <span class="cf">for</span> (e <span class="cf">in</span> <span class="fu">seq</span>(N)) {</span>
-<span id="cb57-22"><a href="#cb57-22"></a>    s <span class="ot">&lt;-</span> start</span>
-<span id="cb57-23"><a href="#cb57-23"></a>    a <span class="ot">&lt;-</span> <span class="fu">greedy_action</span>(s, Q, epsilon)</span>
-<span id="cb57-24"><a href="#cb57-24"></a>    </span>
-<span id="cb57-25"><a href="#cb57-25"></a>    <span class="co"># loop steps in episode</span></span>
-<span id="cb57-26"><a href="#cb57-26"></a>    i <span class="ot">&lt;-</span> 1L</span>
-<span id="cb57-27"><a href="#cb57-27"></a>    <span class="cf">while</span> (<span class="cn">TRUE</span>) {</span>
-<span id="cb57-28"><a href="#cb57-28"></a>      s_prime <span class="ot">&lt;-</span> <span class="fu">sample_transition</span>(s, a)</span>
-<span id="cb57-29"><a href="#cb57-29"></a>      r <span class="ot">&lt;-</span> <span class="fu">R</span>(s, a, s_prime)</span>
-<span id="cb57-30"><a href="#cb57-30"></a>      a_prime <span class="ot">&lt;-</span> <span class="fu">greedy_action</span>(s_prime, Q, epsilon)</span>
-<span id="cb57-31"><a href="#cb57-31"></a>      </span>
-<span id="cb57-32"><a href="#cb57-32"></a>      <span class="cf">if</span> (verbose) {</span>
-<span id="cb57-33"><a href="#cb57-33"></a>        <span class="cf">if</span> (step <span class="sc">==</span> 1L)</span>
-<span id="cb57-34"><a href="#cb57-34"></a>          <span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">*** Episode&quot;</span>, e, <span class="st">&quot;***</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb57-35"><a href="#cb57-35"></a>        <span class="fu">cat</span>(<span class="st">&quot;Step&quot;</span>, i, <span class="st">&quot;- s a r s&#39; a&#39;:&quot;</span>, s, a, r, s_prime, a_prime, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb57-36"><a href="#cb57-36"></a>      }</span>
-<span id="cb57-37"><a href="#cb57-37"></a>      </span>
-<span id="cb57-38"><a href="#cb57-38"></a>      <span class="cf">if</span> (method <span class="sc">==</span> <span class="st">&quot;sarsa&quot;</span>)</span>
-<span id="cb57-39"><a href="#cb57-39"></a>        <span class="co"># is called Sarsa because it uses the sequence s, a, r, s&#39;, a&#39;</span></span>
-<span id="cb57-40"><a href="#cb57-40"></a>        Q[s, a] <span class="ot">&lt;-</span></span>
-<span id="cb57-41"><a href="#cb57-41"></a>        Q[s, a] <span class="sc">+</span> alpha <span class="sc">*</span> (r <span class="sc">+</span> gamma <span class="sc">*</span> Q[s_prime, a_prime] <span class="sc">-</span> Q[s, a])</span>
-<span id="cb57-42"><a href="#cb57-42"></a>      <span class="cf">else</span> <span class="cf">if</span> (method <span class="sc">==</span> <span class="st">&quot;q&quot;</span>) {</span>
-<span id="cb57-43"><a href="#cb57-43"></a>        <span class="co"># a&#39; is greedy instead of using the behavior policy</span></span>
-<span id="cb57-44"><a href="#cb57-44"></a>        a_max <span class="ot">&lt;-</span> <span class="fu">greedy_action</span>(s_prime, Q, <span class="at">epsilon =</span> <span class="dv">0</span>)</span>
-<span id="cb57-45"><a href="#cb57-45"></a>        Q[s, a] <span class="ot">&lt;-</span></span>
-<span id="cb57-46"><a href="#cb57-46"></a>          Q[s, a] <span class="sc">+</span> alpha <span class="sc">*</span> (r <span class="sc">+</span> gamma <span class="sc">*</span> Q[s_prime, a_max] <span class="sc">-</span> Q[s, a])</span>
-<span id="cb57-47"><a href="#cb57-47"></a>      } <span class="cf">else</span> <span class="cf">if</span> (method <span class="sc">==</span> <span class="st">&quot;expected_sarsa&quot;</span>) {</span>
-<span id="cb57-48"><a href="#cb57-48"></a>        p <span class="ot">&lt;-</span> <span class="fu">greedy_prob</span>(s_prime, Q, epsilon)</span>
-<span id="cb57-49"><a href="#cb57-49"></a>        exp_Q_prime <span class="ot">&lt;-</span></span>
-<span id="cb57-50"><a href="#cb57-50"></a>          <span class="fu">sum</span>(<span class="fu">greedy_prob</span>(s_prime, Q, epsilon) <span class="sc">*</span> Q[s_prime, ], <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb57-51"><a href="#cb57-51"></a>        Q[s, a] <span class="ot">&lt;-</span></span>
-<span id="cb57-52"><a href="#cb57-52"></a>          Q[s, a] <span class="sc">+</span> alpha <span class="sc">*</span> (r <span class="sc">+</span> gamma <span class="sc">*</span> exp_Q_prime <span class="sc">-</span> Q[s, a])</span>
-<span id="cb57-53"><a href="#cb57-53"></a>      }</span>
-<span id="cb57-54"><a href="#cb57-54"></a>      </span>
-<span id="cb57-55"><a href="#cb57-55"></a>      s <span class="ot">&lt;-</span> s_prime</span>
-<span id="cb57-56"><a href="#cb57-56"></a>      a <span class="ot">&lt;-</span> a_prime</span>
-<span id="cb57-57"><a href="#cb57-57"></a>      </span>
-<span id="cb57-58"><a href="#cb57-58"></a>      <span class="cf">if</span> (<span class="fu">is_terminal</span>(s))</span>
-<span id="cb57-59"><a href="#cb57-59"></a>        <span class="cf">break</span></span>
-<span id="cb57-60"><a href="#cb57-60"></a>      </span>
-<span id="cb57-61"><a href="#cb57-61"></a>      i <span class="ot">&lt;-</span> i <span class="sc">+</span> 1L</span>
-<span id="cb57-62"><a href="#cb57-62"></a>    }</span>
-<span id="cb57-63"><a href="#cb57-63"></a>  }</span>
-<span id="cb57-64"><a href="#cb57-64"></a>  Q</span>
-<span id="cb57-65"><a href="#cb57-65"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1"></a>DT_learning <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">method =</span> <span class="st">&quot;sarsa&quot;</span>,</span>
+<span id="cb61-2"><a href="#cb61-2"></a>                        <span class="at">alpha =</span> <span class="fl">0.1</span>,</span>
+<span id="cb61-3"><a href="#cb61-3"></a>                        <span class="at">epsilon =</span> <span class="fl">0.1</span>,</span>
+<span id="cb61-4"><a href="#cb61-4"></a>                        <span class="at">gamma =</span> <span class="dv">1</span>,</span>
+<span id="cb61-5"><a href="#cb61-5"></a>                        <span class="at">N =</span> <span class="dv">100</span>,</span>
+<span id="cb61-6"><a href="#cb61-6"></a>                        <span class="at">verbose =</span> <span class="cn">FALSE</span>) {</span>
+<span id="cb61-7"><a href="#cb61-7"></a>  method <span class="ot">&lt;-</span> <span class="fu">match.arg</span>(method, <span class="fu">c</span>(<span class="st">&quot;sarsa&quot;</span>, <span class="st">&quot;q&quot;</span>, <span class="st">&quot;expected_sarsa&quot;</span>))</span>
+<span id="cb61-8"><a href="#cb61-8"></a>  </span>
+<span id="cb61-9"><a href="#cb61-9"></a>  <span class="co"># Initialize Q</span></span>
+<span id="cb61-10"><a href="#cb61-10"></a>  Q <span class="ot">&lt;-</span></span>
+<span id="cb61-11"><a href="#cb61-11"></a>    <span class="fu">matrix</span>(</span>
+<span id="cb61-12"><a href="#cb61-12"></a>      <span class="cn">NA_real_</span>,</span>
+<span id="cb61-13"><a href="#cb61-13"></a>      <span class="at">nrow =</span> <span class="fu">length</span>(S),</span>
+<span id="cb61-14"><a href="#cb61-14"></a>      <span class="at">ncol =</span> <span class="fu">length</span>(A),</span>
+<span id="cb61-15"><a href="#cb61-15"></a>      <span class="at">dimnames =</span> <span class="fu">list</span>(S, A)</span>
+<span id="cb61-16"><a href="#cb61-16"></a>    )</span>
+<span id="cb61-17"><a href="#cb61-17"></a>  <span class="cf">for</span> (s <span class="cf">in</span> S)</span>
+<span id="cb61-18"><a href="#cb61-18"></a>    Q[s, <span class="fu">actions</span>(s)] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb61-19"><a href="#cb61-19"></a>  </span>
+<span id="cb61-20"><a href="#cb61-20"></a>  <span class="co"># loop episodes</span></span>
+<span id="cb61-21"><a href="#cb61-21"></a>  <span class="cf">for</span> (e <span class="cf">in</span> <span class="fu">seq</span>(N)) {</span>
+<span id="cb61-22"><a href="#cb61-22"></a>    s <span class="ot">&lt;-</span> start</span>
+<span id="cb61-23"><a href="#cb61-23"></a>    a <span class="ot">&lt;-</span> <span class="fu">greedy_action</span>(s, Q, epsilon)</span>
+<span id="cb61-24"><a href="#cb61-24"></a>    </span>
+<span id="cb61-25"><a href="#cb61-25"></a>    <span class="co"># loop steps in episode</span></span>
+<span id="cb61-26"><a href="#cb61-26"></a>    i <span class="ot">&lt;-</span> 1L</span>
+<span id="cb61-27"><a href="#cb61-27"></a>    <span class="cf">while</span> (<span class="cn">TRUE</span>) {</span>
+<span id="cb61-28"><a href="#cb61-28"></a>      s_prime <span class="ot">&lt;-</span> <span class="fu">sample_transition</span>(s, a)</span>
+<span id="cb61-29"><a href="#cb61-29"></a>      r <span class="ot">&lt;-</span> <span class="fu">R</span>(s, a, s_prime)</span>
+<span id="cb61-30"><a href="#cb61-30"></a>      a_prime <span class="ot">&lt;-</span> <span class="fu">greedy_action</span>(s_prime, Q, epsilon)</span>
+<span id="cb61-31"><a href="#cb61-31"></a>      </span>
+<span id="cb61-32"><a href="#cb61-32"></a>      <span class="cf">if</span> (verbose) {</span>
+<span id="cb61-33"><a href="#cb61-33"></a>        <span class="cf">if</span> (step <span class="sc">==</span> 1L)</span>
+<span id="cb61-34"><a href="#cb61-34"></a>          <span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">*** Episode&quot;</span>, e, <span class="st">&quot;***</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb61-35"><a href="#cb61-35"></a>        <span class="fu">cat</span>(<span class="st">&quot;Step&quot;</span>, i, <span class="st">&quot;- s a r s&#39; a&#39;:&quot;</span>, s, a, r, s_prime, a_prime, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb61-36"><a href="#cb61-36"></a>      }</span>
+<span id="cb61-37"><a href="#cb61-37"></a>      </span>
+<span id="cb61-38"><a href="#cb61-38"></a>      <span class="cf">if</span> (method <span class="sc">==</span> <span class="st">&quot;sarsa&quot;</span>)</span>
+<span id="cb61-39"><a href="#cb61-39"></a>        <span class="co"># is called Sarsa because it uses the sequence s, a, r, s&#39;, a&#39;</span></span>
+<span id="cb61-40"><a href="#cb61-40"></a>        Q[s, a] <span class="ot">&lt;-</span></span>
+<span id="cb61-41"><a href="#cb61-41"></a>        Q[s, a] <span class="sc">+</span> alpha <span class="sc">*</span> (r <span class="sc">+</span> gamma <span class="sc">*</span> Q[s_prime, a_prime] <span class="sc">-</span> Q[s, a])</span>
+<span id="cb61-42"><a href="#cb61-42"></a>      <span class="cf">else</span> <span class="cf">if</span> (method <span class="sc">==</span> <span class="st">&quot;q&quot;</span>) {</span>
+<span id="cb61-43"><a href="#cb61-43"></a>        <span class="co"># a&#39; is greedy instead of using the behavior policy</span></span>
+<span id="cb61-44"><a href="#cb61-44"></a>        a_max <span class="ot">&lt;-</span> <span class="fu">greedy_action</span>(s_prime, Q, <span class="at">epsilon =</span> <span class="dv">0</span>)</span>
+<span id="cb61-45"><a href="#cb61-45"></a>        Q[s, a] <span class="ot">&lt;-</span></span>
+<span id="cb61-46"><a href="#cb61-46"></a>          Q[s, a] <span class="sc">+</span> alpha <span class="sc">*</span> (r <span class="sc">+</span> gamma <span class="sc">*</span> Q[s_prime, a_max] <span class="sc">-</span> Q[s, a])</span>
+<span id="cb61-47"><a href="#cb61-47"></a>      } <span class="cf">else</span> <span class="cf">if</span> (method <span class="sc">==</span> <span class="st">&quot;expected_sarsa&quot;</span>) {</span>
+<span id="cb61-48"><a href="#cb61-48"></a>        p <span class="ot">&lt;-</span> <span class="fu">greedy_prob</span>(s_prime, Q, epsilon)</span>
+<span id="cb61-49"><a href="#cb61-49"></a>        exp_Q_prime <span class="ot">&lt;-</span></span>
+<span id="cb61-50"><a href="#cb61-50"></a>          <span class="fu">sum</span>(<span class="fu">greedy_prob</span>(s_prime, Q, epsilon) <span class="sc">*</span> Q[s_prime, ], <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb61-51"><a href="#cb61-51"></a>        Q[s, a] <span class="ot">&lt;-</span></span>
+<span id="cb61-52"><a href="#cb61-52"></a>          Q[s, a] <span class="sc">+</span> alpha <span class="sc">*</span> (r <span class="sc">+</span> gamma <span class="sc">*</span> exp_Q_prime <span class="sc">-</span> Q[s, a])</span>
+<span id="cb61-53"><a href="#cb61-53"></a>      }</span>
+<span id="cb61-54"><a href="#cb61-54"></a>      </span>
+<span id="cb61-55"><a href="#cb61-55"></a>      s <span class="ot">&lt;-</span> s_prime</span>
+<span id="cb61-56"><a href="#cb61-56"></a>      a <span class="ot">&lt;-</span> a_prime</span>
+<span id="cb61-57"><a href="#cb61-57"></a>      </span>
+<span id="cb61-58"><a href="#cb61-58"></a>      <span class="cf">if</span> (<span class="fu">is_terminal</span>(s))</span>
+<span id="cb61-59"><a href="#cb61-59"></a>        <span class="cf">break</span></span>
+<span id="cb61-60"><a href="#cb61-60"></a>      </span>
+<span id="cb61-61"><a href="#cb61-61"></a>      i <span class="ot">&lt;-</span> i <span class="sc">+</span> 1L</span>
+<span id="cb61-62"><a href="#cb61-62"></a>    }</span>
+<span id="cb61-63"><a href="#cb61-63"></a>  }</span>
+<span id="cb61-64"><a href="#cb61-64"></a>  Q</span>
+<span id="cb61-65"><a href="#cb61-65"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="sarsa" class="level2" data-number="3.3">
@@ -3778,46 +3846,46 @@ row  1    2    3    4
 \gamma\,Q(S&#39;, A&#39;) - Q(S, A)
 \]</span> where the <span class="math inline">\(S&#39;\)</span> and <span class="math inline">\(A&#39;\)</span> are determined by the same policy that is used for the agents behavior. In this case it is <span class="math inline">\(\epsilon\)</span>-greedy.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1"></a>Q <span class="ot">&lt;-</span> <span class="fu">DT_learning</span>(<span class="at">method =</span> <span class="st">&quot;sarsa&quot;</span>, <span class="at">N =</span> <span class="dv">10000</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb58-2"><a href="#cb58-2"></a>Q</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1"></a>Q <span class="ot">&lt;-</span> <span class="fu">DT_learning</span>(<span class="at">method =</span> <span class="st">&quot;sarsa&quot;</span>, <span class="at">N =</span> <span class="dv">10000</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb62-2"><a href="#cb62-2"></a>Q</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>      Up  Right   Down Left None
-1   0.70  0.612  0.648 0.66   NA
-2   0.77  0.710  0.665 0.72   NA
-3   0.79  0.851  0.731 0.78   NA
-4   0.59  0.508  0.592 0.64   NA
+1   0.72  0.600  0.647 0.66   NA
+2   0.76  0.716  0.668 0.72   NA
+3   0.80  0.810  0.737 0.78   NA
+4   0.57  0.402  0.582 0.64   NA
 5     NA     NA     NA   NA    0
-6   0.83  0.889  0.835 0.79   NA
-7   0.25  0.096  0.332 0.54   NA
-8   0.88 -0.809  0.365 0.53   NA
-9   0.83  0.927  0.751 0.81   NA
-10 -0.34 -0.039 -0.052 0.25   NA
+6   0.82  0.882  0.826 0.79   NA
+7   0.37 -0.045  0.020 0.23   NA
+8   0.73 -0.845  0.252 0.52   NA
+9   0.87  0.973  0.722 0.82   NA
+10 -0.19 -0.175 -0.052 0.13   NA
 11    NA     NA     NA   NA    0
 12    NA     NA     NA   NA    0</code></pre>
 </div>
 </div>
 <p>Calculate the value function <span class="math inline">\(U\)</span> from the learned Q-function as the largest Q value of any action in a state.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1"></a>U <span class="ot">&lt;-</span> <span class="fu">apply</span>(Q, <span class="at">MARGIN =</span> <span class="dv">1</span>, max, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb60-2"><a href="#cb60-2"></a><span class="fu">show_layout</span>(U)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1"></a>U <span class="ot">&lt;-</span> <span class="fu">apply</span>(Q, <span class="at">MARGIN =</span> <span class="dv">1</span>, max, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb64-2"><a href="#cb64-2"></a><span class="fu">show_layout</span>(U)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   col
 row    1    2    3    4
-  3 0.85 0.89 0.93 0.00
-  2 0.77 0.00 0.88 0.00
-  1 0.70 0.64 0.54 0.25</code></pre>
+  3 0.81 0.88 0.97 0.00
+  2 0.76 0.00 0.73 0.00
+  1 0.72 0.64 0.37 0.13</code></pre>
 </div>
 </div>
 <p>Extract the greedy policy for the learned <span class="math inline">\(Q\)</span>-value function.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1"></a>pi <span class="ot">&lt;-</span> A[<span class="fu">apply</span>(Q, <span class="at">MARGIN =</span> <span class="dv">1</span>, which.max)]</span>
-<span id="cb62-2"><a href="#cb62-2"></a><span class="fu">show_layout</span>(pi)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1"></a>pi <span class="ot">&lt;-</span> A[<span class="fu">apply</span>(Q, <span class="at">MARGIN =</span> <span class="dv">1</span>, which.max)]</span>
+<span id="cb66-2"><a href="#cb66-2"></a><span class="fu">show_layout</span>(pi)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   col
 row 1       2       3       4     
   3 &quot;Right&quot; &quot;Right&quot; &quot;Right&quot; &quot;None&quot;
   2 &quot;Up&quot;    &quot;None&quot;  &quot;Up&quot;    &quot;None&quot;
-  1 &quot;Up&quot;    &quot;Left&quot;  &quot;Left&quot;  &quot;Left&quot;</code></pre>
+  1 &quot;Up&quot;    &quot;Left&quot;  &quot;Up&quot;    &quot;Left&quot;</code></pre>
 </div>
 </div>
 </section>
@@ -3828,40 +3896,40 @@ row 1       2       3       4
 \gamma\,\mathrm{max}_a Q(S&#39;, a) - Q(S, A)
 \]</span> where the target policy is greedy reflected by the maximum that chooses the action with the largest <span class="math inline">\(Q\)</span>-value.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1"></a>Q <span class="ot">&lt;-</span> <span class="fu">DT_learning</span>(<span class="at">method =</span> <span class="st">&quot;q&quot;</span>, <span class="at">N =</span> <span class="dv">10000</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb64-2"><a href="#cb64-2"></a>Q</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1"></a>Q <span class="ot">&lt;-</span> <span class="fu">DT_learning</span>(<span class="at">method =</span> <span class="st">&quot;q&quot;</span>, <span class="at">N =</span> <span class="dv">10000</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb68-2"><a href="#cb68-2"></a>Q</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>      Up Right   Down Left None
-1   0.73  0.67  0.708 0.71   NA
-2   0.80  0.77  0.724 0.78   NA
-3   0.81  0.85  0.794 0.82   NA
-4   0.66  0.59  0.638 0.70   NA
-5     NA    NA     NA   NA    0
-6   0.87  0.90  0.855 0.82   NA
-7   0.45  0.19  0.383 0.64   NA
-8   0.60 -0.57  0.487 0.51   NA
-9   0.86  0.96  0.701 0.81   NA
-10 -0.29 -0.13 -0.062 0.35   NA
-11    NA    NA     NA   NA    0
-12    NA    NA     NA   NA    0</code></pre>
+<pre><code>      Up  Right   Down Left None
+1   0.74  0.671  0.703 0.71   NA
+2   0.79  0.766  0.713 0.76   NA
+3   0.80  0.854  0.781 0.80   NA
+4   0.66  0.574  0.651 0.69   NA
+5     NA     NA     NA   NA    0
+6   0.86  0.911  0.851 0.83   NA
+7   0.38  0.177  0.388 0.64   NA
+8   0.67 -0.503  0.363 0.64   NA
+9   0.86  0.968  0.725 0.81   NA
+10 -0.37 -0.062 -0.013 0.24   NA
+11    NA     NA     NA   NA    0
+12    NA     NA     NA   NA    0</code></pre>
 </div>
 </div>
 <p>Calculate the value function <span class="math inline">\(U\)</span> from the learned Q-function as the largest Q value of any action in a state.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1"></a>U <span class="ot">&lt;-</span> <span class="fu">apply</span>(Q, <span class="at">MARGIN =</span> <span class="dv">1</span>, max, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb66-2"><a href="#cb66-2"></a><span class="fu">show_layout</span>(U)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1"></a>U <span class="ot">&lt;-</span> <span class="fu">apply</span>(Q, <span class="at">MARGIN =</span> <span class="dv">1</span>, max, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb70-2"><a href="#cb70-2"></a><span class="fu">show_layout</span>(U)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   col
-row    1   2    3    4
-  3 0.85 0.9 0.96 0.00
-  2 0.80 0.0 0.60 0.00
-  1 0.73 0.7 0.64 0.35</code></pre>
+row    1    2    3    4
+  3 0.85 0.91 0.97 0.00
+  2 0.79 0.00 0.67 0.00
+  1 0.74 0.69 0.64 0.24</code></pre>
 </div>
 </div>
 <p>Extract the greedy policy for the learned <span class="math inline">\(Q\)</span>-value function.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1"></a>pi <span class="ot">&lt;-</span> A[<span class="fu">apply</span>(Q, <span class="at">MARGIN =</span> <span class="dv">1</span>, which.max)]</span>
-<span id="cb68-2"><a href="#cb68-2"></a><span class="fu">show_layout</span>(pi)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1"></a>pi <span class="ot">&lt;-</span> A[<span class="fu">apply</span>(Q, <span class="at">MARGIN =</span> <span class="dv">1</span>, which.max)]</span>
+<span id="cb72-2"><a href="#cb72-2"></a><span class="fu">show_layout</span>(pi)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   col
 row 1       2       3       4     
@@ -3878,46 +3946,46 @@ row 1       2       3       4
 \gamma\, E_\pi[Q(S&#39;, Q&#39;)] - Q(S, A) = \gamma \sum_a\pi(a|S&#39;)Q(S&#39;, a) - Q(S, A)
 \]</span> using the expected value under the current policy. It moves deterministically in the same direction as Sarsa moved in expectation. Because it uses the expectation, we can set <span class="math inline">\(\alpha\)</span> to large values and even 1.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1"></a>Q <span class="ot">&lt;-</span> <span class="fu">DT_learning</span>(<span class="at">method =</span> <span class="st">&quot;expected_sarsa&quot;</span>, <span class="at">N =</span> <span class="dv">10000</span>, <span class="at">alpha =</span> <span class="dv">1</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb70-2"><a href="#cb70-2"></a>Q</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1"></a>Q <span class="ot">&lt;-</span> <span class="fu">DT_learning</span>(<span class="at">method =</span> <span class="st">&quot;expected_sarsa&quot;</span>, <span class="at">N =</span> <span class="dv">10000</span>, <span class="at">alpha =</span> <span class="dv">1</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb74-2"><a href="#cb74-2"></a>Q</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>      Up Right  Down  Left None
-1   0.73 -0.49 -0.50 -0.52   NA
-2   0.80  0.40  0.43  0.41   NA
-3   0.41  0.88  0.41  0.38   NA
-4  -0.49 -0.54 -1.08  0.61   NA
-5     NA    NA    NA    NA    0
-6   0.80  0.92  0.87  0.80   NA
-7  -1.04 -1.05 -1.05 -0.53   NA
-8   0.65 -1.00 -1.00 -0.58   NA
-9   0.60  1.00  0.45  0.50   NA
-10 -1.00 -1.09 -1.09 -1.12   NA
-11    NA    NA    NA    NA    0
-12    NA    NA    NA    NA    0</code></pre>
+<pre><code>       Up Right   Down    Left None
+1   0.625 -0.16 -0.070 -0.0375   NA
+2   0.714  0.62  0.068 -0.0035   NA
+3   0.342  0.79  0.160  0.3404   NA
+4  -0.456 -0.39 -0.512 -0.0318   NA
+5      NA    NA     NA      NA    0
+6   0.056  0.91  0.032  0.2461   NA
+7   0.079 -1.04 -1.043  0.0315   NA
+8   0.891 -1.00  0.308 -1.0409   NA
+9   0.792  1.00  0.169 -0.0726   NA
+10 -1.000 -1.09 -1.043 -1.0000   NA
+11     NA    NA     NA      NA    0
+12     NA    NA     NA      NA    0</code></pre>
 </div>
 </div>
 <p>Calculate the value function <span class="math inline">\(U\)</span> from the learned Q-function as the largest Q value of any action in a state.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1"></a>U <span class="ot">&lt;-</span> <span class="fu">apply</span>(Q, <span class="at">MARGIN =</span> <span class="dv">1</span>, max, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb72-2"><a href="#cb72-2"></a><span class="fu">show_layout</span>(U)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1"></a>U <span class="ot">&lt;-</span> <span class="fu">apply</span>(Q, <span class="at">MARGIN =</span> <span class="dv">1</span>, max, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb76-2"><a href="#cb76-2"></a><span class="fu">show_layout</span>(U)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   col
-row    1    2     3  4
-  3 0.88 0.92  1.00  0
-  2 0.80 0.00  0.65  0
-  1 0.73 0.61 -0.53 -1</code></pre>
+row    1      2     3  4
+  3 0.79  0.907 1.000  0
+  2 0.71  0.000 0.891  0
+  1 0.62 -0.032 0.079 -1</code></pre>
 </div>
 </div>
 <p>Extract the greedy policy for the learned <span class="math inline">\(Q\)</span>-value function.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1"></a>pi <span class="ot">&lt;-</span> A[<span class="fu">apply</span>(Q, <span class="at">MARGIN =</span> <span class="dv">1</span>, which.max)]</span>
-<span id="cb74-2"><a href="#cb74-2"></a><span class="fu">show_layout</span>(pi)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1"></a>pi <span class="ot">&lt;-</span> A[<span class="fu">apply</span>(Q, <span class="at">MARGIN =</span> <span class="dv">1</span>, which.max)]</span>
+<span id="cb78-2"><a href="#cb78-2"></a><span class="fu">show_layout</span>(pi)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   col
 row 1       2       3       4     
   3 &quot;Right&quot; &quot;Right&quot; &quot;Right&quot; &quot;None&quot;
   2 &quot;Up&quot;    &quot;None&quot;  &quot;Up&quot;    &quot;None&quot;
-  1 &quot;Up&quot;    &quot;Left&quot;  &quot;Left&quot;  &quot;Up&quot;  </code></pre>
+  1 &quot;Up&quot;    &quot;Left&quot;  &quot;Up&quot;    &quot;Up&quot;  </code></pre>
 </div>
 </div>
 <p>Not implemented yet.</p>

@@ -297,7 +297,7 @@ the approximate policy evaluation.
 ```{r}
 policy_iteration <- function(N = 10) {
   U <- rep(0, times = length(S))
-  pi <- create_random_policy()
+  pi <- create_random_deterministic_policy()
   
   while (TRUE) {
     U <- approx_policy_evaluation(pi, U, N)

@@ -1,0 +1,492 @@
+---
+title: "Reinforcement Learning: Monte Carlo Control" 
+author: "Michael Hahsler"
+format: 
+  html: 
+    theme: default
+    toc: true
+    number-sections: true
+    code-line-numbers: true
+    embed-resources: true
+---
+
+This code is provided under [Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0) License.](https://creativecommons.org/licenses/by-sa/4.0/)
+
+![CC BY-SA 4.0](https://licensebuttons.net/l/by-sa/3.0/88x31.png)
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(tidy = TRUE)
+options(digits = 2)
+```
+
+# Introduction
+
+[Reinforcement Learning: An Introduction (RL)](http://incompleteideas.net/book/the-book-2nd.html) by Sutton and Barto (2020) introduce several Monte Carlo control algorithms in
+Chapter 5: Monte Carlo Methods. 
+
+We will implement the 
+key concepts using R for the AIMA 3x4 grid world example. 
+The used environment is an MDP, but instead of trying to solve the MDP directly
+and estimating the value function estimates $U(s)$, we will try to learn 
+a policy from interactions with the environment.
+The MDP's transition model will only be used to simulate complete episodes 
+following a policy that the algorithm will use to updates its current 
+policy.
+
+The code in this notebook defines explicit functions 
+matching the textbook definitions and is for demonstration purposes only. Efficient implementations for larger problems use fast vector multiplications
+instead. 
+
+{{< include _AIMA-4x3-gridworld.qmd >}}
+
+# Monte Carlo Methods
+
+This method uses experience by sampling sequences ($s, a, r, s, ...$) from
+the environment and then averaged sample returns for each state-action 
+pair (i.e., Q-values). They perform generalized policy iteration
+by performing **after each episode**:
+
+* Current policy evaluation to estimate the new action value function $Q$.
+* Policy improvement by changing the policy to a greedy policy with respect to
+  $Q$.
+
+An important issue is that we make sure that the algorithm keeps exploring. 
+We will implement several different MC methods that incorporate 
+exploration in different ways.
+
+First, we implement several helper functions used my MC algorithms.
+
+Find the greedy (an $\epsilon$-greedy) action given the 
+action-value function $Q$. Find the greedy policy given $Q$.
+```{r}
+greedy_action <- function(s, Q, epsilon = 0) {
+  available_A <- actions(s)
+  
+  if (epsilon == 0 ||
+      length(available_A) == 1L || runif(1) > epsilon) {
+    a <- available_A[which.max(Q[s, available_A])]
+  } else {
+    a <- sample(available_A, size = 1L)
+  }
+  
+  a
+}
+
+greedy_policy <- function(Q, epsilon = 0) {
+  if (epsilon == 0) {
+    p <- structure(A[apply(Q, MARGIN = 1, which.max)], names = S)
+  } else {
+    p <-
+      matrix(0,
+             nrow = length(S),
+             ncol = length(A),
+             dimnames = list(S, A))
+    for (s in S)
+      p[s, actions(s)] <- epsilon / length(actions(s))
+    a <- greedy_action(Q, s)
+    p[s, a] + p[s, a] + (1 - epsilon)
+  }
+  p
+}
+```
+
+Find the action used in state $s$ given a soft or deterministic policy $\pi$.
+```{r}
+next_action <- function(pi, s) { 
+    if (!is.matrix(pi))
+      pi[s]
+    else
+      sample(A, size = 1L, prob = pi[s, ])
+}
+```
+
+Simulate an episode following policy $\pi$ and 
+starting in state $s_0$ with $action $a_0$. `max_length` is
+used to make sure that the episode length cannot become infinite 
+for a policy that does not end in a terminal state.
+
+```{r}
+simulate_episode <- function(pi, s_0, a_0 = NULL, max_length = 100) {
+  # rows are s_t, a_t, r_t+1; row 1 is t = 0
+  episode <- data.frame(t = rep(NA_integer_, max_length),
+                        s = rep(NA_character_, max_length), 
+                        a = rep(NA_character_, max_length),
+                        r = rep(NA_real_, max_length))
+  
+  if (is.null(a_0))
+    a_0 <- next_action(pi, s_0)
+  
+  s <- s_0
+  a <- a_0
+  r <- NA
+  i <- 1L # i == 1 means t == 0!
+  while (TRUE) {
+
+    if (is_terminal(s))
+      break
+    
+    s_prime <- sample_transition(s, a)
+    r <- R(s, a, s_prime)
+
+    episode[i, ] <- data.frame(t = i - 1L, s, a, r)
+    
+    if (is_terminal(s_prime))
+      break
+    if (i >= max_length)
+      break
+    
+    s <- s_prime
+    a <- next_action(pi, s)
+
+    i <- i + 1L
+  }
+  
+  episode[1:i, ]
+}
+```
+
+Simulate an episode following a randomly generated epsilon soft policy.
+
+```{r}
+pi <- create_random_epsilon_soft_policy(epsilon = 0.1)
+pi
+
+simulate_episode(pi, 1, 'Up')
+```
+
+Note that the table represents the sequence:
+
+$$s_0, a_0, r_1, s_1, a_1, ..., s_{T-1}, a_{T-1}, r_T$$
+
+Each row contains $s_t, a_t, r_{t+1}$ and the row index for $t=0$ is 1.
+
+# Implementing Monte Carlo Exploring Starts Control 
+
+The most simple MC algorithm learns a greedy policy. In order to still keep
+exploring it uses the idea of exploring starts: All state-action pairs have
+a non-zero probability of being selected as the start of an episode.
+
+Here is the pseudo code from the RL book,
+Chapter 5:
+
+![Reinforcement Learning Chapter 5: MC ES control](figures/RL_MC_Exploring_Starts.png)
+
+We implement the algorithm with the following change. Instead of collecting
+the utilities $G$ as lists in the `Results` data structure and then
+averaging them to calculate new $Q$-values, we keep the number 
+of utilities used to average each $Q$-value and then update the running average.
+
+```{r}
+MC_exploring_states <- function(N = 100, gamma = 1, verbose = FALSE) {
+  # Initialize
+  pi <- create_random_deterministic_policy()
+  
+  Q <-
+    matrix(
+      0,
+      nrow = length(S),
+      ncol = length(A),
+      dimnames = list(S, A)
+    )
+  
+  
+  # instead of returns we use a more efficient running average where Q_N is
+  # the number of averaged values. 
+  Q_N <-  matrix(
+      0L,
+      nrow = length(S),
+      ncol = length(A),
+      dimnames = list(S, A)
+    )
+  
+  if (verbose) {
+    cat("Initial policy:\n")
+    print(pi)
+    
+    cat("Initial Q:\n")
+    print(Q)
+  }
+  
+  # Loop through N episodes
+  for (e in seq(N)) {
+    # Sample a starting state and action (= exploring states)
+    s_0 <- sample(S[!is_terminal(S)], size = 1L)
+    a_0 <- sample(actions(s_0), size = 1L)
+    
+    ep <- simulate_episode(pi, s_0, a_0)
+    
+    if (verbose) {
+      cat(paste("*** Episode", e, "***\n"))
+      print(ep)
+    }
+    
+    G <- 0
+    for (i in rev(seq(nrow(ep)))) {
+      r_t_plus_1 <- ep$r[i]
+      s_t <- ep$s[i]
+      a_t <- ep$a[i]
+      
+      G <- gamma * G  + r_t_plus_1
+      
+      # Only update for first visit of a s/a combination
+      if (i < 2L || !any(s_t == ep$s[1:(i - 1L)] &
+               a_t == ep$a[1:(i - 1L)])) {
+        
+        if (verbose)
+          cat(paste0("Update at step ", i, ":\n",
+                     "  - Q(", s_t, ", ", a_t, "): ", round(Q[s_t, a_t], 3)))
+       
+        # running average instead of averaging Returns lists. 
+        Q[s_t, a_t] <- (Q[s_t, a_t] * Q_N[s_t, a_t] + G) / (Q_N[s_t, a_t] + 1)
+        Q_N[s_t, a_t] <- Q_N[s_t, a_t] + 1L
+        
+        if (verbose)
+          cat(paste0(" -> " , round(Q[s_t, a_t], 3), " (G = ", round(G, 3),
+                     ")\n"))
+        
+        if (verbose)
+          cat(paste0("  - pi[", s_t, "]: " , pi[s_t]))
+        
+        pi[s_t] <- greedy_action(s_t, Q)
+        
+        if (verbose)
+          cat(paste0(" -> ", pi[s_t], "\n"))
+      }
+    }
+  }
+  list(Q = Q,
+       pi = pi)
+}
+```
+
+```{r}
+ret <- MC_exploring_states (N = 1000, verbose = FALSE)
+
+ret
+
+show_layout(ret$pi)
+```
+
+# Implementing On-Policy Monte Carlo Control 
+
+Exploring starts are not always an option. E.g., when learning from
+interaction with the environment where we cannot simply set the starting
+condition to $s_0$ and $a_0$.
+
+The first option is to learn an $\epsilon$-greedy policy and also use it 
+as the behavior policy (on-policy control).
+
+Here is the pseudo code from the RL book,
+Chapter 5:
+
+![Reinforcement Learning Chapter 5: On-policy MC control](figures/RL_MC_on-policy.png)
+We implement the algorithm again with a running average.
+
+```{r}
+MC_on_policy <- function(N = 100, epsilon = 0.1, gamma = 1, verbose = FALSE) {
+  # Initialize
+  pi <- create_random_epsilon_soft_policy(epsilon)
+  
+  Q <-
+    matrix(0,
+           nrow = length(S),
+           ncol = length(A),
+           dimnames = list(S, A))
+  
+  Q_N <-  matrix(0L,
+                 nrow = length(S),
+                 ncol = length(A),
+                 dimnames = list(S, A))
+  
+  # Loop through N episodes
+  for (e in seq(N)) {
+    # always start from the start state defined by the problem
+    s_0 <- start
+    
+    ep <- simulate_episode(pi, s_0)
+    
+    if (verbose) {
+      cat(paste("*** Episode", e, "***\n"))
+      print(ep)
+    }
+    
+    G <- 0
+    for (i in rev(seq(nrow(ep)))) {
+      r_t_plus_1 <- ep$r[i]
+      s_t <- ep$s[i]
+      a_t <- ep$a[i]
+      
+      G <- gamma * G  + r_t_plus_1
+      
+      # Only update for first visit of a s/a combination
+      if (i < 2L || !any(s_t == ep$s[1:(i - 1L)] &
+                         a_t == ep$a[1:(i - 1L)])) {
+        if (verbose)
+          cat(paste0(
+            "Update at step ",
+            i,
+            ":\n",
+            "  - Q(",
+            s_t,
+            ", ",
+            a_t,
+            "): ",
+            round(Q[s_t, a_t], 3)
+          ))
+        
+        # running average instead of averaging Returns lists.
+        Q[s_t, a_t] <-
+          (Q[s_t, a_t] * Q_N[s_t, a_t] + G) / (Q_N[s_t, a_t] + 1)
+        Q_N[s_t, a_t] <- Q_N[s_t, a_t] + 1L
+        
+        if (verbose)
+          cat(paste0(" -> " , round(Q[s_t, a_t], 3), " (G = ", round(G, 3),
+                     ")\n"))
+        
+        
+        a_star <- greedy_action(s_t, Q)
+        
+        if (verbose) {
+          cat(paste0("  - pi for state ", s_t, " is updated:\n"))
+          print(pi[s_t, ])
+        }
+        pi[s_t, actions(s_t)] <-
+          epsilon / length(actions(s_t))
+        pi[s_t, a_star] <- pi[s_t, a_star] + (1 - epsilon)
+        if (verbose) {
+          print(pi[s_t, ])
+          cat("\n")
+        }
+        
+      }
+    }
+  }
+  list(Q = Q,
+       pi = pi)
+}
+```
+
+```{r}
+ret <- MC_on_policy(N = 1000, epsilon = 0.1, verbose = FALSE)
+
+ret
+```
+
+We have learned a soft ($\epsilon$-greedy) policy. 
+We can extract a deterministic policy by
+always using the action with the larges execution probability.
+
+```{r}
+show_layout(A[apply(ret$pi, MARGIN = 1, which.max)])
+```
+
+
+To learn a policy that is closer to the a deterministic greedy policy,
+$\epsilon$ can be reduced over time.
+
+# Implementing Off-Policy Monte Carlo Control 
+
+The on-policy control algorithm above learns an $\epsilon$-greedy policy. 
+Off-policy control
+uses an arbitrary soft policy for the behavior and uses the generated 
+episodes to learn a deterministic greedy policy. This is done
+by adjusting the observed returns from the behavior policy using 
+importance sampling.
+
+The importance sampling ration for the reward at $t$ 
+till the end of the episode $T-1$ denoted by $G_{t:T-1}$ is
+
+$$\rho_{t:T-1} = \prod_{k=t}^{T-1}\frac{\pi(a_k|s_k)}{b(a_k|s_k)}$$
+where $\pi$ is the target policy and $b$ is the behavior policy.
+Importance sampling makes sure that the expected rescaled value following the 
+behavior policy $b$ starting at state $s$ gives the value of the state 
+following $\pi$.
+
+$$\mathbb{E}[\rho_{t:T-1} G_t | s_t=s] = v_\pi(s)$$
+The expectation can be estimated from sequences by averaging the rescaled returns
+for each state. Regular averaging results in extremely high variance when
+only few reward values are available. An alternative 
+to regular averaging is called weighted importance sampling
+which uses a weighted average defined as:
+
+$$V(s) \dot = \frac{\sum_{k=1}^{n-1} W_kG_k}{\sum_{k=1}^{n-1} W_k}, \qquad  n\ge 2$$
+Weighted importance sampling has lower variance and is used here.
+
+
+Here is the pseudo code from the RL book,
+Chapter 5:
+
+![Reinforcement Learning Chapter 5: Off-policy MC control](figures/RL_MC_off-policy.png)
+
+```{r}
+MC_off_policy <-
+  function(N = 100,
+           epsilon = 0.1,
+           gamma = 1,
+           verbose = FALSE) {
+    # Initialize
+    Q <-
+      matrix(0,
+             nrow = length(S),
+             ncol = length(A),
+             dimnames = list(S, A))
+    
+    # cumulative sum of the weights W used in incremental updates
+    C <-  matrix(0L,
+                 nrow = length(S),
+                 ncol = length(A),
+                 dimnames = list(S, A))
+    
+    pi <- greedy_policy(Q)
+    
+    # Loop through N episodes
+    for (e in seq(N)) {
+      b <- create_random_epsilon_soft_policy(epsilon)
+      
+      s_0 <- start
+      ep <- simulate_episode(b, s_0)
+      
+      if (verbose) {
+        cat(paste("*** Episode", e, "***\n"))
+        print(ep)
+      }
+      
+      G <- 0
+      W <- 1
+      for (i in rev(seq(nrow(ep)))) {
+        r_t_plus_1 <- ep$r[i]
+        s_t <- ep$s[i]
+        a_t <- ep$a[i]
+        
+        G <- gamma * G  + r_t_plus_1
+        
+        # increase cumulative sum of W and update Q with weighted G
+        C[s_t, a_t] <- C[s_t, a_t] + W
+        Q[s_t, a_t] <-
+          Q[s_t, a_t] + (W / C[s_t, a_t]) * (G - Q[s_t, a_t])
+        
+        pi[s_t] <- greedy_action(s_t, Q)
+        
+        # the algorithm can only learn from the tail of the episode where
+        # b also used the greedy actions in pi. The method is inefficient and 
+        # cannot use all the data!
+        if (a_t != pi[s_t])
+          break
+        
+        W <- W * 1 / b[s_t, a_t]
+        # note that pi[s_t, a_t] is by construction 1!
+      }
+    }
+
+    list(Q = Q,
+         pi = pi)
+  }
+```
+
+```{r}
+ret <- MC_off_policy(N = 1000, epsilon = 0.1, verbose = FALSE)
+
+ret
+show_layout(ret$pi)
+```
+
