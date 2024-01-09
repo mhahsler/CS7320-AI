@@ -7,6 +7,13 @@
 
 ## Chapter 21: Reinfocement Learning
 * Example: [A Q-Learning Agent](https://mhahsler.github.io/CS7320-AI/RL/QLearning.html) (in R)
+
+## More on Reinfocement Learning
+
+These examples implement methods described in 
+the book Reinforcement Learning: An Introduction
+by Sutton and Barto (2020).
+
 * Example: [Monte Carlo Control](https://mhahsler.github.io/CS7320-AI/RL/MC-Control.html) (in R)
 * Example: [TD Control with Sarsa, Q-Learning and Expected Sarsa](https://mhahsler.github.io/CS7320-AI/RL/TD-Control.html) (in R)
 
