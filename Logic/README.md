@@ -1,10 +1,17 @@
 <!-- #region -->
-# Chapter 7-9: Logical Agents
+# Chapter 7-9: Knowledge-based Agents
 
 While first-order logic is often performed using 
 the dedicated logic programming laguage [Prolog](https://en.wikipedia.org/wiki/Prolog), Python provides
 several modules for logic and symbolic mathematics. Here is a 
 short primer for [Logic Programming with Python.](https://www.tutorialspoint.com/artificial_intelligence_with_python/artificial_intelligence_with_python_logic_programming.htm).
+
+Pretrained large language models can be used via an API or run locally.
+
+* [OpenAI Python API Library.](https://github.com/openai/openai-python)
+* [Hugging Face](https://huggingface.co/) provides a large collection
+  of downloadable pretrained LLMs with 
+* [Prompt engineering guide](https://platform.openai.com/docs/guides/prompt-engineering) from OpenAI.
 
 
 
