@@ -3772,7 +3772,7 @@ row  1    2    3    4
 <h2 data-number="3.2" class="anchored" data-anchor-id="the-td-learning-algorithm"><span class="header-section-number">3.2</span> The TD Learning Algorithm</h2>
 <p>The temporal-difference learning algorithm follows the Sarsa implementation, but just changing how the TD error is calculated lets the algorithm also perform Q-learning and expected Sarsa.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1"></a>DT_learning <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">method =</span> <span class="st">&quot;sarsa&quot;</span>,</span>
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1"></a>TD_learning <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">method =</span> <span class="st">&quot;sarsa&quot;</span>,</span>
 <span id="cb61-2"><a href="#cb61-2"></a>                        <span class="at">alpha =</span> <span class="fl">0.1</span>,</span>
 <span id="cb61-3"><a href="#cb61-3"></a>                        <span class="at">epsilon =</span> <span class="fl">0.1</span>,</span>
 <span id="cb61-4"><a href="#cb61-4"></a>                        <span class="at">gamma =</span> <span class="dv">1</span>,</span>
@@ -3846,7 +3846,7 @@ row  1    2    3    4
 \gamma\,Q(S&#39;, A&#39;) - Q(S, A)
 \]</span> where the <span class="math inline">\(S&#39;\)</span> and <span class="math inline">\(A&#39;\)</span> are determined by the same policy that is used for the agents behavior. In this case it is <span class="math inline">\(\epsilon\)</span>-greedy.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1"></a>Q <span class="ot">&lt;-</span> <span class="fu">DT_learning</span>(<span class="at">method =</span> <span class="st">&quot;sarsa&quot;</span>, <span class="at">N =</span> <span class="dv">10000</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1"></a>Q <span class="ot">&lt;-</span> <span class="fu">TD_learning</span>(<span class="at">method =</span> <span class="st">&quot;sarsa&quot;</span>, <span class="at">N =</span> <span class="dv">10000</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb62-2"><a href="#cb62-2"></a>Q</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>      Up  Right   Down Left None
@@ -3896,7 +3896,7 @@ row 1       2       3       4
 \gamma\,\mathrm{max}_a Q(S&#39;, a) - Q(S, A)
 \]</span> where the target policy is greedy reflected by the maximum that chooses the action with the largest <span class="math inline">\(Q\)</span>-value.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1"></a>Q <span class="ot">&lt;-</span> <span class="fu">DT_learning</span>(<span class="at">method =</span> <span class="st">&quot;q&quot;</span>, <span class="at">N =</span> <span class="dv">10000</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1"></a>Q <span class="ot">&lt;-</span> <span class="fu">TD_learning</span>(<span class="at">method =</span> <span class="st">&quot;q&quot;</span>, <span class="at">N =</span> <span class="dv">10000</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb68-2"><a href="#cb68-2"></a>Q</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>      Up  Right   Down Left None
@@ -3946,7 +3946,7 @@ row 1       2       3       4
 \gamma\, E_\pi[Q(S&#39;, Q&#39;)] - Q(S, A) = \gamma \sum_a\pi(a|S&#39;)Q(S&#39;, a) - Q(S, A)
 \]</span> using the expected value under the current policy. It moves deterministically in the same direction as Sarsa moved in expectation. Because it uses the expectation, we can set <span class="math inline">\(\alpha\)</span> to large values and even 1.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1"></a>Q <span class="ot">&lt;-</span> <span class="fu">DT_learning</span>(<span class="at">method =</span> <span class="st">&quot;expected_sarsa&quot;</span>, <span class="at">N =</span> <span class="dv">10000</span>, <span class="at">alpha =</span> <span class="dv">1</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1"></a>Q <span class="ot">&lt;-</span> <span class="fu">TD_learning</span>(<span class="at">method =</span> <span class="st">&quot;expected_sarsa&quot;</span>, <span class="at">N =</span> <span class="dv">10000</span>, <span class="at">alpha =</span> <span class="dv">1</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb74-2"><a href="#cb74-2"></a>Q</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       Up Right   Down    Left None

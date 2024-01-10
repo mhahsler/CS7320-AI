@@ -97,7 +97,7 @@ but just changing how the TD error is calculated lets the algorithm
 also perform Q-learning and expected Sarsa.
 
 ```{r}
-DT_learning <- function(method = "sarsa",
+TD_learning <- function(method = "sarsa",
                         alpha = 0.1,
                         epsilon = 0.1,
                         gamma = 1,
@@ -176,7 +176,7 @@ behavior. In this case it is $\epsilon$-greedy.
 
 
 ```{r}
-Q <- DT_learning(method = "sarsa", N = 10000, verbose = FALSE)
+Q <- TD_learning(method = "sarsa", N = 10000, verbose = FALSE)
 Q
 ```
 
@@ -206,7 +206,7 @@ where the target policy is greedy reflected by the maximum that chooses the
 action with the largest $Q$-value. 
 
 ```{r}
-Q <- DT_learning(method = "q", N = 10000, verbose = FALSE)
+Q <- TD_learning(method = "q", N = 10000, verbose = FALSE)
 Q
 ```
 
@@ -237,7 +237,7 @@ in the same direction as Sarsa moved in expectation. Because it uses the expecta
 we can set $\alpha$ to large values and even 1.
 
 ```{r}
-Q <- DT_learning(method = "expected_sarsa", N = 10000, alpha = 1, verbose = FALSE)
+Q <- TD_learning(method = "expected_sarsa", N = 10000, alpha = 1, verbose = FALSE)
 Q
 ```
 
