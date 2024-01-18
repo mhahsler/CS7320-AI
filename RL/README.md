@@ -5,14 +5,14 @@
 
 * Example: [Markov Decision Processes solved with Value Iteration and Policy Iteration](https://mhahsler.github.io/CS7320-AI/RL/MDP.html) (in R)
 
-## Chapter 21: Reinfocement Learning
+## Chapter 21: Reinforcement Learning
 * Example: [A Q-Learning Agent](https://mhahsler.github.io/CS7320-AI/RL/QLearning.html) (in R)
 
-## More on Reinfocement Learning
+## More on Reinforcement Learning
 
 These examples implement methods described in 
-the book Reinforcement Learning: An Introduction
-by Sutton and Barto (2020).
+the book [Reinforcement Learning: An Introduction
+by Sutton and Barto (2020)](http://incompleteideas.net/book/the-book-2nd.html).
 
 * Example: [Monte Carlo Control](https://mhahsler.github.io/CS7320-AI/RL/MC-Control.html) (in R)
 * Example: [TD Control with Sarsa, Q-Learning and Expected Sarsa](https://mhahsler.github.io/CS7320-AI/RL/TD-Control.html) (in R)
