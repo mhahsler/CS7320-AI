@@ -1,0 +1,62 @@
+---
+title: "Simulated Annealing Schedules"
+author: "Michael Hahsler"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Cooling Schedules
+
+## Exponential Schedule
+See [1]
+```{r}
+T_exp <- function(t, T0, alpha) T0 * alpha ^ t 
+```
+
+## Linear Schedule
+See [1]
+```{r}
+T_linear <- function(t, T0, eta) T0 - eta * t 
+```
+
+
+## Fast Simulated Annealing
+See [3]
+```{r}
+T_fast <- function(t, T0) T0 / (1 + t) 
+```
+
+## Logarithmic (Classic) Cooling
+
+If $T_0$ is greater or equal to to the largest energy barrier in the problem, then
+this schedule is guaranteed to find the global optimum in the limit of infinite time [2].
+```{r}
+T_log <- function(t, T0) T0 / log(1 + t) 
+```
+
+# Comparison
+
+```{r}
+t <- 0:100
+
+schedules <- cbind(t = t, 
+      Linear = T_linear(t, 1, .01),
+      `Exponential (alpha = 0.8)` = T_exp(t, 1, .8),
+      `Exponential (alpha = 0.9)` = T_exp(t, 1, .9),
+      Fast = T_fast(t, 1),
+      Logarithmic = T_log(t, 1)
+      )
+
+matplot(schedules[, -1], type = "l", lty = 1, ylab = "T(t)/T0", xlab = "t")
+legend("topright", legend = colnames(schedules)[-1], col = 1:4, lty = 1, bty = "n")
+```
+
+# Literature
+
+1. Kirkpatrick S, Gelatt C D Jr and Vecchi M P 1983 Optimization by simulated annealing Science 220 671-7
+2. Hajek B 1988 Cooling schedules for optimal annealing Math. Oper. Res. 13 311–29
+3. Szu H., Hardley R. Fast simulated annealing, June 1987, Physics Letters A 122(3-4):157-162 DOI:10.1016/0375-9601(87)90796-1
