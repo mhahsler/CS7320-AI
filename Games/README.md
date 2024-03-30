@@ -26,6 +26,9 @@ each action by the player is followed by an unknown action of the opponent which
 ### Connection to Machine Learning (more in Chapter 19)
 * The example [Learn to Score a Tic-Tac-Toe Board by Example](https://colab.research.google.com/github/mhahsler/CS7320-AI/blob/master/ML/ML_for_tictactoe.ipynb) uses a neural network trained on self-play data to lean an evaluation function that can be used as a heuristic in Heuristic Minimax Search or as a playout policy for Monte Carlo Search.
 
+### Connection to Reinforcement Learning (more in Chapter 22)
+* The example [Learning to Play Tic-Tac-Toe with Q-Learning](https://colab.research.google.com/github/mhahsler/CS7320-AI/blob/master/Games/tictactoe_RL.ipynb) implements
+a simple table-based Q-learning algorithm to play the game.
 
 ## License
 All code and documents in this repository is provided under [Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0) License](https://creativecommons.org/licenses/by-sa/4.0/)
