@@ -1,12 +1,14 @@
 <!-- #region -->
-# Chapters 17 and 21: Reinforcement Learning and MDPs
+# Chapters 17 and 22: Reinforcement Learning and MDPs
 
 ## Chapter 17: MDPs
 
 * Example: [Markov Decision Processes solved with Value Iteration and Policy Iteration](https://mhahsler.github.io/CS7320-AI/RL/MDP.html) (in R)
 
-## Chapter 21: Reinforcement Learning
+## Chapter 22: Reinforcement Learning
 * Example: [A Q-Learning Agent](https://mhahsler.github.io/CS7320-AI/RL/QLearning.html) (in R)
+* Connection to playing games (Chapter 5): [Learning to Play Tic-Tac-Toe with Q-Learning](https://colab.research.google.com/github/mhahsler/CS7320-AI/blob/master/Games/tictactoe_RL.ipynb) implements
+a simple table-based Q-learning algorithm to play the game.
 
 ## More on Reinforcement Learning
 
