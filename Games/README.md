@@ -3,6 +3,9 @@
 
 ## Contents
 
+### Defining a Game
+* Example [Tic-Tac-Toe](https://colab.research.google.com/github/mhahsler/CS7320-AI/blob/master/Games/tictactoe_definitions.ipynb)
+
 ### Connection to search with nondeterministic actions (from Chapter 4.3)
 * Example: [Solving Tic-Tac-Toe with And-Or-Tree Search](https://colab.research.google.com/github/mhahsler/CS7320-AI/blob/master/Games/tictactoe_and_or_tree_search.ipynb). Here the opponent is seen as part of the environment, i.e.,
 each action by the player is followed by an unknown action of the opponent which, from the viewpoint of the player makes the outcomes of actions nondeterministic.
