@@ -25,6 +25,7 @@ More complex code examples accompanying the textbook can be found at the [GitHub
 | 5: Adversarial Search and Games | [Slides](https://mhahsler.github.io/CS7320-AI/slides/05_games.pdf) | [Code](Games) |
 | 6: Constraint Satisfaction Problem | [Slides](https://mhahsler.github.io/CS7320-AI/slides/06_CSP.pdf) | [Code](CSP) |
 | 7-9: Knowledge-Based Agents | [Slides](https://mhahsler.github.io/CS7320-AI/slides/07_knowledge-based.pdf) | [Code](Knowledge-based) |
+| 11: Automated Planning| [Slides](https://mhahsler.github.io/CS7320-AI/slides/11_Automated_Planning.pdf) | - |
 | 12: Quantifying Uncertainty | [Slides](https://mhahsler.github.io/CS7320-AI/slides/12_uncertainty.pdf) | [Code](Uncertainty) |
 | 13: Probabilistic Reasoning | [Slides](https://mhahsler.github.io/CS7320-AI/slides/13_bayes_nets.pdf) | [Code](Probabilistic_Reasoning) |
 | 16: Making Simple Decision | [Slides](https://mhahsler.github.io/CS7320-AI/slides/16_decision_making.pdf) | - |
