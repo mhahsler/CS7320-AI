@@ -17,7 +17,7 @@ More complex code examples accompanying the textbook can be found at the [GitHub
 
 | Chapter | Slides | Code |
 | :-------| :----: | :--: |
-| 1: Introduction to AI | [Slides](https://mhahsler.github.io/CS7320-AI/slides/01_intro.pdf) | - | 
+| 1: Introduction to AI (+ 27 Ethics and Safety) | [Slides](https://mhahsler.github.io/CS7320-AI/slides/01_intro.pdf) | - | 
 | 2: Intelligent Agents | [Slides](https://mhahsler.github.io/CS7320-AI/slides/02_agents.pdf) | [Code](Agents) | 
 | 3: Solving Problems by Search | [Slides](https://mhahsler.github.io/CS7320-AI/slides/03_search.pdf) | [Code](Search) |
 | 4.1-2: Search in Complex Environments: Local Search | [Slides](https://mhahsler.github.io/CS7320-AI/slides/04_local_search.pdf) | [Code](Local_Search) |
