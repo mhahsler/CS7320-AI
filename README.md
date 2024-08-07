@@ -32,6 +32,8 @@ More complex code examples accompanying the textbook can be found at the [GitHub
 | 19: Learning from Examples (Machine Learning) | [Slides](https://mhahsler.github.io/CS7320-AI/slides/19_ML_intro.pdf) | [Code](ML) |
 | 22+17: Reinforcement Learning and MDPs | [Slides](https://mhahsler.github.io/CS7320-AI/slides/22_Reinforcement_Learning.pdf) | [Code](RL) |
 
+![Chatbot](assets/chatbot.png) [Ask the AIMA Scholar (GPT)](https://chatgpt.com/g/g-pNvaqyjSZ-aima-scholar) a question about the content of the textbook.
+
 ## HOWTOs
 
 * [HOWTO install and use Python and Jupyter Notebooks](HOWTOs/tools.md)
