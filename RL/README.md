@@ -7,8 +7,7 @@
 
 ## Chapter 22: Reinforcement Learning
 * Example: [A Q-Learning Agent](https://mhahsler.github.io/CS7320-AI/RL/QLearning.html) (in R)
-* Connection to playing games (Chapter 5): [Learning to Play Tic-Tac-Toe with Q-Learning](https://colab.research.google.com/github/mhahsler/CS7320-AI/blob/master/RL/tictactoe_RL.ipynb) implements
-a simple table-based Q-learning algorithm to play the game.
+* Connection to playing games (Chapter 5): [Learning to Play Tic-Tac-Toe with Q-Learning](https://colab.research.google.com/github/mhahsler/CS7320-AI/blob/master/RL/tictactoe_RL.ipynb) implements a simple table-based Q-learning algorithm to play the game. (Python)
 
 ## More on Reinforcement Learning
 
@@ -18,6 +17,11 @@ by Sutton and Barto (2020)](http://incompleteideas.net/book/the-book-2nd.html).
 
 * Example: [Monte Carlo Control](https://mhahsler.github.io/CS7320-AI/RL/MC-Control.html) (in R)
 * Example: [TD Control with Sarsa, Q-Learning and Expected Sarsa](https://mhahsler.github.io/CS7320-AI/RL/TD-Control.html) (in R)
+
+
+## Other Software (Python)
+* [Gymnasium](https://github.com/Farama-Foundation/Gymnasium) is an open source Python library for developing and comparing reinforcement learning algorithms.
+* [CleanRL](https://github.com/vwxyzjn/cleanrl) is a Deep Reinforcement Learning library.
 
 ## License
 All code and documents in this repository is provided under [Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0) License](https://creativecommons.org/licenses/by-sa/4.0/)
