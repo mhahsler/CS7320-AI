@@ -8,7 +8,8 @@
   - [The Traveling Salesman Problem](https://colab.research.google.com//github/mhahsler/CS7320-AI/blob/master/Local_Search/traveling_salesman_problem.ipynb)
  
 
-* Example: 
+* Examples:
+  - [Apply Simple Hill Climbing to a Maze Problem](https://colab.research.google.com/github/mhahsler/CS7320-AI/blob/master/Local_Search/Maze_Example_LocalSearch.ipynb)
   - The n-Queens Problem - [Speeding up the conflict calculation with JIT compiled code (numba)](https://colab.research.google.com/github/mhahsler/CS7320-AI/blob/master/Local_Search/n_queens_fast_conflict_calculation_with_numba.ipynb).
   - [Example code for the TSP](https://colab.research.google.com//github/mhahsler/CS7320-AI/blob/master/Local_Search/traveling_salesman_problem_example_2.ipynb)
 
