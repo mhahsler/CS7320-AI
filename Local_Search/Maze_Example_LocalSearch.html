@@ -7525,7 +7525,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [133]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
@@ -7548,7 +7548,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [134]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">DIR2POS</span> <span class="o">=</span> <span class="p">{</span>
@@ -7601,7 +7601,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [135]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">expand</span><span class="p">(</span><span class="n">maze</span><span class="p">,</span> <span class="n">pos</span><span class="p">):</span>
@@ -7633,7 +7633,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [136]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Manhattan distance h(n)</span>
@@ -7665,7 +7665,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [137]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">local_search</span><span class="p">(</span><span class="n">maze</span><span class="p">,</span> <span class="n">vis</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">animation</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
@@ -7678,38 +7678,41 @@ a.anchor-link {
     <span class="n">start_pos</span> <span class="o">=</span> <span class="n">mh</span><span class="o">.</span><span class="n">find_pos</span><span class="p">(</span><span class="n">maze</span><span class="p">,</span> <span class="s2">"S"</span><span class="p">)</span>
     <span class="n">goal_pos</span> <span class="o">=</span> <span class="n">mh</span><span class="o">.</span><span class="n">find_pos</span><span class="p">(</span><span class="n">maze</span><span class="p">,</span> <span class="s2">"G"</span><span class="p">)</span>
 
+    <span class="c1"># 1. initialize problem</span>
     <span class="n">current</span> <span class="o">=</span> <span class="n">start_pos</span>
     <span class="n">current_obj</span> <span class="o">=</span> <span class="n">manhattan</span><span class="p">(</span><span class="n">current</span><span class="p">,</span> <span class="n">goal_pos</span><span class="p">)</span>
 
     <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-        <span class="c1"># find best neighbor</span>
+        <span class="c1"># 2. find best neighbor</span>
         <span class="n">neighbors</span> <span class="o">=</span> <span class="p">[</span><span class="n">n</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">expand</span><span class="p">(</span><span class="n">maze</span><span class="p">,</span> <span class="n">current</span><span class="p">)]</span>
         <span class="n">obj</span> <span class="o">=</span> <span class="p">[</span><span class="n">manhattan</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">goal_pos</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">neighbors</span><span class="p">]</span>
         <span class="n">best_obj</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
         <span class="n">best_neighbor</span> <span class="o">=</span> <span class="n">neighbors</span><span class="p">[</span><span class="n">obj</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">best_obj</span><span class="p">)]</span>
 
         <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">"Current state:"</span><span class="p">,</span> <span class="n">current</span><span class="p">,</span> <span class="s2">"with obj"</span><span class="p">,</span> <span class="n">current_obj</span><span class="p">)</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">"Evaluating neighbors:</span><span class="se">\t</span><span class="s2">"</span><span class="p">,</span> <span class="n">neighbors</span><span class="p">)</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">"Obj:</span><span class="se">\t\t\t</span><span class="s2">"</span><span class="p">,</span> <span class="n">obj</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Current state: </span><span class="si">{</span><span class="n">current</span><span class="si">}</span><span class="s2"> with obj </span><span class="si">{</span><span class="n">current_obj</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Evaluating neighbors:</span><span class="se">\t</span><span class="si">{</span><span class="n">neighbors</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Obj:</span><span class="se">\t\t\t</span><span class="si">{</span><span class="n">obj</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
 
-        <span class="c1"># move there if it is an improvement or stop</span>
-        <span class="k">if</span> <span class="n">best_obj</span> <span class="o">&lt;</span> <span class="n">current_obj</span><span class="p">:</span>
-            <span class="n">current</span> <span class="o">=</span> <span class="n">best_neighbor</span>
-            <span class="n">current_obj</span> <span class="o">=</span> <span class="n">best_obj</span>
-            <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">(</span><span class="s2">"Moving to:"</span><span class="p">,</span> <span class="n">current</span><span class="p">,</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># 3. stop if there is no improvement </span>
+        <span class="k">if</span> <span class="n">best_obj</span> <span class="o">&gt;=</span> <span class="n">current_obj</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
                 <span class="nb">print</span><span class="p">(</span><span class="s2">"No better state in the neighborhood! Stopping.</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
             <span class="k">break</span>
+            
+
+        <span class="c1"># 4. move to better neighbor</span>
+        <span class="n">current</span> <span class="o">=</span> <span class="n">best_neighbor</span>
+        <span class="n">current_obj</span> <span class="o">=</span> <span class="n">best_obj</span>
+           
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Moving to: </span><span class="si">{</span><span class="n">current</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">animation</span><span class="p">:</span>
             <span class="n">maze2</span> <span class="o">=</span> <span class="n">maze</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
             <span class="n">maze2</span><span class="p">[</span><span class="n">current</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">current</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="s2">"P"</span>
             <span class="n">maze_anim</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">maze2</span><span class="p">)</span>
-
 
     <span class="k">return</span> <span class="p">{</span> <span class="s2">"solution"</span> <span class="p">:</span> <span class="n">current</span><span class="p">,</span> <span class="s2">"path"</span> <span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">"reached"</span> <span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">"maze_anim"</span> <span class="p">:</span> <span class="n">maze_anim</span> <span class="p">}</span>
 </pre></div>
@@ -7722,10 +7725,12 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [138]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">time</span> result = local_search(maze, animation = True, verbose = True)
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">set_printoptions</span><span class="p">(</span><span class="n">legacy</span><span class="o">=</span><span class="s1">'1.25'</span><span class="p">)</span>
+
+<span class="o">%</span><span class="k">time</span> result = local_search(maze, animation = True, verbose = True)
 <span class="n">result</span><span class="p">[</span><span class="s2">"solution"</span><span class="p">]</span>
 
 <span class="n">mh</span><span class="o">.</span><span class="n">animate_maze</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
@@ -7741,59 +7746,59 @@ a.anchor-link {
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Current state: (np.int64(9), np.int64(5)) with obj 14
-Evaluating neighbors:	 [array([8, 5]), array([9, 6]), array([10, 5]), array([9, 4])]
-Obj:			 [np.int64(13), np.int64(13), np.int64(15), np.int64(15)]
+<pre>Current state: (9, 5) with obj 14
+Evaluating neighbors:	[array([8, 5]), array([9, 6]), array([10,  5]), array([9, 4])]
+Obj:			[13, 13, 15, 15]
 Moving to: [8 5] 
 
 Current state: [8 5] with obj 13
-Evaluating neighbors:	 [array([7, 5]), array([8, 6]), array([9, 5]), array([8, 4])]
-Obj:			 [np.int64(12), np.int64(12), np.int64(14), np.int64(14)]
+Evaluating neighbors:	[array([7, 5]), array([8, 6]), array([9, 5]), array([8, 4])]
+Obj:			[12, 12, 14, 14]
 Moving to: [7 5] 
 
 Current state: [7 5] with obj 12
-Evaluating neighbors:	 [array([6, 5]), array([7, 6]), array([8, 5]), array([7, 4])]
-Obj:			 [np.int64(11), np.int64(11), np.int64(13), np.int64(13)]
+Evaluating neighbors:	[array([6, 5]), array([7, 6]), array([8, 5]), array([7, 4])]
+Obj:			[11, 11, 13, 13]
 Moving to: [6 5] 
 
 Current state: [6 5] with obj 11
-Evaluating neighbors:	 [array([5, 5]), array([6, 6]), array([7, 5]), array([6, 4])]
-Obj:			 [np.int64(10), np.int64(10), np.int64(12), np.int64(12)]
+Evaluating neighbors:	[array([5, 5]), array([6, 6]), array([7, 5]), array([6, 4])]
+Obj:			[10, 10, 12, 12]
 Moving to: [5 5] 
 
 Current state: [5 5] with obj 10
-Evaluating neighbors:	 [array([5, 6]), array([6, 5]), array([5, 4])]
-Obj:			 [np.int64(9), np.int64(11), np.int64(11)]
+Evaluating neighbors:	[array([5, 6]), array([6, 5]), array([5, 4])]
+Obj:			[9, 11, 11]
 Moving to: [5 6] 
 
 Current state: [5 6] with obj 9
-Evaluating neighbors:	 [array([5, 7]), array([6, 6]), array([5, 5])]
-Obj:			 [np.int64(8), np.int64(10), np.int64(10)]
+Evaluating neighbors:	[array([5, 7]), array([6, 6]), array([5, 5])]
+Obj:			[8, 10, 10]
 Moving to: [5 7] 
 
 Current state: [5 7] with obj 8
-Evaluating neighbors:	 [array([5, 8]), array([6, 7]), array([5, 6])]
-Obj:			 [np.int64(7), np.int64(9), np.int64(9)]
+Evaluating neighbors:	[array([5, 8]), array([6, 7]), array([5, 6])]
+Obj:			[7, 9, 9]
 Moving to: [5 8] 
 
 Current state: [5 8] with obj 7
-Evaluating neighbors:	 [array([5, 9]), array([6, 8]), array([5, 7])]
-Obj:			 [np.int64(6), np.int64(8), np.int64(8)]
+Evaluating neighbors:	[array([5, 9]), array([6, 8]), array([5, 7])]
+Obj:			[6, 8, 8]
 Moving to: [5 9] 
 
 Current state: [5 9] with obj 6
-Evaluating neighbors:	 [array([6, 9]), array([5, 8])]
-Obj:			 [np.int64(7), np.int64(7)]
+Evaluating neighbors:	[array([6, 9]), array([5, 8])]
+Obj:			[7, 7]
 No better state in the neighborhood! Stopping.
 
-CPU times: user 3.74 ms, sys: 0 ns, total: 3.74 ms
-Wall time: 3.64 ms
+CPU times: user 3.35 ms, sys: 0 ns, total: 3.35 ms
+Wall time: 3.35 ms
 No solution found.
 </pre>
 </div>
 </div>
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[138]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[7]:</div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
 <video autoplay="" controls="" height="480" width="640">
 <source src="data:video/mp4;base64,AAAAIGZ0eXBNNFYgAAACAE00ViBpc29taXNvMmF2YzEAAAAIZnJlZQAAE2ptZGF0AAACrgYF//+q
