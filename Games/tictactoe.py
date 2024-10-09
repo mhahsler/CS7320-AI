@@ -20,21 +20,21 @@ def actions(board):
     return np.where(np.array(board) == ' ')[0].tolist()
 
     # randomize the action order
-    #actions = np.where(np.array(board) == ' ')[0]
-    #np.random.shuffle(actions)
-    #return actions.tolist()
+    # return np.random.shuffle(np.where(np.array(board) == ' ')[0]).tolist()
 
 def result(state, player, action):
-    """Add move to the board."""
+    """Add a single symbol to the board."""
+    if state[action] != ' ':
+        raise Exception(f"Illegal action {action} by player {player}!")
     
     state = state.copy()
     state[action] = player
   
     return state
 
-def terminal(board):
+def terminal(state):
     """is the state terminal?"""
-    return check_board(board) != 'n'
+    return check_board(state) != 'n'
 
 def utility(state, player = 'x'):
     """utility of state. None defined for non-terminal states."""
@@ -46,21 +46,21 @@ def utility(state, player = 'x'):
 
 
 ## helper functions
-def check_board(board):
+def check_board(state):
     """check the board and return one of x, o, d (draw), or n (for next move)"""
     
-    board = np.array(board).reshape((3,3))
+    state = np.array(state).reshape((3,3))
     
-    diagonals = np.array([[board[i][i] for i in range(len(board))], 
-                          [board[i][len(board)-i-1] for i in range(len(board))]])
+    diagonals = np.array([[state[i][i] for i in range(len(state))], 
+                          [state[i][len(state)-i-1] for i in range(len(state))]])
     
-    for a_board in [board, np.transpose(board), diagonals]:
+    for a_board in [state, np.transpose(state), diagonals]:
         for row in a_board:
             if len(set(row)) == 1 and row[0] != ' ':
                 return row[0]
     
     # check for draw
-    if(np.sum(board == ' ') < 1):
+    if(np.sum(state == ' ') < 1):
         return 'd'
     
     return 'n'
