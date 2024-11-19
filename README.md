@@ -15,22 +15,22 @@ More complex code examples accompanying the textbook can be found at the [GitHub
 
 ## Covered AIMA Chapters
 
-| Chapter | Slides | Code |
+| Chapter | Lecture Slides | Code |
 | :-------| :----: | :--: |
-| 1: Introduction to AI (+ 27 Ethics and Safety) | [Slides](https://mhahsler.github.io/CS7320-AI/slides/01_intro.pdf) | - | 
-| 2: Intelligent Agents | [Slides](https://mhahsler.github.io/CS7320-AI/slides/02_agents.pdf) | [Code](Agents) | 
-| 3: Solving Problems by Search | [Slides](https://mhahsler.github.io/CS7320-AI/slides/03_search.pdf) | [Code](Search) |
-| 4.1-4.2: Search in Complex Environments: Local Search | [Slides](https://mhahsler.github.io/CS7320-AI/slides/04_local_search.pdf) | [Code](Local_Search) |
-| 4.3-4.5: Search in Complex Environments: Search with Uncertainty | [Slides](https://mhahsler.github.io/CS7320-AI/slides/04_search_with_uncertainty.pdf) | [Code](Games) |
-| 5: Adversarial Search and Games | [Slides](https://mhahsler.github.io/CS7320-AI/slides/05_games.pdf) | [Code](Games) |
-| 6: Constraint Satisfaction Problem | [Slides](https://mhahsler.github.io/CS7320-AI/slides/06_CSP.pdf) | [Code](CSP) |
-| 7-10: Knowledge-Based Agents | [Slides](https://mhahsler.github.io/CS7320-AI/slides/07_knowledge-based.pdf) | [Code](Knowledge-based) |
-| 11: Automated Planning| [Slides](https://mhahsler.github.io/CS7320-AI/slides/11_Automated_Planning.pdf) | - |
-| 12: Quantifying Uncertainty | [Slides](https://mhahsler.github.io/CS7320-AI/slides/12_uncertainty.pdf) | [Code](Uncertainty) |
-| 13: Probabilistic Reasoning | [Slides](https://mhahsler.github.io/CS7320-AI/slides/13_bayes_nets.pdf) | [Code](Probabilistic_Reasoning) |
-| 16: Making Simple Decision | [Slides](https://mhahsler.github.io/CS7320-AI/slides/16_decision_making.pdf) | - |
-| 19: Learning from Examples (Machine Learning) | [Slides](https://mhahsler.github.io/CS7320-AI/slides/19_ML_intro.pdf) | [Code](ML) |
-| 22+17: Reinforcement Learning and MDPs | [Slides](https://mhahsler.github.io/CS7320-AI/slides/22_Reinforcement_Learning.pdf) | [Code](RL) |
+| 1: Introduction to AI (+ 27 Ethics and Safety) | [PDF](https://mhahsler.github.io/CS7320-AI/slides/01_intro.pdf), [PowerPoint](https://mhahsler.github.io/CS7320-AI/slides/01_intro.pdf) | - | 
+| 2: Intelligent Agents | [PDF](https://mhahsler.github.io/CS7320-AI/slides/02_agents.pptx), [PowerPoint](https://mhahsler.github.io/CS7320-AI/slides/02_agents.pdf) | [Code](Agents) | 
+| 3: Solving Problems by Search | [PDF](https://mhahsler.github.io/CS7320-AI/slides/03_search.pdf), [PowerPoint](https://mhahsler.github.io/CS7320-AI/slides/03_search.pptx) | [Code](Search) |
+| 4.1-4.2: Search in Complex Environments: Local Search | [PDF](https://mhahsler.github.io/CS7320-AI/slides/04_local_search.pdf), [PowerPoint](https://mhahsler.github.io/CS7320-AI/slides/04_local_search.pptx) | [Code](Local_Search) |
+| 4.3-4.5: Search in Complex Environments: Search with Uncertainty | [PDF](https://mhahsler.github.io/CS7320-AI/slides/04_search_with_uncertainty.pdf), [PowerPoint](https://mhahsler.github.io/CS7320-AI/slides/04_search_with_uncertainty.pptx) | [Code](Games) |
+| 5: Adversarial Search and Games | [PDF](https://mhahsler.github.io/CS7320-AI/slides/05_games.pdf), [PowerPoint](https://mhahsler.github.io/CS7320-AI/slides/05_games.pptx) | [Code](Games) |
+| 6: Constraint Satisfaction Problem | [PDF](https://mhahsler.github.io/CS7320-AI/slides/06_CSP.pdf), [PowerPoint](https://mhahsler.github.io/CS7320-AI/slides/06_CSP.pptx) | [Code](CSP) |
+| 7-10: Knowledge-Based Agents | [PDF](https://mhahsler.github.io/CS7320-AI/slides/07_knowledge-based.pdf), [PowerPoint](https://mhahsler.github.io/CS7320-AI/slides/07_knowledge-based.pptx) | [Code](Knowledge-based) |
+| 11: Automated Planning| [PDF](https://mhahsler.github.io/CS7320-AI/slides/11_Automated_Planning.pdf), [PowerPoint](https://mhahsler.github.io/CS7320-AI/slides/11_Automated_Planning.pptx) | - |
+| 12: Quantifying Uncertainty | [PDF](https://mhahsler.github.io/CS7320-AI/slides/12_uncertainty.pdf),[PowerPoint](https://mhahsler.github.io/CS7320-AI/slides/12_uncertainty.pptx) | [Code](Uncertainty) |
+| 13: Probabilistic Reasoning | [PDF](https://mhahsler.github.io/CS7320-AI/slides/13_bayes_nets.pdf), [PowerPoint](https://mhahsler.github.io/CS7320-AI/slides/13_bayes_nets.pptx) | [Code](Probabilistic_Reasoning) |
+| 16: Making Simple Decision | [PDF](https://mhahsler.github.io/CS7320-AI/slides/16_decision_making.pdf), [PowerPoint](https://mhahsler.github.io/CS7320-AI/slides/16_decision_making.pptx) | - |
+| 19: Learning from Examples (Machine Learning) | [PDF](https://mhahsler.github.io/CS7320-AI/slides/19_ML_intro.pdf), [PPowerPointDF](https://mhahsler.github.io/CS7320-AI/slides/19_ML_intro.pptx) | [Code](ML) |
+| 22+17: Reinforcement Learning and MDPs | [PDF](https://mhahsler.github.io/CS7320-AI/slides/22_Reinforcement_Learning.pdf), [PowerPoint](https://mhahsler.github.io/CS7320-AI/slides/22_Reinforcement_Learning.pptx) | [Code](RL) |
 
 ![Chatbot](assets/chatbot.png) [Ask the AIMA Scholar (GPT)](https://chatgpt.com/g/g-pNvaqyjSZ-aima-scholar) a question about the content of the textbook.
 
