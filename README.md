@@ -17,7 +17,7 @@ More complex code examples accompanying the textbook can be found at the [GitHub
 
 | Chapter | Lecture Slides | Code |
 | :-------| :----: | :--: |
-| 1: Introduction to AI (+ 27 Ethics and Safety) | [PDF](https://mhahsler.github.io/CS7320-AI/slides/01_intro.pdf), [PowerPoint](https://mhahsler.github.io/CS7320-AI/slides/01_intro.pdf) | - | 
+| 1: Introduction to AI (+ 27 Ethics and Safety) | [PDF](https://mhahsler.github.io/CS7320-AI/slides/01_intro.pdf), [PowerPoint](https://mhahsler.github.io/CS7320-AI/slides/01_intro.pptx) | - | 
 | 2: Intelligent Agents | [PDF](https://mhahsler.github.io/CS7320-AI/slides/02_agents.pptx), [PowerPoint](https://mhahsler.github.io/CS7320-AI/slides/02_agents.pdf) | [Code](Agents) | 
 | 3: Solving Problems by Search | [PDF](https://mhahsler.github.io/CS7320-AI/slides/03_search.pdf), [PowerPoint](https://mhahsler.github.io/CS7320-AI/slides/03_search.pptx) | [Code](Search) |
 | 4.1-4.2: Search in Complex Environments: Local Search | [PDF](https://mhahsler.github.io/CS7320-AI/slides/04_local_search.pdf), [PowerPoint](https://mhahsler.github.io/CS7320-AI/slides/04_local_search.pptx) | [Code](Local_Search) |
@@ -29,7 +29,7 @@ More complex code examples accompanying the textbook can be found at the [GitHub
 | 12: Quantifying Uncertainty | [PDF](https://mhahsler.github.io/CS7320-AI/slides/12_uncertainty.pdf),[PowerPoint](https://mhahsler.github.io/CS7320-AI/slides/12_uncertainty.pptx) | [Code](Uncertainty) |
 | 13: Probabilistic Reasoning | [PDF](https://mhahsler.github.io/CS7320-AI/slides/13_bayes_nets.pdf), [PowerPoint](https://mhahsler.github.io/CS7320-AI/slides/13_bayes_nets.pptx) | [Code](Probabilistic_Reasoning) |
 | 16: Making Simple Decision | [PDF](https://mhahsler.github.io/CS7320-AI/slides/16_decision_making.pdf), [PowerPoint](https://mhahsler.github.io/CS7320-AI/slides/16_decision_making.pptx) | - |
-| 19: Learning from Examples (Machine Learning) | [PDF](https://mhahsler.github.io/CS7320-AI/slides/19_ML_intro.pdf), [PPowerPointDF](https://mhahsler.github.io/CS7320-AI/slides/19_ML_intro.pptx) | [Code](ML) |
+| 19: Learning from Examples (Machine Learning) | [PDF](https://mhahsler.github.io/CS7320-AI/slides/19_ML_intro.pdf), [PowerPoint](https://mhahsler.github.io/CS7320-AI/slides/19_ML_intro.pptx) | [Code](ML) |
 | 22+17: Reinforcement Learning and MDPs | [PDF](https://mhahsler.github.io/CS7320-AI/slides/22_Reinforcement_Learning.pdf), [PowerPoint](https://mhahsler.github.io/CS7320-AI/slides/22_Reinforcement_Learning.pptx) | [Code](RL) |
 
 ![Chatbot](assets/chatbot.png) [Ask the AIMA Scholar (GPT)](https://chatgpt.com/g/g-pNvaqyjSZ-aima-scholar) a question about the content of the textbook.
