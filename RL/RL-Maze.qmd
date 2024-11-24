@@ -1,0 +1,138 @@
+---
+title: "Solving a Maze using RL"
+author: "Michael Hahsler"
+format:
+    html: 
+       embed-resources: true
+editor: visual
+---
+
+## Install and Load Package markovDP
+
+Install the current development version of \[markovDP\](<https://mhahsler.r-universe.dev/markovDP>).
+
+```{r}
+if (!"markovDP" %in% rownames(installed.packages())) 
+  install.packages('markovDP', repos = c(
+    'https://mhahsler.r-universe.dev', 
+    'https://cloud.r-project.org'))
+
+library(markovDP)
+```
+
+## Read a Maze
+
+Mazes are so called Gridworld. The markovDP package already comes with the mazes we use in class.
+
+```{r}
+maze_dir <- system.file("mazes", package = "markovDP")
+dir(maze_dir)
+
+maze <- gw_read_maze(file.path(maze_dir, "L_maze.txt"))
+maze
+```
+
+```{r}
+#| fig-width: 8
+#| fig-height: 8
+gw_plot(maze)
+```
+
+The transition model is stored as a function.
+
+```{r}
+#| fig-width: 8
+#| fig-height: 8
+maze$transition_prob
+gw_plot_transition_graph(maze)
+```
+
+The reward model
+
+```{r}
+maze$reward
+```
+
+The reward is a cost of 1 for each transition and a reward of +100 for reaching the goal state. The best solution will be the shortest path to the goal.
+
+Remember that tree search starts with the start state and explores the space till it finds the goal state.
+
+## Solve the Maze MDP as a Planning Agent
+
+We solve the MDP directly using the problem description as a model for the environment. This approach would be used by a **planning agent** similar to the tree search algorithms.
+
+Since the agent uses a complete model of the environment, we use a model-based reinforcement learning algorithm. Here we use value iteration. The algorithm sweeps in each iteration through all states and updates each state value using the utility of yhr best state it could get to plus the immediate reward. It stops when the state values do not change anymore (less than a set error threshold).
+
+```{r}
+#| fig-width: 8
+#| fig-height: 8
+system.time(sol <- solve_MDP(maze, method = "value_iteration"))
+
+sol
+
+gw_plot(sol)
+gw_path(sol)
+```
+
+The color represents the state value. Here are the learned state values and the optimal action for each state (policy).
+
+```{r}
+policy(sol)
+```
+
+### Solve Step-by-step
+
+```{r}
+#| fig-width: 8
+#| fig-height: 8
+gw_animate(maze, "value_iteration", n = 25, zlim = c(-1,100))
+```
+
+## Reinforcement Learning for Unknown Mazes
+
+An unknown environment mean that we do not have a model of the environment. The agent does not know the transition function or the reward structure and has to learn a good policy and at least part of the transition and reward models.
+
+Here we assume that the agent has no direct access to the MDP. The agent can only try actions and the environment uses the MDP to simulate how it reacts.
+Q-Learning is is a model-free approach for reinforcement learning.
+
+```{r}
+system.time(sol <- solve_MDP(maze, method ="q_learning", 
+                             horizon = 1000, n = 100, alpha = 0.3))
+
+sol
+```
+These methods are horribly data inefficient, but they do not need a model of the environment and do not need to calculate state values for 
+all states.
+
+```{r}
+#| fig-width: 8
+#| fig-height: 8
+gw_plot(sol)
+```
+
+### Step-by-step Solution using Q-Learning
+
+Q-learning follows an $\epsilon$-greedy policy where it takes the current beat action, but
+with a probability of $\epsilon$ uses a random action to perform exploration. Initially,
+the agent has no good policy and essentially performs random walk.
+
+This is how such a random walk looks like.
+```{r}
+set.seed(1111)
+sample_MDP(maze, n = 1, horizon = 50, trajectories = TRUE)$trajectories
+```
+
+After 50 steps, it still cannot find the goal, which is a problem. This is why 
+I use 1000 as the horizon with the hope that it will randomly run into the goal.
+After some experimentation, I settled on an $\epsilon$ of $0.2$ which means every 
+5th action is chosen randomly and I use a
+relatively high, fixed learning rate $\alpha$ of $0.3$
+
+```{r}
+#| fig-width: 8
+#| fig-height: 8
+sol <- gw_animate(maze, "q_learning", n = 25, zlim = c(-1,100), 
+                  horizon = 1000, epsilon = 0.2, alpha = 0.3)
+```
+
+
