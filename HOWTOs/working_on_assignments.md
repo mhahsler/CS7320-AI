@@ -2,7 +2,7 @@
 
 We will provide you with a CoLab link to the assignment notebook.
 
-* **Option 1:** You can work directly on CoLab by using `File>Save a copy to Drive`(you will need a Google Account). To use data files from within CoLab, you need to go to your [Google Drive](drive.google.com) to the folder called My Drive - CoLab Notebooks and copt the needed files there. Then you need to mount your Google drive in your notebook, and change to the directory to the notebook folder. The needed code for your code cell looks like this:
+* **Option 1:** You can work directly on CoLab by using `File>Save a copy to Drive`(you will need a Google Account). To use data files from within CoLab, you need to go to your [Google Drive](https://drive.google.com) to the folder called My Drive - CoLab Notebooks and copy the needed files there. Then you need to mount your Google drive in your notebook, and change to the directory to the notebook folder. The needed code for your code cell looks like this:
 
     ```{python}
     from google.colab import drive
@@ -10,8 +10,20 @@ We will provide you with a CoLab link to the assignment notebook.
 
     drive.mount('/content/drive')
     os.chdir('/content/drive/My Drive/Colab Notebooks/')
-    !pwd
     ```
+
+You can execute shell commands. The following line will list the contents of the current directory. Is should show you the ipynb files you have there.
+
+    ```{python}
+    !ls
+    ```
+
+To create a HTML documents out of your rendered notebooks you can run execute jupyter which is already installed on Colab.
+   ```{python}
+   !jupyter nbconvert --to html nameofyournorebook.ipynb
+   ```
+
+You can now download the created HTML file from your GoogleDrive.
 
 * **Option 2:** You can download individual assignment notebooks using `File>Download>Download .ipynb` and then work locally on the project. You will need to download additional files as well.
 
