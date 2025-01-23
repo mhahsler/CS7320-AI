@@ -12,7 +12,3 @@ All code and documents in this repository is provided under [Creative Commons At
 
 ![CC BY-SA 4.0](https://licensebuttons.net/l/by-sa/3.0/88x31.png)
 <!-- #endregion -->
-
-```python
-
-```
