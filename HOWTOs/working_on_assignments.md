@@ -10,7 +10,7 @@ Your submitted assignment notebook needs to be a complete project reports with
 
 Use the provided notebook cells and insert additional code and markdown cells as needed.
 
-You have several options to work on the notebook.
+You have several options to work on the notebook. **Note that you break all relative links in the assignment when you make a local copy!** Go back to the original assignment to make them work! 
 
 ## Option 1: CoLab 
 
