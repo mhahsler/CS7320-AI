@@ -52,7 +52,7 @@ $s_0, s_1, ..., s_\infty$, then the expected utility of being in state
 $s_0$ can be calculated as a sum. To incorporate that earlier rewards
 are more important, a discount factor $\gamma$ is used.
 
-$U^\pi = E\left[\sum_{t=0}^\infty \gamma^t R(s_t, \pi(s_t), s_{t+1})\right]$
+$U^\pi = \mathbb{E}\left[\sum_{t=0}^\infty \gamma^t R(s_t, \pi(s_t), s_{t+1})\right]$
 
 The goal of solving a MDP is to find an optimal policy that maximizes the expected future utility.
 
