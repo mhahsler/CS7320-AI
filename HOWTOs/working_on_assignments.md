@@ -27,12 +27,12 @@ os.chdir('/content/drive/My Drive/Colab Notebooks/')
 You can execute shell commands. The following line will list the contents of the current directory. Is should show you the ipynb files you have there.
 
 ```{python}
-!ls
+%ls
 ```
 
 To create a HTML document out of your rendered notebook, you can add a code cell with the following code to your jupyter notebook. Execute this cell after your document is completely rendered.
 ```{python}
-!jupyter nbconvert --to html nameofyournorebook.ipynb
+%jupyter nbconvert --to html nameofyournorebook.ipynb
 ```
 
 You can now download the created HTML file from your GoogleDrive.
