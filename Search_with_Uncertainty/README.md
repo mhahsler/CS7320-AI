@@ -12,8 +12,8 @@ Here are the basic functions for
 * Experimental environment: [Micromouse](https://en.wikipedia.org/wiki/Micromouse) is an event where small robotic mice compete to solve a maze. 
 You can watch the video [The Fastest Maze-Solving Competition On Earth](https://www.youtube.com/watch?v=ZMQbHMgK2rw).
 
-You can test your own agent function using the 
-[Micromouse Simulator](https://github.com/mackorone/mms-python). 
+  You can test your own agent function using the 
+  [Micromouse Simulator](https://github.com/mackorone/mms-python). 
 
 
 ## License
