@@ -9,7 +9,10 @@ Here are the basic functions for
 [Tic-Tac-Toe](https://colab.research.google.com/github/mhahsler/CS7320-AI/blob/master/Games/tictactoe_definitions.ipynb).
 
 ### Search in unknown environments
-* Experimental environment: [Micromouse](https://en.wikipedia.org/wiki/Micromouse) is an event where small robotic mice compete to solve a maze. You can write an agent function to use with the 
+* Experimental environment: [Micromouse](https://en.wikipedia.org/wiki/Micromouse) is an event where small robotic mice compete to solve a maze. 
+You can watch the video [The Fastest Maze-Solving Competition On Earth](https://www.youtube.com/watch?v=ZMQbHMgK2rw).
+
+You can test your own agent function using the 
 [Micromouse Simulator](https://github.com/mackorone/mms-python). 
 
 
