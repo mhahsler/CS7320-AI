@@ -23,7 +23,7 @@ Studying the material requires
 | Chapter | Lecture Slides | Code |
 | :-------| :----: | :--: |
 | 1: Introduction to AI (+ 27 Ethics and Safety) | [PDF](https://mhahsler.github.io/CS7320-AI/slides/01_intro.pdf), [PowerPoint](https://mhahsler.github.io/CS7320-AI/slides/01_intro.pptx) | - | 
-| 2: Intelligent Agents | [PDF](https://mhahsler.github.io/CS7320-AI/slides/02_agents.pptx), [PowerPoint](https://mhahsler.github.io/CS7320-AI/slides/02_agents.pdf) | [Code](Agents) | 
+| 2: Intelligent Agents | [PDF](https://mhahsler.github.io/CS7320-AI/slides/02_agents.pdf), [PowerPoint](https://mhahsler.github.io/CS7320-AI/slides/02_agents.pptx) | [Code](Agents) | 
 | 3: Solving Problems by Search | [PDF](https://mhahsler.github.io/CS7320-AI/slides/03_search.pdf), [PowerPoint](https://mhahsler.github.io/CS7320-AI/slides/03_search.pptx) | [Code](Search) |
 | 4.1-4.2: Search in Complex Environments: Local Search | [PDF](https://mhahsler.github.io/CS7320-AI/slides/04_local_search.pdf), [PowerPoint](https://mhahsler.github.io/CS7320-AI/slides/04_local_search.pptx) | [Code](Local_Search) |
 | 4.3-4.5: Search in Complex Environments: Search with Uncertainty | [PDF](https://mhahsler.github.io/CS7320-AI/slides/04_search_with_uncertainty.pdf), [PowerPoint](https://mhahsler.github.io/CS7320-AI/slides/04_search_with_uncertainty.pptx) | [Code](Search_with_Uncertainty) |
