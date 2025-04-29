@@ -19,6 +19,8 @@ Large language models (LLMs) are a type of knowledge-based agents that use natur
 * [Hugging Face](https://huggingface.co/) provides a large collection
   of downloadable pretrained LLMs with 
 * [Prompt engineering guide](https://platform.openai.com/docs/guides/prompt-engineering) from OpenAI.
+* Textbook: [Speech and Language Processing](https://web.stanford.edu/~jurafsky/slp3/) by Dan Jurafsky and James H. Martin. Part I contains 
+  an excellent introduction to language models, transformers and large language models.
 
 
 
