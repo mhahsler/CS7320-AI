@@ -1,9 +1,13 @@
 ---
 title: "Solving a Maze using Reinforcement Learning"
 author: "Michael Hahsler"
-format:
-    html: 
-       embed-resources: true
+format: 
+  html: 
+    theme: default
+    toc: true
+    number-sections: true
+    code-line-numbers: true
+    embed-resources: true
 editor: visual
 ---
 
@@ -16,7 +20,9 @@ knitr::opts_chunk$set(
 )
 ```
 
-## Introduction
+![CC BY-SA 4.0](https://licensebuttons.net/l/by-sa/3.0/88x31.png) This code is provided under [Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0) License.](https://creativecommons.org/licenses/by-sa/4.0/)
+
+# Introduction
 
 This report demonstrates how value iteration (model-based RL) and q-learning (model-free RL) solve a maze similar to the mazes we have used for tree search.
 
@@ -33,7 +39,7 @@ if (!"markovDP" %in% rownames(installed.packages()))
 library(markovDP)
 ```
 
-## Read a Maze
+## Read the Maze
 
 Mazes are so called *gridworlds* where the agent moves around in a 2d environment composed out of tiles. The markovDP package already comes with the mazes we use in class.
 
@@ -70,11 +76,11 @@ The reward is a cost of 1 for each transition and a reward of +100 for reaching 
 
 Remember that tree search starts with the start state and explores the space till it finds the goal state.
 
-## Solve the Maze MDP as a Planning Agent
+# Solve the Maze MDP as a Planning Agent
 
-We solve the MDP directly using the problem description as a model for the environment. This approach would be used by a **planning agent** similar to the tree search algorithms.
+We solve the MDP directly using the problem description as a model for the environment. This approach would be used by a **planning agent** similar to the tree search algorithms like A\* search. Since the agent uses a complete model of the environment, we use a **model-based reinforcement learning** algorithm.
 
-Since the agent uses a complete model of the environment, we use a model-based reinforcement learning algorithm. Here we use the dynamic programming method called value iteration. The algorithm sweeps in each iteration through all states and updates each state value using the utility of the best state it could get to plus the immediate reward. It stops when the state values do not change anymore (less than a set error threshold).
+Here we use the dynamic programming method called value iteration (VI). The algorithm sweeps in each iteration through all states and updates each state value (called the value function) using the utility of the best state it could get to plus the immediate reward. It stops when the state values do not change anymore (less than a set error threshold).
 
 ```{r}
 #| fig-width: 8
@@ -103,31 +109,33 @@ gw_animate(maze, "DP:VI", n = 25, zlim = c(-1,100))
 
 Value iteration looks a lot like breath-first search starting at the goal or like a [flood fill](https://en.wikipedia.org/wiki/Flood_fill) algorithm. The goal is to find the **optimal state value for each state.**
 
-The space complexity is bad with $O(|S|)$ and the number of states is typically very large.
+An alternative approach is called policy iteration that searches for the best policy instead of the best value function.
 
-## Reinforcement Learning for Unknown Mazes
+The tabular version of dynamic programming-based planning algorithms stores the value function as a table with $O(\|S\|)$ entries, one value for each state. The number of states is typically too large to fit into memory. An option is to use function approximation (e.g., using a machine learning model) to store only a compressed table.
 
-An unknown environment mean that we do not have a model of the environment. The agent does not know the transition function or the reward structure and has to **learn a good policy** and at least part of the transition and reward models.
+# Reinforcement Learning for Unknown Mazes
 
-Here we assume that the agent has no direct access to the MDP. The agent can only try actions and the environment uses the MDP to simulate how it reacts. These methods are also called *model-free* approach for reinforcement learning.
+An **unknown environment** mean that we do not have a model of the environment. That is, the agent does not know the transition function or the reward structure and has to learn a good policy and at least part of the transition and reward models by trying actions.
 
-### Monte Carlo Control
+Here we assume that the agent has no direct access to the MDP. The agent can only try actions and the environment uses the MDP to simulate how it reacts. Methods to solve this proble are called **model-free reinforcement learning algorithms**.
 
-On-policy Monte Carlo control uses an exploring $\epsilon$-greedy policy to explore the maze. It is called on-policy because it also learns the same $\epsilon$-greedy policy.
+## Monte Carlo Control
 
-Monte Carlo methods creates on episode (search from the start to the goal) at a time and then updates the state values in reverse order using the learning parameter $\alpha$. This is how such an episode looks like.
+A simple approach is to create (sample) episodes and then update the state value estimates given this information. This approach is similar to Monte Carlo Tree Search that uses playouts. Here is how such an episode looks like.
 
 ```{r}
 set.seed(1111)
 sample_MDP(maze, n = 1, horizon = 50, trajectories = TRUE)$trajectories
 ```
 
-After 50 steps, the random walk cannot find the goal, which is a problem. This is why I use a much larger horizon.
+Monte Carlo methods creates on episode (search from the start to the goal) at a time and then updates the state values in reverse order using the learning parameter $\alpha$. The easiest method is called On-policy Monte Carlo control and uses an exploring $\epsilon$-greedy policy to explore the maze. It is called on-policy because it also learns the same $\epsilon$-greedy policy.
+
+Since we have observed that the simulated episode above was not able to find the goal after 50 steps, we use a much larger horizon for the algorithm.
 
 ```{r}
 system.time(sol <- solve_MDP(maze, method = "MC:on_policy", 
-                 horizon = 1000, n = 10, epsilon =.2, alpha = 0.3))
-
+                 horizon = 1000, n = 10, 
+                 epsilon =.2, alpha = 0.3))
 ```
 
 ```{r}
@@ -143,8 +151,9 @@ Step-by-step solution.
 ```{r}
 #| fig-width: 8
 #| fig-height: 8
-sol <- gw_animate(maze, "MC:on_policy", n = 30, 
-                  horizon = 1000, epsilon =.2, alpha = 0.3, first_visit = FALSE)
+sol <- gw_animate(maze, "MC:on_policy", 
+                  n = 30, horizon = 1000, 
+                  epsilon =.2, alpha = 0.3)
 ```
 
 Initially, the random exploration does not lead to the goal during the horizon, but eventually it finds a path. The behavior can be compared to
@@ -152,13 +161,14 @@ Initially, the random exploration does not lead to the goal during the horizon, 
 -   repeated depth-first search with a depth limited,
 -   or Monte Carlo tree search for game trees where the utility is propagated from the end of the game to the current state.
 
-### Q-Learning
+## Q-Learning
 
-Q-learning is a popular model-free temporal differencing (TD) RL method that does not update with complete episodes, but it updates only fore one step at a time.
+Q-learning is the most popular model-free temporal differencing (TD) RL method that does not update with complete episodes, but it updates for each step. The idea is that for each step it makes the value of the current state a little more similar to the value of the next step plus the immediate reward.
 
 ```{r}
 system.time(sol <- solve_MDP(maze, method ="TD:q_learning", 
-                             horizon = 1000, n = 100, alpha = 0.3))
+                             horizon = 1000, n = 100, 
+                             alpha = 0.3))
 
 sol
 ```
@@ -169,15 +179,21 @@ sol
 gw_plot(sol)
 ```
 
-Step-by-step Solution using Q-Learning. Q-learning follows an $\epsilon$-greedy policy where it takes the current beat action, but with a probability of $\epsilon$ uses a random action to perform exploration. Initially, the agent has no good policy and essentially performs random walk.
+It is interesting to look at the step-by-step of Q-learning. Q-learning follows an $\epsilon$-greedy policy where it takes the current beat action, but with a probability of $\epsilon$ uses a random action to perform exploration. Initially, the agent has no good policy and essentially performs random walk.
 
 I use 1000 as the horizon with the hope that it will randomly run into the goal. After some experimentation, I settled on an $\epsilon$ of $0.2$ which means every 5th action is chosen randomly and I use a relatively high, fixed learning rate $\alpha$ of $0.3$
 
 ```{r}
 #| fig-width: 8
 #| fig-height: 8
-sol <- gw_animate(maze, "TD:q_learning", n = 50, zlim = c(-1,100), 
-                  horizon = 1000, epsilon = 0.2, alpha = 0.3)
+sol <- gw_animate(maze, "TD:q_learning", 
+                  n = 50, horizon = 1000, 
+                  epsilon = 0.2, alpha = 0.3, 
+                  zlim = c(-1,100))
 ```
+
+# Conclusion
+
+If the environment is known and the number of states and actions is not too large, then model-based methods like value or policy iteration are the best method.
 
 Model-free RL methods are typically horribly data inefficient, but they do not need a model of the environment and do not need to calculate state values for all states.
