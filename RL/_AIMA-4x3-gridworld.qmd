@@ -257,7 +257,13 @@ R(12, 'None', 12)
 
 ## Policy
 The solution to an MDP is a policy $\pi$ which defines which action
-to take in each state. We represent deterministic policies as a vector of
+to take in each state. 
+
+### Deterministic Policies
+
+It can be shown that all MPDs have an optimal deterministic policy with one 
+action per state.
+We represent deterministic policies as a vector of
 actions.
 I make up a policy that always goes up and then to the right once the
 agent hits the top.
@@ -288,7 +294,12 @@ pi_random
 show_layout(pi_random)
 ```
 
-Stochastic policies use probabilities of actions in each state. We use
+### Stochastic Policies
+
+Stochastic policies use probabilities of actions in each state. This is useful 
+to create policies that explore by trying different actions in the same state.
+
+We use
 as simple table with probabilities where each row is a state and the columns 
 are the actions. Here we create a random $\epsilon$-soft policy. Each available has
 at least a probability of $\epsilon$.
@@ -350,9 +361,11 @@ pi_random_epsilon_soft <- create_random_epsilon_soft_policy()
 pi_random_epsilon_soft
 ```
 
-## Expected Utility
+## Value Function
 
-The expected utility can be calculated by
+### Definition
+
+The value function given a policy $\pi$ is defined as the expected utility:
 
 $U^\pi = E\left[\sum_{t=0}^\infty \gamma^t R(s_t, \pi(s_t), s_{t+1})\right]$
 
@@ -362,8 +375,11 @@ We need to define the discount factor.
 GAMMA <- 1
 ```
 
-We can evaluate the utility of a policy using simulation. For the 
-stochastic transition model, we need to be able
+### Estimation of the Expected Utility
+
+We can directly estimate the expected utility of a state using a Monte Carlo simulation
+that follows the policy.
+For the stochastic transition model, we need to be able
 to sample the state $s'$ the system transitions to 
 when using action $a$ in state $s$.
 
@@ -436,9 +452,9 @@ utility_random <- simulate_utilities(pi_random, max_t = 100)
 table(utility_random)
 ```
 
-The random policy performs really bad and most likely always 
+The random policy performs really poorly. It most likely always 
 stumbles around for `max_t` moves at a cost of .04 each.
-The manually created policy is obviously better.
+The manually created policy should obviously do much better.
 
 We can use simulation to estimate the expected utility for starting from 
 each state following the policy.
