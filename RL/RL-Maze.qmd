@@ -104,20 +104,23 @@ Solve the maze step-by-step.
 ```{r}
 #| fig-width: 8
 #| fig-height: 8
-gw_animate(maze, "DP:VI", n = 25, zlim = c(-1,100))
+gw_animate(maze, "DP:VI", n = 25, zlim = c(70,100))
 ```
 
-Value iteration looks a lot like breath-first search starting at the goal or like a [flood fill](https://en.wikipedia.org/wiki/Flood_fill) algorithm. The goal is to find the **optimal state value for each state.**
+Value iteration looks a lot like the following algorithms:
 
-An alternative approach is called policy iteration that searches for the best policy instead of the best value function.
+-   [flood fill](https://en.wikipedia.org/wiki/Flood_fill) algorithm.
+-   breath-first search starting at the goal.
 
-The tabular version of dynamic programming-based planning algorithms stores the value function as a table with $O(\|S\|)$ entries, one value for each state. The number of states is typically too large to fit into memory. An option is to use function approximation (e.g., using a machine learning model) to store only a compressed table.
+While the algorithm exhibits breath-first search behavior, it does not implement an explicit search tree. The search graph is implicitly stored in the transition model and the table representing the utility function. Exploration is replaced by propagating utility values. The tabular version of dynamic programming-based planning algorithms stores the value function as a table with $O(|S|)$ entries, one value for each state. The number of states is typically too large to fit into memory. An option is to use function approximation (e.g., using a machine learning model) to store only a compressed table.
+
+The goal is to find the **optimal state value for each state.** An alternative approach is called policy iteration that searches for the best policy instead of the best value function.
 
 # Reinforcement Learning for Unknown Mazes
 
 An **unknown environment** mean that we do not have a model of the environment. That is, the agent does not know the transition function or the reward structure and has to learn a good policy and at least part of the transition and reward models by trying actions.
 
-Here we assume that the agent has no direct access to the MDP. The agent can only try actions and the environment uses the MDP to simulate how it reacts. Methods to solve this proble are called **model-free reinforcement learning algorithms**.
+Here we assume that the agent has no direct access to the MDP. The agent can only try actions and the environment uses the MDP to simulate how it reacts. Methods to solve this problem are called **model-free reinforcement learning algorithms**.
 
 ## Monte Carlo Control
 
@@ -153,7 +156,8 @@ Step-by-step solution.
 #| fig-height: 8
 sol <- gw_animate(maze, "MC:on_policy", 
                   n = 30, horizon = 1000, 
-                  epsilon =.2, alpha = 0.3)
+                  epsilon =.2, alpha = 0.3,
+                  ylim = c(70, 100))
 ```
 
 Initially, the random exploration does not lead to the goal during the horizon, but eventually it finds a path. The behavior can be compared to
@@ -187,8 +191,8 @@ I use 1000 as the horizon with the hope that it will randomly run into the goal.
 #| fig-width: 8
 #| fig-height: 8
 sol <- gw_animate(maze, "TD:q_learning", 
-                  n = 50, horizon = 1000, 
-                  epsilon = 0.2, alpha = 0.3, 
+                  n = 100, horizon = 1000, 
+                  epsilon = 0.1, alpha = 0.3, 
                   zlim = c(-1,100))
 ```
 
