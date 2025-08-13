@@ -35,7 +35,7 @@ An AI solution uses a set of agents. Each agent is a specially prompted LLM. The
 * Autonomy
 
 Material
-* [4 hr Intro to Agentic AI with coding examples](https://youtu.be/LSk5KaEGVk4) ([https://github.com/ed-donner/action](Code repository))
+* [4 hr Intro to Agentic AI with coding examples](https://youtu.be/LSk5KaEGVk4) ([Code repository](https://github.com/ed-donner/action))
 * [Open AI Agent SDK](https://openai.github.io/openai-agents-python/)
 * [CrewAI](https://github.com/crewAIInc/crewAI)
 
