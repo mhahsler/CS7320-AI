@@ -7312,6 +7312,7 @@ a.anchor-link {
                     processEnvironments: true
                 },
                 displayAlign: 'center',
+                messageStyle: 'none',
                 CommonHTML: {
                     linebreaks: {
                     automatic: true
@@ -7519,10 +7520,26 @@ a.anchor-link {
 <h1 id="Intelligent-Agents:-Reflex-Based-Agents-for-the-Vacuum-cleaner-World">Intelligent Agents: Reflex-Based Agents for the Vacuum-cleaner World<a class="anchor-link" href="#Intelligent-Agents:-Reflex-Based-Agents-for-the-Vacuum-cleaner-World">¶</a></h1><p>Student Name: [Add your name]</p>
 <p>I have used the following AI tools: [list tools]</p>
 <p>I understand that my submission needs to be my own work: [your initials]</p>
-<h2 id="Instructions">Instructions<a class="anchor-link" href="#Instructions">¶</a></h2><p>Total Points: Undergrads 100 + 5 bonus / Graduate students 110</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="Learning-Outcomes">Learning Outcomes<a class="anchor-link" href="#Learning-Outcomes">¶</a></h2><ul>
+<li>Design and build a simulation environment that models sensor inputs, actuator effects, and performance measurement</li>
+<li>Apply core AI concepts by implementing the agent function for a simple and model-based reflex agents that respond to environmental percepts</li>
+<li>Analyze agent performance through controlled experiments across different environment configurations</li>
+<li>Develop strategies for handling uncertainty and imperfect information in autonomous agent systems</li>
+</ul>
+<h2 id="Instructions">Instructions<a class="anchor-link" href="#Instructions">¶</a></h2><p>Total Points: Undergrads 98 + 5 bonus / Graduate students 110</p>
 <p>Complete this notebook. Use the provided notebook cells and insert additional code and markdown cells as needed. Submit the completely rendered notebook as a HTML file.</p>
-<p>In Visual Studio Code: Use Export (click on ... in the menu bar) to save your notebook as a HTML file.</p>
-<p>In Colab you need to save the notebook on GoogleDrive and then add the following block</p>
+<h3 id="Using-Visual-Studio-Code">Using Visual Studio Code<a class="anchor-link" href="#Using-Visual-Studio-Code">¶</a></h3><p>If you use VS code then you can use <code>Export</code> (click on <code>...</code> in the menu bar) to save your notebook as a HTML file. Note that you have to run all blocks before so the HTML file contains your output.</p>
+<h3 id="Using-Google-Colab">Using Google Colab<a class="anchor-link" href="#Using-Google-Colab">¶</a></h3><p>In Colab you need to save the notebook on GoogleDrive to work with it. For this you need to mount your google dive and change to the correct directory by uncommenting the following lines and running the code block.</p>
 </div>
 </div>
 </div>
@@ -7534,11 +7551,11 @@ a.anchor-link {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># !pip install nbconvert</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># from google.colab import drive</span>
+<span class="c1"># import os</span>
 <span class="c1">#</span>
-<span class="c1"># from google.colab import drive</span>
 <span class="c1"># drive.mount('/content/drive')</span>
-<span class="c1"># !jupyter nbconvert --to html /content/drive/MyDrive/Colab\ Notebooks/Copy\ of\ robot_vacuum.ipynb</span>
+<span class="c1"># os.chdir('/content/drive/My Drive/Colab Notebooks/')</span>
 </pre></div>
 </div>
 </div>
@@ -7551,7 +7568,42 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>You will need to fix the file location on your GoogleDrive.</p>
+<p>Once you are done with the assignment and have run all code blocks using <code>Runtime/Run all</code>, you can convert the file on your GoogleDrive into HTML be uncommenting the following line and running the block.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># %jupyter nbconvert --to html Copy\ of\ robot_vacuum.ipynb</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>You may have to fix the file location or the file name to match how it looks on your GoogleDrive. You can navigate in Colab to your GoogleDrive using the little folder symbol in the navigation bar to the left.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h2 id="Introduction">Introduction<a class="anchor-link" href="#Introduction">¶</a></h2><p>In this assignment you will implement a simulator environment for an automatic vacuum cleaner robot, a set of different reflex-based agent programs, and perform a comparison study for cleaning a single room. Focus on the <strong>cleaning phase</strong> which starts when the robot is activated and ends when the last dirty square in the room has been cleaned. Someone else will take care of the agent program needed to navigate back to the charging station after the room is clean.</p>
 <h2 id="PEAS-description-of-the-cleaning-phase">PEAS description of the cleaning phase<a class="anchor-link" href="#PEAS-description-of-the-cleaning-phase">¶</a></h2><p><strong>Performance Measure:</strong> Each action costs 1 energy unit. The performance is measured as the sum of the energy units used to clean the whole room.</p>
 <p><strong>Environment:</strong> A room with $n \times n$ squares where $n = 5$. Dirt is randomly placed on each square with probability $p = 0.2$. For simplicity, you can assume that the agent knows the size and the layout of the room (i.e., it knows $n$). To start, the agent is placed on a random square.</p>
@@ -7567,34 +7619,47 @@ a.anchor-link {
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># make sure numpy is installed</span>
-<span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>-q<span class="w"> </span>numpy
+<span class="o">%</span><span class="k">pip</span> install -q numpy
 </pre></div>
 </div>
 </div>
 </div>
 </div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Note: you may need to restart the kernel to use updated packages.
+</pre>
+</div>
+</div>
+</div>
+</div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
 <span class="n">actions</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"north"</span><span class="p">,</span> <span class="s2">"east"</span><span class="p">,</span> <span class="s2">"west"</span><span class="p">,</span> <span class="s2">"south"</span><span class="p">,</span> <span class="s2">"suck"</span><span class="p">]</span>
 
-<span class="k">def</span> <span class="nf">simple_randomized_agent</span><span class="p">(</span><span class="n">bumpers</span><span class="p">,</span> <span class="n">dirty</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">simple_randomized_agent</span><span class="p">(</span><span class="n">bumpers</span><span class="p">,</span> <span class="n">dirty</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">actions</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -7606,7 +7671,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># define percepts (current location is NW corner and it is dirty)</span>
@@ -7625,9 +7690,9 @@ a.anchor-link {
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[3]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[5]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>'north'</pre>
+<pre>np.str_('north')</pre>
 </div>
 </div>
 </div>
@@ -7660,10 +7725,10 @@ The simple environment is infinite in size (bumpers are always <code>False</code
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">simple_environment</span><span class="p">(</span><span class="n">agent_function</span><span class="p">,</span> <span class="n">max_steps</span><span class="p">,</span> <span class="n">verbose</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">simple_environment</span><span class="p">(</span><span class="n">agent_function</span><span class="p">,</span> <span class="n">max_steps</span><span class="p">,</span> <span class="n">verbose</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
     <span class="n">num_cleaned</span> <span class="o">=</span> <span class="mi">0</span>
     
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_steps</span><span class="p">):</span>
@@ -7699,7 +7764,7 @@ The simple environment is infinite in size (bumpers are always <code>False</code
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">simple_environment</span><span class="p">(</span><span class="n">simple_randomized_agent</span><span class="p">,</span> <span class="n">max_steps</span> <span class="o">=</span> <span class="mi">20</span><span class="p">)</span>
@@ -7715,33 +7780,33 @@ The simple environment is infinite in size (bumpers are always <code>False</code
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>step 0 - action: suck
+<pre>step 0 - action: north
 step 1 - action: east
 step 2 - action: west
-step 3 - action: west
-step 4 - action: suck
-step 5 - action: north
-step 6 - action: east
-step 7 - action: south
-step 8 - action: north
-step 9 - action: north
-step 10 - action: west
-step 11 - action: north
-step 12 - action: north
+step 3 - action: north
+step 4 - action: north
+step 5 - action: south
+step 6 - action: west
+step 7 - action: west
+step 8 - action: south
+step 9 - action: east
+step 10 - action: east
+step 11 - action: east
+step 12 - action: suck
 step 13 - action: north
-step 14 - action: west
+step 14 - action: suck
 step 15 - action: suck
-step 16 - action: east
-step 17 - action: east
-step 18 - action: south
-step 19 - action: west
+step 16 - action: suck
+step 17 - action: north
+step 18 - action: west
+step 19 - action: east
 </pre>
 </div>
 </div>
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[5]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[7]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>3</pre>
+<pre>4</pre>
 </div>
 </div>
 </div>
@@ -7759,10 +7824,10 @@ step 19 - action: west
 <li>You notebook needs to be formatted professionally.<ul>
 <li>Add additional markdown blocks for your description, comments in the code, add tables and use mathplotlib to produce charts where appropriate</li>
 <li>Do not show debugging output or include an excessive amount of output.</li>
-<li>Check that your submitted file is readable. For example, long lines may get cut off. You don't have control over page breaks, so do not worry about these.</li>
+<li>Check that your submitted file is readable and contains all figures.</li>
 </ul>
 </li>
-<li>Document your code. Add a short discussion of how your implementation works and your design choices.</li>
+<li>Document your code. Use comments in the code and add a discussion of how your implementation works and your design choices.</li>
 </ol>
 <h2 id="Task-1:-Implement-a-simulation-environment-%5B20-Points%5D">Task 1: Implement a simulation environment [20 Points]<a class="anchor-link" href="#Task-1:-Implement-a-simulation-environment-%5B20-Points%5D">¶</a></h2><p>The simple environment above is not very realistic. Your environment simulator needs to follow the PEAS description from above. It needs to:</p>
 <ul>
@@ -7783,7 +7848,7 @@ step 19 - action: west
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Your code and description goes here</span>
@@ -7808,7 +7873,7 @@ step 19 - action: west
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Your code and description goes here</span>
@@ -7834,7 +7899,7 @@ step 19 - action: west
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Your code and description goes here</span>
@@ -7859,7 +7924,7 @@ step 19 - action: west
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Your code and description goes here</span>
@@ -7885,7 +7950,7 @@ step 19 - action: west
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Your short description of the state and your implementation goes here</span>
@@ -7899,7 +7964,7 @@ step 19 - action: west
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Your code goes here</span>
@@ -7924,7 +7989,7 @@ step 19 - action: west
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Your code goes here</span>
@@ -7951,7 +8016,7 @@ $100 \times 100$. Use 100 random runs for each. Present the results using tables
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Your code goes here</span>
@@ -8007,7 +8072,7 @@ $100 \times 100$. Use 100 random runs for each. Present the results using tables
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [16]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Your graphs and discussion of the results goes here</span>
@@ -8039,7 +8104,7 @@ $100 \times 100$. Use 100 random runs for each. Present the results using tables
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [17]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Answers goes here</span>
@@ -8073,7 +8138,7 @@ $100 \times 100$. Use 100 random runs for each. Present the results using tables
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [18]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Your code and discussion goes here</span>
@@ -8089,7 +8154,8 @@ $100 \times 100$. Use 100 random runs for each. Present the results using tables
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="More-advanced-implementation-tasks">More advanced implementation tasks<a class="anchor-link" href="#More-advanced-implementation-tasks">¶</a></h2><ul>
+<h2 id="More-Advanced-Implementation-(not-for-credit)">More Advanced Implementation (not for credit)<a class="anchor-link" href="#More-Advanced-Implementation-(not-for-credit)">¶</a></h2><p>If the assignment was to easy for yuo then you can think about the following problems. These problems are challenging and not part of this assignment. We will learn implementation strategies and algorithms useful for these tasks during the rest of the semester.</p>
+<ul>
 <li><p><strong>Obstacles:</strong> Change your simulation environment to run experiments for the following problem: Add random obstacle squares that also trigger the bumper sensor. The agent does not know where the obstacles are. Perform experiments to observe how this changes the performance of the three implementations. Describe what would need to be done to perform better with obstacles. Add code if you can.</p>
 </li>
 <li><p><strong>Agent for and environment with obstacles:</strong> Implement an agent for an environment where the agent does not know how large the environment is (we assume it is rectangular), where it starts or where the obstacles are. An option would be to always move to the closest unchecked/uncleaned square (note that this is actually depth-first search).</p>
@@ -8105,7 +8171,7 @@ $100 \times 100$. Use 100 random runs for each. Present the results using tables
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [19]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Your ideas/code</span>
