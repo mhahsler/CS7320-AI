@@ -30,10 +30,10 @@ An AI solution that uses a set of specially prompted LLM calls. The solution inv
 
   - Multiple LLM calls
   - LLMs can use tools (browse the web, access files, etc.) to interact with an environment.
-  - A planner coordinates activities of the agents: Can be a
+  - A planner coordinates the activities of the agents: Can be a
 
     - developer-defined workflow using "prompt chaining" and LLMs giving each other feedback, or 
-    - use a LLM to plan its own tasks (the LLM acts as an autonomous agent leading to the name agentic AI).
+    - use an LLM to plan its own tasks (the LLM acts as an autonomous agent leading to the name agentic AI).
 
 Video:
 * [Introduction to Agentic AI with Coding Examples](https://youtu.be/LSk5KaEGVk4) ([Code repository](https://github.com/ed-donner/action))
@@ -50,7 +50,3 @@ All code and documents in this repository is provided under [Creative Commons At
 
 ![CC BY-SA 4.0](https://licensebuttons.net/l/by-sa/3.0/88x31.png)
 <!-- #endregion -->
-
-```python
-
-```
