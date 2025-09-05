@@ -9,7 +9,8 @@
 ## Chapter 22: Reinforcement Learning
 * Example: [4x3 Grid World: A Q-Learning Agent](https://mhahsler.github.io/CS7320-AI/RL/QLearning.html) (in R)
 * Example: [L-Maze: Solving a Maze using RL (Q-Learning)](https://mhahsler.github.io/CS7320-AI/RL/RL-Maze.html) (in R with package markovDP)
-* Connection to playing games (Chapter 5): [Learning to Play Tic-Tac-Toe with Q-Learning](https://colab.research.google.com/github/mhahsler/CS7320-AI/blob/master/RL/tictactoe_RL.ipynb) implements a simple table-based Q-learning algorithm to play the game. (Python)
+* Connection to playing games (Chapter 5): [Learning to Play Tic-Tac-Toe with Q-Learning](https://colab.research.google.com/github/mhahsler/CS7320-AI/blob/master/RL/tictactoe_QL.ipynb) implements a simple table-based Q-learning algorithm to play the game. (Python)
+* Connection to playing games (Chapter 5): [Learning the Optimal Policy to Play Tic-Tac-Toe with Value Iteration](https://colab.research.google.com/github/mhahsler/CS7320-AI/blob/master/RL/tictactoe_VI.ipynb) implements value iteration to find the optimal policy to play the game. (Python)
 
 ## More on Reinforcement Learning
 
