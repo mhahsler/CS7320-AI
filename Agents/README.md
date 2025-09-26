@@ -4,7 +4,8 @@
 ## Contents
 
 * Assignment: [Reflex-based Agents for the Vacuum-cleaner World](https://colab.research.google.com/github/mhahsler/CS7320-AI/blob/master/Agents/robot_vacuum.ipynb)
-* Assignment: [Gridhunt mini-assignment (simple reflex agents)](https://colab.research.google.com/github/mhahsler/CS7320-AI/blob/master/Agents/gridhunt_mini_assignment.ipynb)
+* Mini-Assignment: [Gridhunt Simple Reflex Agent](https://colab.research.google.com/github/mhahsler/CS7320-AI/blob/master/Agents/gridhunt_mini_assignment.ipynb)
+* Mini-Assignment: [Gridhunt Multi-Agent Environment](https://colab.research.google.com/github/mhahsler/CS7320-AI/blob/master/Agents/gridhunt_multiagent_mini_assignment.ipynb)
 * Example: [Lunar Lander Reflex-based Agent](https://colab.research.google.com/github/mhahsler/CS7320-AI/blob/master/Agents/lunar_lander.ipynb) using the Gymnasium library.
 
 ## License
