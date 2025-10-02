@@ -19,7 +19,14 @@ warnings.simplefilter(action='ignore', category=FutureWarning)
 
 
 def parse_maze(maze_str):
-    """Convert a maze as a string into a 2d numpy array"""
+    """Convert a maze as a string into a 2d numpy array.
+    
+    Parameters:
+        maze_str: a string representation of a maze, e.g., as read from a file
+    
+    Returns:
+        a 2d numpy array with characters as tiles.
+    """
     maze = maze_str.split('\n')
     maze = np.array([[tile for tile in row] for row in maze if len(row) > 0])
         
@@ -29,7 +36,16 @@ def parse_maze(maze_str):
 # This is modified code I found on StackOverflow, at this link
 # https://stackoverflow.com/questions/43971138/python-plotting-colored-grid-based-on-values
 def show_maze(maze, fontsize = 10):  
-    """Display a (parsed) maze as an image."""
+    """Display a (parsed) maze as an image. 
+    
+    Parameters:
+        maze: a numpy array with characters as produced by parse_maze(). You can use in the array
+              ' ' for empty squares, 'X' for walls, 'S' for start, 'G' for goal,
+              'P' for the final path, '.' for explored squares, and 'F' for frontier squares. These will
+              be shown in different colors.
+        fontsize: size of the S and G labels.
+
+    """
    
     cmap = colors.ListedColormap(['white', 'black', 'blue', 'green', 'red', 'gray', 'orange'])
     
@@ -68,11 +84,11 @@ def find_pos(maze, what = "S"):
     Caution: there is no error checking!
     
     Parameters:
-    maze: a array with characters prodced by parse_maze()
-    what: the letter to be found ('S' for start and 'G' for goal)
+        maze: a array with characters produced by parse_maze()
+        what: the letter to be found ('S' for start and 'G' for goal)
     
     Returns:
-    a tupple (x, y) for the found position.
+        a tupple (x, y) for the found position.
     """
     
     # where returns two arrays with all found positions. We are only interested in the first one at index 0.
@@ -80,7 +96,15 @@ def find_pos(maze, what = "S"):
     return(tuple([pos[0][0], pos[1][0]]))
 
 def look(maze, pos):
-    """Look at the label of a square with the position as an array of the form (x, y)."""
+    """Look at the label of a square with the position as an array of the form (x, y).
+    
+    Parameters:
+        maze: a array with characters produced by parse_maze()
+        pos: a tupple (x, y) for the position to be looked at.
+
+    Returns:
+        the character at that position.
+    """
     
     x, y = pos
     return(maze[x, y])
@@ -107,31 +131,35 @@ Here is an example maze:
         print(f"The goal is at {goal}.")
 
 
-def maze_to_matrix(maze):  
-    """convert a maze a numeric numpy array for visualization via imshow."""
-
-    # make a deep copy first so the original maze is not changed
-    maze = np.copy(maze)
-    
-    # Converts all tile types to integers
-    maze[maze == ' '] = 0
-    maze[maze == 'X'] = 1 # wall
-    maze[maze == 'S'] = 2 # start
-    maze[maze == 'G'] = 3 # goal
-    maze[maze == 'P'] = 4 # position/final path
-    maze[maze == '.'] = 5 # explored squares
-    maze[maze == 'F'] = 6 # frontier
-    maze = maze.astype(int)
-    
-    return(maze)
-    
- 
+# Experimental sections. Use at your own risk! 
 # Based on show_maze but modified to generate animation (suggested by Troy Jeffrey McNitt)
-# Sadly I can not embed the animations in the PDF I have to submit :(
 def animate_maze(result, repeat = False):
-        """Build an animation from a list of mazes. Assumes that results has the elements:
-           path, reached, actions and maze_anim with a list of maze arrays."""
+        """(Experimental) Build an animation from a list of mazes. 
         
+        Parameters: 
+            result: a list with the elements path, reached, actions and maze_anim with a list of maze arrays that contain what you want to visualize.
+            repeat: if True, the animation will repeat.
+        """
+        
+        def maze_to_matrix(maze):  
+            """convert a maze a numeric numpy array for visualization via imshow."""
+
+            # make a deep copy first so the original maze is not changed
+            maze = np.copy(maze)
+            
+            # Converts all tile types to integers
+            maze[maze == ' '] = 0
+            maze[maze == 'X'] = 1 # wall
+            maze[maze == 'S'] = 2 # start
+            maze[maze == 'G'] = 3 # goal
+            maze[maze == 'P'] = 4 # position/final path
+            maze[maze == '.'] = 5 # explored squares
+            maze[maze == 'F'] = 6 # frontier
+            maze = maze.astype(int)
+            
+            return(maze)
+
+
         if result['path'] != None:       
             print(f"Path length: {len(result['path'])-1}")
             print(f"Reached squares: {len(result['reached'])}")
