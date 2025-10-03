@@ -7517,18 +7517,11 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="Comparing-Different-Search-Strategies:-Maze">Comparing Different Search Strategies: Maze<a class="anchor-link" href="#Comparing-Different-Search-Strategies:-Maze">¶</a></h1><p><strong>Notes:</strong></p>
+<h1 id="Comparing-Different-Search-Strategies:-Maze">Comparing Different Search Strategies: Maze<a class="anchor-link" href="#Comparing-Different-Search-Strategies:-Maze">¶</a></h1><p>Notes on breaking ties:</p>
 <ul>
-<li>Breaking ties:<ul>
 <li>The order in which the children are explored (see <code>available directions</code>) makes a big difference for DFS and dealing with empty spaces. I explore the directions in random order which makes the algorithm stochastic!</li>
 <li>Ties for $h(n)$ and $f(n)$ need to be broken in a consistent manner. I use the most recently added node. To try to keep moving into the same direction.</li>
 </ul>
-</li>
-<li>Cycles: Cycles are avoided using the reached data structure. For DFS, we can use the reached structure for checking or, without a reached structure implement cycle checking with only parents.</li>
-<li>Depth-limited search needs ideas from best-first search to work with open spaces!</li>
-<li>Some better data structures could be used (heaps).</li>
-</ul>
-<p><strong>Fixme:</strong> DFS should check nodes in the frontier.</p>
 </div>
 </div>
 </div>
