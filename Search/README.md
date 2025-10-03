@@ -7,6 +7,7 @@
 * [Mazes: Compare search behavior (no animation)](https://mhahsler.github.io/CS7320-AI/Search/Maze_Example.html).
 * [Mazes: Compare search behavior with animations](https://mhahsler.github.io/CS7320-AI/Search/Maze_Example-Animation_full.html).
 * [Mazes: Compare BFS with A-Star Search using the L Maze](https://mhahsler.github.io/CS7320-AI/Search/Maze_BFS_vs_A_Star.html).
+* [Mazes: Compare Issues with DSF Cycle Checking for the Open Maze](https://mhahsler.github.io/CS7320-AI/Search/Maze_Example-Animation_Cycle_checking.html).
 
 
 ### Assignment
