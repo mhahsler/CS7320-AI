@@ -7312,6 +7312,7 @@ a.anchor-link {
                     processEnvironments: true
                 },
                 displayAlign: 'center',
+                messageStyle: 'none',
                 CommonHTML: {
                     linebreaks: {
                     automatic: true
@@ -7519,8 +7520,35 @@ a.anchor-link {
 <h1 id="Adversarial-Search:-Playing-Connect-4">Adversarial Search: Playing Connect 4<a class="anchor-link" href="#Adversarial-Search:-Playing-Connect-4">¶</a></h1><p>Student Name: [Add your name]</p>
 <p>I have used the following AI tools: [list tools]</p>
 <p>I understand that my submission needs to be my own work: [your initials]</p>
-<h2 id="Instructions">Instructions<a class="anchor-link" href="#Instructions">¶</a></h2><p>Total Points: Undegraduates 100, graduate students 110</p>
-<p>Complete this notebook and submit it. The notebook needs to be a complete project report with your implementation, documentation including a short discussion of how your implementation works and your design choices, and experimental results (e.g., tables and charts with simulation results) with a short discussion of what they mean. Use the provided notebook cells and insert additional code and markdown cells as needed.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="Learning-Outcomes">Learning Outcomes<a class="anchor-link" href="#Learning-Outcomes">¶</a></h2><ul>
+<li>Implement adversarial search algorithms for strategic game play.</li>
+<li>Analyze and optimize search in complex game spaces.</li>
+<li>Design effective heuristic evaluation functions.</li>
+<li>Compare performance across different agent strategies.</li>
+<li>Evaluate algorithmic trade-offs between decision quality and efficiency.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="Instructions">Instructions<a class="anchor-link" href="#Instructions">¶</a></h2><p>Total Points: Undergraduates 100, graduate students 110</p>
+<p>Complete this notebook and submit it. The notebook needs to be a complete project report with your implementation, documentation including a short discussion of how your implementation works and your design choices, and experimental results (e.g., tables and charts with simulation results) with a short discussion of what they mean. Use the provided notebook cells and insert additional code and markdown cells as needed. Submit the completely rendered notebook as a HTML file.</p>
 <h2 id="Introduction">Introduction<a class="anchor-link" href="#Introduction">¶</a></h2><p>You will implement different versions of agents that play Connect 4:</p>
 <blockquote>
 <p>"Connect 4 is a two-player connection board game, in which the players choose a color and then take turns dropping colored discs into a seven-column, six-row vertically suspended grid. The pieces fall straight down, occupying the lowest available space within the column. The objective of the game is to be the first to form a horizontal, vertical, or diagonal line of four of one's own discs." (see <a href="https://en.wikipedia.org/wiki/Connect_Four">Connect Four on Wikipedia</a>)</p>
@@ -7553,7 +7581,7 @@ in 1988. A connect-4 solver with a discussion of how to solve different parts of
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Your code/answer goes here.</span>
@@ -7578,7 +7606,7 @@ in 1988. A connect-4 solver with a discussion of how to solve different parts of
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Your answer goes here.</span>
@@ -7603,7 +7631,7 @@ in 1988. A connect-4 solver with a discussion of how to solve different parts of
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Your answer goes here.</span>
@@ -7628,12 +7656,12 @@ in 1988. A connect-4 solver with a discussion of how to solve different parts of
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
-<span class="k">def</span> <span class="nf">empty_board</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">)):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">empty_board</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">)):</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">,</span> <span class="n">fill_value</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="n">empty_board</span><span class="p">())</span>
@@ -7676,14 +7704,14 @@ in 1988. A connect-4 solver with a discussion of how to solve different parts of
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Visualization code by Randolph Rankin</span>
 
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 
-<span class="k">def</span> <span class="nf">visualize</span><span class="p">(</span><span class="n">board</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">visualize</span><span class="p">(</span><span class="n">board</span><span class="p">):</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">axes</span><span class="p">()</span>
     <span class="n">rectangle</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">Rectangle</span><span class="p">((</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">board</span><span class="p">)</span><span class="o">*-</span><span class="mi">1</span><span class="o">+</span><span class="mf">0.5</span><span class="p">),</span><span class="nb">len</span><span class="p">(</span><span class="n">board</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span><span class="nb">len</span><span class="p">(</span><span class="n">board</span><span class="p">),</span><span class="n">fc</span><span class="o">=</span><span class="s1">'blue'</span><span class="p">)</span>
     <span class="n">circles</span><span class="o">=</span><span class="p">[]</span>
@@ -7732,12 +7760,14 @@ in 1988. A connect-4 solver with a discussion of how to solve different parts of
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p>Implement helper functions for:</p>
 <ul>
-<li>A check for available actions in each state <code>actions(s)</code>.</li>
-<li>The transition model <code>result(s, a)</code>.</li>
-<li>Check for terminal states <code>terminal(s)</code>.</li>
-<li>The utility function <code>utility(s)</code>.</li>
+<li>A check for available actions in each state <code>actions(state)</code>.</li>
+<li>The transition model <code>result(state, player, action)</code>.</li>
+<li>Check for terminal states <code>terminal(state)</code>.</li>
+<li>The utility function <code>utility(state, player)</code>.</li>
 </ul>
-<p>Make sure that all these functions work with boards of different sizes (number of columns and rows).</p>
+<p>The player argument is used so your agent can play red or yellow.
+Make sure that all these functions work with boards of different sizes (number of columns and rows).
+You can follow the <a href="https://colab.research.google.com/github/mhahsler/CS7320-AI/blob/master/Games/tictactoe_definitions.ipynb">tic-tac-toe example from class.</a></p>
 </div>
 </div>
 </div>
@@ -7746,7 +7776,7 @@ in 1988. A connect-4 solver with a discussion of how to solve different parts of
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Your code/ answer goes here.</span>
@@ -7773,7 +7803,7 @@ in 1988. A connect-4 solver with a discussion of how to solve different parts of
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Your code/ answer goes here.</span>
@@ -7799,7 +7829,7 @@ in 1988. A connect-4 solver with a discussion of how to solve different parts of
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Your code/ answer goes here.</span>
@@ -7831,7 +7861,7 @@ This is essential to be able play against agents from other students later.</li>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Your code/ answer goes here.</span>
@@ -7856,7 +7886,7 @@ This is essential to be able play against agents from other students later.</li>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Your code/ answer goes here.</span>
@@ -7872,7 +7902,7 @@ This is essential to be able play against agents from other students later.</li>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>How long does it take to make a move? Start with a smaller board with 4 columns and make the board larger by adding columns/rows. Explain why using this algorithm on a standard $6 \times 7$ board takes forever.</p>
+<p>How long does it take to make a move? Start with a smaller board with 4 columns and make the board larger by adding columns/rows. Explain why using this algorithm on a standard $6 \times 7$ board is not feasible.</p>
 </div>
 </div>
 </div>
@@ -7881,7 +7911,7 @@ This is essential to be able play against agents from other students later.</li>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Your code/ answer goes here.</span>
@@ -7906,7 +7936,7 @@ This is essential to be able play against agents from other students later.</li>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Your code/ answer goes here.</span>
@@ -7931,7 +7961,7 @@ This is essential to be able play against agents from other students later.</li>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Your code/ answer goes here.</span>
@@ -7956,7 +7986,7 @@ This is essential to be able play against agents from other students later.</li>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Your code/ answer goes here.</span>
@@ -7981,7 +8011,7 @@ This is essential to be able play against agents from other students later.</li>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [16]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Your code/ answer goes here.</span>
@@ -8006,7 +8036,7 @@ This is essential to be able play against agents from other students later.</li>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [17]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [16]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Your code/ answer goes here.</span>
@@ -8031,7 +8061,7 @@ This is essential to be able play against agents from other students later.</li>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [18]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [17]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Your code/ answer goes here.</span>
@@ -8056,6 +8086,31 @@ This is essential to be able play against agents from other students later.</li>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [18]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Your code/ answer goes here.</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3 id="Playtime-%5B5-points%5D">Playtime [5 points]<a class="anchor-link" href="#Playtime-%5B5-points%5D">¶</a></h3><p>Let two heuristic search agents (different cutoff depth) compete against each other on a reasonably sized board. Since there is no randomness, you only need to let them play once.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-InputPrompt jp-InputArea-prompt">In [19]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
@@ -8072,7 +8127,8 @@ This is essential to be able play against agents from other students later.</li>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Playtime-%5B5-points%5D">Playtime [5 points]<a class="anchor-link" href="#Playtime-%5B5-points%5D">¶</a></h3><p>Let two heuristic search agents (different cutoff depth, different heuristic evaluation function) compete against each other on a reasonably sized board. Since there is no randomness, you only need to let them play once.</p>
+<h2 id="Graduate-student-advanced-task:-Pure-Monte-Carlo-Search-and-Best-First-Move-%5B10-point%5D">Graduate student advanced task: Pure Monte Carlo Search and Best First Move [10 point]<a class="anchor-link" href="#Graduate-student-advanced-task:-Pure-Monte-Carlo-Search-and-Best-First-Move-%5B10-point%5D">¶</a></h2><p><strong>Undergraduate students:</strong> This is a bonus task you can attempt if you like [+5 bonus point].</p>
+<h3 id="Pure-Monte-Carlo-Search">Pure Monte Carlo Search<a class="anchor-link" href="#Pure-Monte-Carlo-Search">¶</a></h3><p>Implement Pure Monte Carlo Search and investigate how this search performs on the test boards that you have used above.</p>
 </div>
 </div>
 </div>
@@ -8097,19 +8153,7 @@ This is essential to be able play against agents from other students later.</li>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Challenge-task-%5Bup-to-+10-bonus-point-will-be-awarded-separately%5D">Challenge task [up to +10 bonus point will be awarded separately]<a class="anchor-link" href="#Challenge-task-%5Bup-to-+10-bonus-point-will-be-awarded-separately%5D">¶</a></h2><p>Find another student and let your best agent play against the other student's best player. We will set up a class tournament on Canvas. This tournament will continue after the submission deadline.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Graduate-student-advanced-task:-Pure-Monte-Carlo-Search-and-Best-First-Move-%5B10-point%5D">Graduate student advanced task: Pure Monte Carlo Search and Best First Move [10 point]<a class="anchor-link" href="#Graduate-student-advanced-task:-Pure-Monte-Carlo-Search-and-Best-First-Move-%5B10-point%5D">¶</a></h2><p><strong>Undergraduate students:</strong> This is a bonus task you can attempt if you like [+5 bonus point].</p>
-<h3 id="Pure-Monte-Carlo-Search">Pure Monte Carlo Search<a class="anchor-link" href="#Pure-Monte-Carlo-Search">¶</a></h3><p>Implement Pure Monte Carlo Search and investigate how this search performs on the test boards that you have used above.</p>
+<h3 id="Best-First-Move">Best First Move<a class="anchor-link" href="#Best-First-Move">¶</a></h3><p>Use your Monte Carlo Search to determine what the best first move for red is? Describe under what assumptions this is the "best" first move.</p>
 </div>
 </div>
 </div>
@@ -8134,21 +8178,7 @@ This is essential to be able play against agents from other students later.</li>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Best-First-Move">Best First Move<a class="anchor-link" href="#Best-First-Move">¶</a></h3><p>Use your Monte Carlo Search to determine what the best first move for red is? Describe under what assumptions this is the "best" first move.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [22]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Your code/ answer goes here.</span>
-</pre></div>
-</div>
+<h2 id="Competition-task-%5Bextra-course-bonus-will-be-awarded-separately%5D">Competition task [extra course bonus will be awarded separately]<a class="anchor-link" href="#Competition-task-%5Bextra-course-bonus-will-be-awarded-separately%5D">¶</a></h2><p>After you have implemented you agents, find another student and let your best agent play against the other student's best player. Check the Canvas Module called Competition, there you will find a page that explains the rules, how to compete in the tournament, and what the bonus points are. You can start the tournament once you have a working agent. the tournament will continue after the assignment submission deadline. Tournament deadlines can be found on Canvas.</p>
 </div>
 </div>
 </div>
