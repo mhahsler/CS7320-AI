@@ -1,5 +1,7 @@
 <!-- #region -->
 # Artificial Intelligence - Lecture Material, Simple Python Code Examples and Assignments
+[![License: CC BY-NC-SA 4.0](https://img.shields.io/badge/License-CC_BY_NC_SA_4.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
+
 
 <img src="assets/cover2.jpg" align="right">
 
