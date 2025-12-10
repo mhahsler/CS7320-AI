@@ -3,3 +3,6 @@
 __pycache__
 *_solution.*
 *-solution.*
+*_sol.*
+*-sol.*
+WORK_*
