@@ -4,15 +4,15 @@
 This folder contains useful Python code for the AI course. This includes 
 general Python examples:
 
-* How to [debug in Jupyer Notebooks](https://colab.research.google.com/github/mhahsler/CS7320-AI/blob/master/HOWTOs/debugging_in_notebooks.ipynb)
-* How to [make charts with mathplotlib and tables with pandas](https://colab.research.google.com/github/mhahsler/CS7320-AI/blob/master/HOWTOs/charts_and_tables.ipynb)
-* How to [use random numbers and arrays in numpy](https://colab.research.google.com/github/mhahsler/CS7320-AI/blob/master/HOWTOs/random_numbers_and_arrays.ipynb)
-* How to [profile Python code](https://colab.research.google.com/github/mhahsler/CS7320-AI/blob/master/HOWTOs/profiling_code.ipynb) to improve runtime.
+* How to [debug in Jupyer Notebooks](https://colab.research.google.com/github/mhahsler/Introduction_to_Artificial_Intelligence/blob/master/HOWTOs/debugging_in_notebooks.ipynb)
+* How to [make charts with mathplotlib and tables with pandas](https://colab.research.google.com/github/mhahsler/Introduction_to_Artificial_Intelligence/blob/master/HOWTOs/charts_and_tables.ipynb)
+* How to [use random numbers and arrays in numpy](https://colab.research.google.com/github/mhahsler/Introduction_to_Artificial_Intelligence/blob/master/HOWTOs/random_numbers_and_arrays.ipynb)
+* How to [profile Python code](https://colab.research.google.com/github/mhahsler/Introduction_to_Artificial_Intelligence/blob/master/HOWTOs/profiling_code.ipynb) to improve runtime.
 
 AI specific examples:
 
-* How to [store agent state information](https://colab.research.google.com/github/mhahsler/CS7320-AI/blob/master/HOWTOs/store_agent_state_information.ipynb)
-* How to [implement simple tree data structure for search](https://colab.research.google.com/github/mhahsler/CS7320-AI/blob/master/HOWTOs/trees.ipynb)
+* How to [store agent state information](https://colab.research.google.com/github/mhahsler/Introduction_to_Artificial_Intelligence/blob/master/HOWTOs/store_agent_state_information.ipynb)
+* How to [implement simple tree data structure for search](https://colab.research.google.com/github/mhahsler/Introduction_to_Artificial_Intelligence/blob/master/HOWTOs/trees.ipynb)
 
 
 ## License

@@ -5,7 +5,7 @@
 
 ### Code Example
 
-* [Alarm Example as a Bayesian Network](https://colab.research.google.com/github/mhahsler/CS7320-AI/blob/master/Probabilistic_Reasoning/Bayes_Network_Alarm.ipynb)
+* [Alarm Example as a Bayesian Network](https://colab.research.google.com/github/mhahsler/Introduction_to_Artificial_Intelligence/blob/master/Probabilistic_Reasoning/Bayes_Network_Alarm.ipynb)
  (using Python `pgmpy`)
 
 ### Other Popular Software

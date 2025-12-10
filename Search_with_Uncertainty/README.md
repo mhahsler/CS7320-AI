@@ -3,10 +3,10 @@
 ## Contents
 
 ### Search with nondeterministic actions
-* Example: [Solving Tic-Tac-Toe with And-Or-Tree Search](https://colab.research.google.com/github/mhahsler/CS7320-AI/blob/master/Games/tictactoe_and_or_tree_search.ipynb). Here the opponent is seen as part of the environment, i.e.,
+* Example: [Solving Tic-Tac-Toe with And-Or-Tree Search](https://colab.research.google.com/github/mhahsler/Introduction_to_Artificial_Intelligence/blob/master/Games/tictactoe_and_or_tree_search.ipynb). Here the opponent is seen as part of the environment, i.e.,
 each action by the player is followed by an unknown action of the opponent which, from the viewpoint of the player makes the outcomes of actions nondeterministic. 
 Here are the basic functions for 
-[Tic-Tac-Toe](https://colab.research.google.com/github/mhahsler/CS7320-AI/blob/master/Games/tictactoe_definitions.ipynb).
+[Tic-Tac-Toe](https://colab.research.google.com/github/mhahsler/Introduction_to_Artificial_Intelligence/blob/master/Games/tictactoe_definitions.ipynb).
 
 ### Search in unknown environments
 * Experimental environment: [Micromouse](https://en.wikipedia.org/wiki/Micromouse) is an event where small robotic mice compete to solve a maze. 

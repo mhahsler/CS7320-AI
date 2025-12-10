@@ -4,7 +4,7 @@
 ## Installing Python and Jupyter Notebook
 
 You can experiment with the code online without installation using 
-[Google CoLab](https://colab.research.google.com/github/mhahsler/CS7320-AI/).
+[Google CoLab](https://colab.research.google.com/github/mhahsler/Introduction_to_Artificial_Intelligence/).
 
 To work on assignments, you can use one of several environments: 
 * Use the online service [Google CoLab](https://colab.research.google.com). No additional installations are necessary.

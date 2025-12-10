@@ -4,9 +4,9 @@
 ## Contents
 
 
-* Example: [Line Fitting: Gradient Descend and SGD](https://colab.research.google.com/github/mhahsler/CS7320-AI/blob/master/ML/line_fitting.ipynb) (in R)
-* Example: [Machine Learning with Python using scikit Learn](https://colab.research.google.com/github/mhahsler/CS7320-AI/blob/master/ML/ML_example.ipynb)
-* Example: [Learn to Score a Tic-Tac-Toe Board by Example](https://colab.research.google.com/github/mhahsler/CS7320-AI/blob/master/ML/ML_for_tictactoe.ipynb)
+* Example: [Line Fitting: Gradient Descend and SGD](https://colab.research.google.com/github/mhahsler/Introduction_to_Artificial_Intelligence/blob/master/ML/line_fitting.ipynb) (in R)
+* Example: [Machine Learning with Python using scikit Learn](https://colab.research.google.com/github/mhahsler/Introduction_to_Artificial_Intelligence/blob/master/ML/ML_example.ipynb)
+* Example: [Learn to Score a Tic-Tac-Toe Board by Example](https://colab.research.google.com/github/mhahsler/Introduction_to_Artificial_Intelligence/blob/master/ML/ML_for_tictactoe.ipynb)
 * Data: [Tic-Tac-Toe data](./tictactoe_data.csv) created using 5000 random playouts (with [tictactoe_data_random.py](tictactoe_data_random.py)). This 
   data can be used to train a state evaluation model.
 

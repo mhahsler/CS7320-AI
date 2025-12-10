@@ -7,8 +7,8 @@ by Steve Brunton
 
 ## Contents
 
-* Example: [Estimating Probabilities using Frequentist vs. Bayesian Inference: Coin Toss](https://colab.research.google.com/github/mhahsler/CS7320-AI/blob/master/Uncertainty/Frequentist_vs_Bayesian.ipynb)
-* Assignment: [Spam detection using a naive Bayes classifier](https://colab.research.google.com/github/mhahsler/CS7320-AI/blob/master/Uncertainty/Naive_Bayes_classifier.ipynb)
+* Example: [Estimating Probabilities using Frequentist vs. Bayesian Inference: Coin Toss](https://colab.research.google.com/github/mhahsler/Introduction_to_Artificial_Intelligence/blob/master/Uncertainty/Frequentist_vs_Bayesian.ipynb)
+* Assignment: [Spam detection using a naive Bayes classifier](https://colab.research.google.com/github/mhahsler/Introduction_to_Artificial_Intelligence/blob/master/Uncertainty/Naive_Bayes_classifier.ipynb)
 
 ## License
 All code and documents in this repository is provided under [Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0) License](https://creativecommons.org/licenses/by-sa/4.0/)
