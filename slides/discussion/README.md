@@ -1,7 +1,7 @@
 # Discussion Material for Sync Sessions
 
-This page is intended for a flipped classroom and 
-contains discussion material (presendation slides, code, links)
+The material on this page is intended for a flipped classroom and 
+contains discussion material (presentation slides, code, links)
 for synchronous sessions organized by Module. 
 
 
@@ -34,7 +34,7 @@ for synchronous sessions organized by Module.
 * Reading: AIMA Chapters 4.1 and 4.2
 * [Lecture presentation slides](../04_local_search.pdf)
 * [Sync session presentation slides](04_local_search_discussion.pdf)
-* [Code examples](../../Local_Search)i
+* [Code examples](../../Local_Search)
 * Supplemental: [Simulated Annealing (with visualizations)](https://en.wikipedia.org/wiki/Simulated_annealing)
 
 
